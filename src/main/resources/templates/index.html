@@ -5,6 +5,25 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <div>Inicio</div>
+               <h1>Inicio</h1>
+        <div th:if="${funcionarios != null and !funcionarios.empty}">
+            <table border="1">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                </tr>
+                <tr th:each="funcionarios : ${funcionarios}">
+                    <td th:text="${funcionarios.nombres}">Mostrar Nombre</td>
+                    <td th:text="${funcionarios.apellidop}">Mostrar Apellido</td>
+                    <td th:text="${funcionarios.email}">Mostrar Email</td>
+                    <td th:text="${funcionarios.username}">Mostrar Teléfono</td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${funcionarios == null or funcionarios.empty}">
+            La lista de funcionarios está vacía
+        </div>
     </body>
 </html>
