@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Apolonia</title>
-        <meta charset="UTF-8">
+
     </head>
     <body>
-               <h1>Inicio</h1>
+
+        <header th:replace="layout/plantilla :: header"></header>
         <div th:if="${funcionarios != null and !funcionarios.empty}">
             <table border="1">
                 <tr>
@@ -25,5 +26,10 @@
         <div th:if="${funcionarios == null or funcionarios.empty}">
             La lista de funcionarios está vacía
         </div>
+        
+        <form method="POST" th:action="@{/logout}">
+            <a href="#" onclick="this.parentNode.submit();">Logout</a>
+        </form>
+       
     </body>
 </html>

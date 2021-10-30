@@ -1,5 +1,10 @@
 package cl.apolonia.service;
 
-public class FuncionariosService {
+import cl.apolonia.domain.Funcionarios;
+import java.util.List;
+
+public interface FuncionariosService {
+    public List<Funcionarios> listarFuncionarios();
     
+    public Funcionarios encontrarFuncionarios(Funcionarios funcionarios);
 }

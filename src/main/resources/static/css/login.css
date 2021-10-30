@@ -1,0 +1,30 @@
+/* 
+    Created on : 29-10-2021, 20:53:10
+    Author     : monse
+*/
+
+html,
+body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-login{
+    background-color: #304F8C;
+    color: white;
+    border-radius: 8px;
+    width: 50%;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
