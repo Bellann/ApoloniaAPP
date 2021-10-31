@@ -10,8 +10,9 @@
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        
     </head>
-
+    <title>Bienvenido a Apolonia</title>
     <body>
 
         <div class="container">
@@ -23,21 +24,25 @@
                 <div class="mb-3"></div>
                 <form method="POST" th:action="@{/login}">
                     <div class="form-group">
-                        <label for="username"  class="form-label">Usuario</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="12345678K"/>
+                        <label for="username"  class="form-label" id="username">Usuario</label>
+                        <input type="text" class="form-control" required name="username" id="username" placeholder="12345678K"/>
+                        <p class="text-info" id="msgerror"></p>
                         <br />
                     </div>
                     <div class="form-group">
                         <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" name="password" id="password"/>
+                        <input type="password" class="form-control" name="password" id="password" required/>
                         <br />
                     </div>
-                    <center><input type="submit" value="Iniciar sesión" class="btn-login"/></center>
+                    <center><input type="submit" value="Iniciar sesión" class="btn-login" id="btnvalida"/></center>
+                    <br />
+                    <div class="alert alert-danger text-center" th:if="${param.error}">
+                        <p>Usuario o contraseña no encontrado</p>
+                        <p>Comuníquese con su administrador</p>
+                    </div>
                 </form>
-
-
-
-            </div>
-        </div>
+                
+              
+                <script type="application/javascript" th:src="@{/js/actions.js}"></script>
     </body>
 </html>

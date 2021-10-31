@@ -14,6 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .btn-login{
@@ -27,4 +28,56 @@ body {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+
+.navbar-custom,
+.navbar-custom .dropdown-menu{
+    background-color: #304F8C;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255,.8);
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link,
+.navbar-custom .dropdown-menu .dropdown-item{
+    color: #FFFFFF;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link,
+.navbar-custom .dropdown-menu .dropdown-item:hover
+{
+    color: #4AB0D9;
+}
+
+.navbar-custom .dropdown-menu .dropdown-item{
+    color: #FFFFFF;
+    background-color: inherit;
+}
+
+
+.saludo-usuario{
+    font-size: 24px;
+    font-weight: bold;
+    color: #304F8C;
+    background-color: #f5fbfc;
+    padding: 20px 20px 0px 20px;
+
+}
+
+.elementos-saludo{
+    padding-top: 50px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.saludo-2{
+    margin-right: 50px;
+
 }

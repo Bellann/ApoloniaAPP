@@ -17,8 +17,13 @@ public class ControladorInicio {
     @GetMapping("/")
     public String inicio(Model model){
         var funcionarios = funcionariosService.listarFuncionarios();
-        
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var prueba = "Soy string de prueba";
+        var rolSaludo = funcionariosService.rolSaludo();
         model.addAttribute("funcionarios", funcionarios);
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("prueba", prueba);
+        model.addAttribute("rolsaludo", rolSaludo);
         
     return "index";
     }

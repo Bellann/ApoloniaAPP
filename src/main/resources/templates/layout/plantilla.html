@@ -1,25 +1,105 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:fragment="head">
         <title>Apolonia</title>
         <meta charset="UTF-8"/>
         <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" th:href="@{/css/login.css}"/>
+        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     </head>
     <body>
         <header th:fragment="header">
-           AQUI IRA EL MENU
-           
-           <b>User:</b> <span sec:authentication="name">Usuario que hizo login</span>
+            <nav class="navbar navbar-expand-lg navbar-custom">
+                <div class="container-fluid">
+
+                    <!-- icono Home -->
+                    <a class="navbar-brand" th:href="@{/}"><img src="../static/img/home.png" th:src="@{img/home.png}" alt="home" height="90%" width="90%"></a>
+
+
+                    <!-- Menu hamburguesa -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="true" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="navbar-collapse collapse" id="navbarColor02" style="">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                            <!-- Flujo de trabajo-->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                                    Flujo de trabajo
+                                </a>
+                                <!-- Opciones menu tareas -->
+                                <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none">
+                                    <li><a class="dropdown-item" href="#">Mi flujo de trabajo</a></li>
+                                    <li><a sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" class="dropdown-item" href="#">Flujo de mi empresa</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Cargs de trabajo-->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Cargas de trabajo
+                                </a>
+
+                                <!-- Opciones cargas de trabajo-->
+                                <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                                    <li><a  class="dropdown-item" href="#">Mi carga de trabajo</a></li>
+                                    <li><a  sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" class="dropdown-item" href="#">Cargas de trabajo general</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- DashBoard-->
+                            <li class="nav-item dropdown">
+                                <a sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Dashboard
+                                </a>
+                                <!-- Opciones menu Dashboardo-->
+                                <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="#">General</a></li>
+                                </ul>
+                            </li>                       
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Barra de saludo y LogOut -->
+            <div class="saludo-usuario">
+                <div class="d-flex mb-3 align-text-bottom">
+                    <div class="me-auto p-2">
+
+                        <img src="../static/img/logo120x.png" th:src="@{img/logo120x.png}" alt="Apolonia_Logo">
+
+                    </div>
+                    <div class="p-2">   
+                        <div class="elementos-saludo">
+                            <span class="saludo-2" th:text="${nusuario}+${rolsaludo}"></span>
+                            <img src="../static/img/usuario.png" th:src="@{img/usuario.png}" alt="usuario_ico"  width="40px" height="40px">
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <div class="elementos-saludo">                   
+                            
+                                <form method="POST" th:action="@{/logout}">
+                                    <a href="#" onclick="this.parentNode.submit();"><img src="../static/img/logout.png" th:src="@{img/logout.png}" alt="logout_ico"  width="40px" height="40px"></a>
+                                </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </header>
-        
-        
-        
-        
+
+
+
+
     </body>
 </html>

@@ -21,21 +21,34 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioDao usuarioDao;
-    
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioDao.findByUsername(username);
-        
-        if(usuario == null){
-        
+
+        if (usuario == null || usuario.getId_estado_usuario() != 1) {
+
             throw new UsernameNotFoundException(username);
         }
-        
+
         var roles = new ArrayList<GrantedAuthority>();
-        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+
         
+        switch (usuario.getId_perfil()) {
+            case 1:
+                roles.add(new SimpleGrantedAuthority("ROLE_GERENCIA"));
+                break;
+            case 2:
+                roles.add(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
+                break;
+            case 3:
+                roles.add(new SimpleGrantedAuthority("ROLE_FUNCIONARIO"));
+                break;
+
+            default:
+                break;
+        }
         return new User(usuario.getUsername(), usuario.getPassword(), roles);
+
     }
-    
-    
 }

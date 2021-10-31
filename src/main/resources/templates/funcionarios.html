@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
     <head th:include="layout/plantilla :: head">
     <body>
-
-        <header th:replace="layout/plantilla :: header"></header>
-        <b>User:</b> <span sec:authentication="name"></span> |
-        <b>Roles:</b> <span sec:authentication="principal.authorities"></span> |
-        
-        
+        <div>TODO write content</div>
         <div th:if="${funcionarios != null and !funcionarios.empty}">
             <table border="1">
                 <tr>
                     <th>Nombre</th>
                     <th>Apellido</th>
-                    <th>ID perfil</th>
-                    <th>RUN</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
                 </tr>
                 <tr th:each="funcionarios : ${funcionarios}">
                     <td th:text="${funcionarios.nombres}">Mostrar Nombre</td>
                     <td th:text="${funcionarios.apellidop}">Mostrar Apellido</td>
-                    <td th:text="${funcionarios.id_perfil}">Mostrar Email</td>
+                    <td th:text="${funcionarios.email}">Mostrar Email</td>
                     <td th:text="${funcionarios.username}">Mostrar Teléfono</td>
                 </tr>
             </table>
@@ -29,10 +26,5 @@
         <div th:if="${funcionarios == null or funcionarios.empty}">
             La lista de funcionarios está vacía
         </div>
-
-        <form method="POST" th:action="@{/logout}">
-            <a href="#" onclick="this.parentNode.submit();">Logout</a>
-        </form>
-
     </body>
 </html>
