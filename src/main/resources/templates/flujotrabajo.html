@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head">
+        <body>
+
+            <header th:replace="layout/plantilla :: header"></header>
+            
+            <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
+            <!-- Titulo procesos, solo para usuarios supervisor y gerencia -->
+            
+            <div class="d-flex mb-3 align-text-bottom">
+                <div class="me-auto p-2">
+
+                    <h1>Procesos</h1>
+
+                </div>
+                <div class="p-2">   
+
+                </div>
+                <div class="p-2">
+                    <button class="btn-flujo">Ejecutar proceso</button>
+
+                </div>
+            </div>
+
+            </div>
+            <!-- Display de procesos -->
+            
+            
+            
+            
+            
+            <!-- Titulo tareas, para todos, pero se muestran solo las propias -->
+            
+            <div class="d-flex mb-3 align-text-bottom">
+                <div class="me-auto p-2">
+
+                    <h1>Tareas</h1>
+
+                </div>
+                <div class="p-2">   
+
+                </div>
+                <div class="p-2">
+                    <button class="btn-flujo">Nueva tarea</button>
+
+                </div>
+            </div>
+            <!-- Display de procesos -->
+            
+            
+
+        </body>
+</html>

@@ -81,3 +81,30 @@ body {
     margin-right: 50px;
 
 }
+
+h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 48px;
+    color: #3B82BF;
+    margin-left: 30px;
+    }
+
+    .btn-flujo{
+        background-color: #304F8C;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        border-radius: 8px;
+        border: none;
+        width: 200px;
+        height: 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-right: 30px;
+    }
+
+    .btn-flujo:hover{
+        color: #4AB0D9;
+
+    }
