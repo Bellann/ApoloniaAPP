@@ -3,10 +3,13 @@
     Author     : monse
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+
 html,
 body {
     height: 100%;
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -33,7 +36,7 @@ body {
 .navbar-custom,
 .navbar-custom .dropdown-menu{
     background-color: #304F8C;
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
 }
 /* change the brand and text color */
@@ -83,17 +86,18 @@ body {
 }
 
 h1 {
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 48px;
     color: #3B82BF;
     margin-left: 30px;
     font-weight: 700;
+    flex-grow: 100;
 }
 
 .btn-flujo{
     background-color: #304F8C;
     color: white;
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     border-radius: 8px;
     border: none;
     width: 200px;
@@ -110,15 +114,7 @@ h1 {
 
 }
 
-table.dataTable thead .sorting:after,
-table.dataTable thead .sorting:before,
-table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_asc_disabled:after,
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_desc:after,
-table.dataTable thead .sorting_desc:before,
-table.dataTable thead .sorting_desc_disabled:after,
-table.dataTable thead .sorting_desc_disabled:before {
-    bottom: .5em;
+.contenedor-data{
+    margin-left: 30px;
+    margin-right: 30px;
 }

@@ -54,10 +54,45 @@ public class ControladorInicio {
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("procesoejec", procesosEjec);
         model.addAttribute("noimplementado", noimplementado);
-         model.addAttribute("procesos", procesos);
+        model.addAttribute("procesos", procesos);
 
         return "flujotrabajo";
 
     }
+    
+    @GetMapping("/ejecutarproceso")
+    public String ejecutarproceso (Model model){
+        var procesos = procesosService.listarProcesos();
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("procesos", procesos);
+        
+        return "ejecutarproceso";
+    }
 
+
+
+
+    @GetMapping("/prueba")
+    public String prueba(Model model) {
+        
+        var procesosEjec = procesoEjecutadosService.listarProcesosEjec();
+        var funcionarios = funcionariosService.listarFuncionarios();
+        var procesos = procesosService.listarProcesos();
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        var noimplementado = "No implementado";
+        model.addAttribute("funcionarios", funcionarios);
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("procesoejec", procesosEjec);
+        model.addAttribute("noimplementado", noimplementado);
+        model.addAttribute("procesos", procesos);
+
+        return "prueba";
+
+    }
+    
 }

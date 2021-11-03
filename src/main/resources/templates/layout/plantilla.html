@@ -10,10 +10,11 @@
         <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
         <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
         <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
-        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{js/jquery-3.6.0.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     </head>
+
     <body>
         <header th:fragment="header">
             <nav class="navbar navbar-expand-lg navbar-custom">
@@ -39,7 +40,7 @@
                                 <!-- Opciones menu tareas -->
                                 <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none">
                                     <li><a class="dropdown-item" th:href="@{/flujotrabajo}">Mi flujo de trabajo</a></li>
-                                    <li><a sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" class="dropdown-item" href="#">Flujo de mi empresa</a></li>
+                                    <li><a sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" class="dropdown-item" th:href="@{/prueba}">Flujo de mi empresa</a></li>
                                 </ul>
                             </li>
 

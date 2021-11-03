@@ -5,19 +5,20 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 public class WebConfig implements WebMvcConfigurer {
-        
+
     @Override
-        public void addViewControllers(ViewControllerRegistry registro){
-    
+    public void addViewControllers(ViewControllerRegistry registro) {
+
         registro.addViewController("/").setViewName("index");
         registro.addViewController("/login");
+        registro.addViewController("/prueba");
         registro.addViewController("/flujotrabajo");
+        registro.addViewController("/ejecutarproceso");
         registro.addViewController("/funcionarios");
         registro.addViewController("/errores/403").setViewName("error 403");
     }
-    
-        
-        @Override
+
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(
                 "/webjars/**",
@@ -29,6 +30,5 @@ public class WebConfig implements WebMvcConfigurer {
                         "classpath:/static/css/",
                         "classpath:/static/js/");
     }
-
 
 }

@@ -49,11 +49,14 @@ public class Procesos implements Serializable{
     
     @Column(name="RUT_UNIDAD")
     private String rutUnidad;
+    
+    @Column(name="DESCRIPCION")
+    private String descripcion;
 
     public Procesos() {
     }
 
-    public Procesos(Integer id_proceso, String proceso, String ejecutor, String subunidad, Date fechaLimite, String estado, Integer idSubunidad, String runEjecutor, String unidad, String rutUnidad) {
+    public Procesos(Integer id_proceso, String proceso, String ejecutor, String subunidad, Date fechaLimite, String estado, Integer idSubunidad, String runEjecutor, String unidad, String rutUnidad, String descripcion) {
         this.id_proceso = id_proceso;
         this.proceso = proceso;
         this.ejecutor = ejecutor;
@@ -64,6 +67,7 @@ public class Procesos implements Serializable{
         this.runEjecutor = runEjecutor;
         this.unidad = unidad;
         this.rutUnidad = rutUnidad;
+        this.descripcion = descripcion;
     }
 
     public Integer getId_proceso() {
@@ -145,8 +149,14 @@ public class Procesos implements Serializable{
     public void setRutUnidad(String rutUnidad) {
         this.rutUnidad = rutUnidad;
     }
-    
-    
-    
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     
 }

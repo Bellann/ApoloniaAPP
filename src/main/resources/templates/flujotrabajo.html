@@ -2,16 +2,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:include="layout/plantilla :: head">
-        <body>
+    <head>
+        <title>Apolonia</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+        <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
+        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
 
-            <header th:replace="layout/plantilla :: header"></header>
+    </head>
+    <body>
+
+        <header th:replace="layout/plantilla :: header"></header>
 
 
 
-            <!-- Titulo PROCESOS, LISTA DE TODOS, pero se muestran solo las propias -->
-
-            <div class="d-flex mb-3 align-text-bottom">
+        <!-- Titulo PROCESOS, LISTA DE TODOS, pero se muestran solo las propias -->
+        
+               <div class="d-flex mb-3 align-text-bottom">
                 <div class="me-auto p-2">
 
                     <h1>PROCESOS</h1>
@@ -21,13 +31,17 @@
 
                 </div>
                 <div class="p-2">
-                    <button class="btn-flujo">Ejecutar proceso</button>
+                    <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
 
                 </div>
             </div>
-            <!-- Display de procesos -->
-            <div th:if="${procesoejec != null and !procesoejec.empty}">
-                <table border="1">
+
+
+        <!-- Data Table -->
+
+        <div th:if="${procesos != null and !procesos.empty}" class="contenedor-data">
+            <table id="procesos" class="table table-striped" style="width:100%">
+                <thead>
                     <tr>
                         <th>Proceso</th>
                         <th>Creador</th>
@@ -35,8 +49,10 @@
                         <th>Fecha límite</th>
                         <th>Control</th>
                         <th>Estado</th>
-
                     </tr>
+                </thead>
+                <tbody>
+
                     <tr th:each="procesos : ${procesos}">
                         <td th:text="${procesos.proceso}">Mostrar Nombre</td>
                         <td th:text="${procesos.ejecutor}">Mostrar creador</td>
@@ -45,18 +61,42 @@
                         <td>No implementado</td>
                         <td th:text="${procesos.estado}">Mostrar estado</td>
                     </tr>
-                </table>
 
-                <div th:if="${procesos == null or procesos.empty}">
-                    La lista de procesos está vacía
-                </div>
-            </div>  
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Proceso</th>
+                        <th>Creador</th>
+                        <th>SubUnidad</th>
+                        <th>Fecha límite</th>
+                        <th>Control</th>
+                        <th>Estado</th>
+                    </tr>
+                </tfoot>
+            </table>
 
-            <!-- prueba de data table -->
+            <div th:if="${procesos == null or procesos.empty}">
+                La lista de procesos está vacía
+            </div>
+        </div>
 
-
-
-            <<script type="text/javascript" th:src="@{js/dataTable.js}"></script>
-
-        </body>
+        
+        
+        
+        
+        
+      
+        
+        
+        
+        
+        
+        
+        
+        <script th:src="@{js/jquery-3.6.0.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        <script th:src="@{/js/datatables.min.js}"></script>
+        <script th:src="@{/js/main.js}"></script>
+    </body>
 </html>
