@@ -2,6 +2,7 @@ package cl.apolonia.web;
 
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
+import cl.apolonia.service.ProcesosSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,12 @@ public class ControladorInicio {
 
     @Autowired
     private FuncionariosService funcionariosService;
+    
     @Autowired
     private ProcesoEjecutadosService procesoEjecutadosService;
+    
+    @Autowired
+    private ProcesosSerivce procesosService;
 
     @GetMapping("/")
     public String inicio(Model model) {
@@ -40,6 +45,7 @@ public class ControladorInicio {
         
         var procesosEjec = procesoEjecutadosService.listarProcesosEjec();
         var funcionarios = funcionariosService.listarFuncionarios();
+        var procesos = procesosService.listarProcesos();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         var noimplementado = "No implementado";
@@ -48,6 +54,7 @@ public class ControladorInicio {
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("procesoejec", procesosEjec);
         model.addAttribute("noimplementado", noimplementado);
+         model.addAttribute("procesos", procesos);
 
         return "flujotrabajo";
 

@@ -6,5 +6,7 @@ import java.util.List;
 public interface ProcesoEjecutadosService {
 
     public List<ProcesoEjecutados> listarProcesosEjec();
+    
+    
 
 }

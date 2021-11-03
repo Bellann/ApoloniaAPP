@@ -17,6 +17,8 @@ public class ProcesoEjecutadosServiceImpl implements ProcesoEjecutadosService {
         return (List<ProcesoEjecutados>) procesoEjecutadosDao.findAll();
     }
 
+
+
     
 
 }

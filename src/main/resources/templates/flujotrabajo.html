@@ -7,84 +7,56 @@
 
             <header th:replace="layout/plantilla :: header"></header>
 
-            <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
-                <!-- Titulo procesos, solo para usuarios supervisor y gerencia -->
-
-                <div class="d-flex mb-3 align-text-bottom">
-                    <div class="me-auto p-2">
-
-                        <h1>Procesos</h1>
-
-                    </div>
-                    <div class="p-2">   
-
-                    </div>
-                    <div class="p-2">
-                        <button class="btn-flujo">Ejecutar proceso</button>
-
-                    </div>
-                </div>
-
-            </div>
-            <!-- Display de procesos -->
-
-            <div th:if="${procesoejec != null and !procesoejec.empty}">
-                <table border="1">
-                    <tr>
-                        <th>Proceso</th>
-                        <th>Creador</th>
-                        <th>Subunidad</th>
-                        <th>Fecha límite</th>
-                        <th>Control</th>
-                        <th>Estado</th>
 
 
-
-                    </tr>
-                    <tr th:each="procesoejec : ${procesoejec}">
-                        <td th:text="${procesoejec.nombre}">Mostrar Nombre</td>
-                        <td th:text="${procesoejec.run_ejecutor}">Mostrar run ejecutor</td>
-                        <td th:text="${procesoejec.nombreSubUni}">Mostrar nombre de la subunidad</td>
-                        <td th:text="${procesoejec.fecha_prevista_fin}">Mostrar fecha prevista fin</td>
-                        <td >No implementado</td>   
-                        <td>
-                            <div th:switch="${procesoejec.id_estado_proceso}" >
-                                <span th:case="1">Programado</span>
-                                <span th:case="2">Iniciado</span>
-                                <span th:case="3">Terminado</span>
-                            </div>
-                        </td>
-
-
-                    </tr>
-                </table>
-
-                <div th:if="${procesoejec == null or procesoejec.empty}">
-                    La lista de funcionarios está vacía
-                </div>
-            </div>  
-
-
-
-            <!-- Titulo tareas, para todos, pero se muestran solo las propias -->
+            <!-- Titulo PROCESOS, LISTA DE TODOS, pero se muestran solo las propias -->
 
             <div class="d-flex mb-3 align-text-bottom">
                 <div class="me-auto p-2">
 
-                    <h1>Tareas</h1>
+                    <h1>PROCESOS</h1>
 
                 </div>
                 <div class="p-2">   
 
                 </div>
                 <div class="p-2">
-                    <button class="btn-flujo">Nueva tarea</button>
+                    <button class="btn-flujo">Ejecutar proceso</button>
 
                 </div>
             </div>
             <!-- Display de procesos -->
+            <div th:if="${procesoejec != null and !procesoejec.empty}">
+                <table border="1">
+                    <tr>
+                        <th>Proceso</th>
+                        <th>Creador</th>
+                        <th>SubUnidad</th>
+                        <th>Fecha límite</th>
+                        <th>Control</th>
+                        <th>Estado</th>
+
+                    </tr>
+                    <tr th:each="procesos : ${procesos}">
+                        <td th:text="${procesos.proceso}">Mostrar Nombre</td>
+                        <td th:text="${procesos.ejecutor}">Mostrar creador</td>
+                        <td th:text="${procesos.subunidad}">Mostrar subunidad</td>
+                        <td th:text="${procesos.fechaLimite}">Mostrar fecha limite</td>
+                        <td>No implementado</td>
+                        <td th:text="${procesos.estado}">Mostrar estado</td>
+                    </tr>
+                </table>
+
+                <div th:if="${procesos == null or procesos.empty}">
+                    La lista de procesos está vacía
+                </div>
+            </div>  
+
+            <!-- prueba de data table -->
 
 
+
+            <<script type="text/javascript" th:src="@{js/dataTable.js}"></script>
 
         </body>
 </html>
