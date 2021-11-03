@@ -28,10 +28,6 @@ public class FuncionariosServiceImpl implements FuncionariosService {
 
     }
 
-    @Override
-    public List<Funcionarios> rFuncionariosAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public String nombreCompleto() {
@@ -67,15 +63,16 @@ public class FuncionariosServiceImpl implements FuncionariosService {
             case 2:
                 rolSaludo = " (Supervisor)";
                 break;
-            case 3:
-                rolSaludo =  " (Funcionario)";
-                break;
-
-            default:
+            default:             
+                if (funcionarioEncontrado.getId_perfil() >2){
+                rolSaludo = " (Funcionario)";
+                }
+                
                 break;
         }        
                 
         return rolSaludo;
     }
+
 
 }

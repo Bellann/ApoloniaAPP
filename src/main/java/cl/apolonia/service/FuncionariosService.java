@@ -8,7 +8,6 @@ public interface FuncionariosService {
     
     public Funcionarios encontrarFuncionarios(Funcionarios funcionarios);
     
-    public List<Funcionarios> rFuncionariosAll();
     
     public String nombreCompleto();
     

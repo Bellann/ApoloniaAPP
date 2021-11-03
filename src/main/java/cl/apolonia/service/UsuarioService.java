@@ -41,11 +41,11 @@ public class UsuarioService implements UserDetailsService {
             case 2:
                 roles.add(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
                 break;
-            case 3:
-                roles.add(new SimpleGrantedAuthority("ROLE_FUNCIONARIO"));
-                break;
 
             default:
+                if (usuario.getId_perfil() >2){
+                roles.add(new SimpleGrantedAuthority("ROLE_FUNCIONARIO"));
+                }
                 break;
         }
         return new User(usuario.getUsername(), usuario.getPassword(), roles);
