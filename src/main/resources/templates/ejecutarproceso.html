@@ -9,6 +9,7 @@
         <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
         <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+        <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.standalone.css}"/>
         <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
         <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
 
@@ -21,26 +22,36 @@
 
 
         <div class="d-flex">
+            <!-- dropdown de los procesos, por ahora estan todos -->
             <div class="p-2 flex-fill">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown button
+                        Nombre Proceso
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="procesosEjecutar">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li th:each="procesos : ${procesos}"> <a class="dropdown-item" href="#"th:text="${procesos.proceso}"></a> </li>
                     </ul>
                 </div>
             </div>
             <div class="p-2 bg-warning flex-fill"></div>
-            <div class="p-2 bg-primary flex-fill"></div>
-        </div>
+            <div class="p-2 flex-fill">
+                Fecha de Inicio*
+
+                <div class="input-group date" data-provide="datepicker">
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" placeholder="   /   /    ">
+                                <span class="glyphicon glyphicon-th">HOLA</span>
+                            </div>
+                    </div>
+                </div>
+            </div>
 
 
-
-        <script th:src="@{js/jquery-3.6.0.min.js}"></script>
-        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+            <script th:src="@{js/jquery-3.6.0.min.js}"></script>
+            <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+            <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+            <script th:src="@{/js/main.js}"></script>
+            <script th:src="@{/js/bootstrap-datepicker.js}"></script>
+            <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
     </body>
 </html>

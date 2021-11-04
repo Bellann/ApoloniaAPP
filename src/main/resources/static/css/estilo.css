@@ -118,3 +118,11 @@ h1 {
     margin-left: 30px;
     margin-right: 30px;
 }
+
+form-control-inline{
+    min-width: 0;
+    width: auto;
+    display: inline;
+    background-color: #304F8C;
+}
+    
