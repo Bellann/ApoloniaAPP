@@ -12,4 +12,8 @@ public interface FuncionariosService {
     public String nombreCompleto();
     
     public String rolSaludo();
+    
+    public String rutUnidad();
+    
+    public Integer idSubunidad();
 }

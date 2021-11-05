@@ -1,5 +1,6 @@
 package cl.apolonia.web;
 
+import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
@@ -19,6 +20,9 @@ public class ControladorInicio {
     
     @Autowired
     private ProcesosSerivce procesosService;
+    
+    @Autowired
+    private ProcesosDao procesosDao;
 
     @GetMapping("/")
     public String inicio(Model model) {
@@ -43,18 +47,17 @@ public class ControladorInicio {
     @GetMapping("/flujotrabajo")
     public String flujotrabajo(Model model) {
         
-        var procesosEjec = procesoEjecutadosService.listarProcesosEjec();
         var funcionarios = funcionariosService.listarFuncionarios();
-        var procesos = procesosService.listarProcesos();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
-        var noimplementado = "No implementado";
+        var procesosUni = procesosDao.findByRutUnidad(funcionariosService.rutUnidad());
+        var procesosSub = procesosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
-        model.addAttribute("procesoejec", procesosEjec);
-        model.addAttribute("noimplementado", noimplementado);
-        model.addAttribute("procesos", procesos);
+        model.addAttribute("procesosUni", procesosUni);
+        model.addAttribute("procesosSub", procesosSub);
+
 
         return "flujotrabajo";
 
@@ -90,6 +93,7 @@ public class ControladorInicio {
         model.addAttribute("procesoejec", procesosEjec);
         model.addAttribute("noimplementado", noimplementado);
         model.addAttribute("procesos", procesos);
+        
 
         return "prueba";
 

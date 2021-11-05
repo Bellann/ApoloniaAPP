@@ -18,81 +18,119 @@
         <header th:replace="layout/plantilla :: header"></header>
 
 
+        <div class="d-flex mb-3 align-text-bottom">
+            <div class="me-auto p-2">
 
-        <!-- Titulo PROCESOS, LISTA DE TODOS, pero se muestran solo las propias -->
-        
-               <div class="d-flex mb-3 align-text-bottom">
-                <div class="me-auto p-2">
+                <h1>PROCESOS</h1>
 
-                    <h1>PROCESOS</h1>
-
-                </div>
-                <div class="p-2">   
-
-                </div>
-                <div class="p-2">
-                    <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
-
-                </div>
             </div>
+            <div class="p-2">   
 
+            </div>
+            <div class="p-2">
+                <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
 
-        <!-- Data Table -->
-
-        <div th:if="${procesos != null and !procesos.empty}" class="contenedor-data">
-            <table id="procesos" class="table table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Proceso</th>
-                        <th>Creador</th>
-                        <th>SubUnidad</th>
-                        <th>Fecha límite</th>
-                        <th>Control</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr th:each="procesos : ${procesos}">
-                        <td th:text="${procesos.proceso}">Mostrar Nombre</td>
-                        <td th:text="${procesos.ejecutor}">Mostrar creador</td>
-                        <td th:text="${procesos.subunidad}">Mostrar subunidad</td>
-                        <td th:text="${procesos.fechaLimite}">Mostrar fecha limite</td>
-                        <td>No implementado</td>
-                        <td th:text="${procesos.estado}">Mostrar estado</td>
-                    </tr>
-
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Proceso</th>
-                        <th>Creador</th>
-                        <th>SubUnidad</th>
-                        <th>Fecha límite</th>
-                        <th>Control</th>
-                        <th>Estado</th>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <div th:if="${procesos == null or procesos.empty}">
-                La lista de procesos está vacía
             </div>
         </div>
 
-        
-        
-        
-        
-        
-      
-        
-        
-        
-        
-        
-        
-        
+
+        <!-- Data Table Listado por unidad para GERENTE -->
+
+        <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
+            <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
+                <table id="procesosUni" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Creador</th>
+                            <th>SubUnidad</th>
+                            <th>Fecha límite</th>
+                            <th>Control</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each="procesosUni : ${procesosUni}">
+                            <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
+                            <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
+                            <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
+                            <td th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                            <td>No implementado</td>
+                            <td th:text="${procesosUni.estado}">Mostrar estado</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Creador</th>
+                            <th>SubUnidad</th>
+                            <th>Fecha límite</th>
+                            <th>Control</th>
+                            <th>Estado</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div th:if="${procesosUni == null or procesosUni.empty}">
+                    La lista de procesos está vacía
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table para sub Unidad , para supervisores -->
+        <div sec:authorize="hasRole('ROLE_SUPERVISOR')">
+            
+            <div th:if="${procesosSub != null and !procesosSub.empty}" class="contenedor-data">
+                <table id="procesosSub" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Creador</th>
+                            <th>SubUnidad</th>
+                            <th>Fecha límite</th>
+                            <th>Control</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each="procesosSub : ${procesosSub}">
+                            <td th:text="${procesosSub.proceso}">Mostrar Nombre</td>
+                            <td th:text="${procesosSub.ejecutor}">Mostrar creador</td>
+                            <td th:text="${procesosSub.subunidad}">Mostrar subunidad</td>
+                            <td th:text="${procesosSub.fechaLimite}">Mostrar fecha limite</td>
+                            <td>No implementado</td>
+                            <td th:text="${procesosSub.estado}">Mostrar estado</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Creador</th>
+                            <th>SubUnidad</th>
+                            <th>Fecha límite</th>
+                            <th>Control</th>
+                            <th>Estado</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div th:if="${procesosSub == null or procesosSub.empty}">
+                    La lista de procesos está vacía
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
         <script th:src="@{js/jquery-3.6.0.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>

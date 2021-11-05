@@ -8,6 +8,8 @@ public class ApoloniaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApoloniaApplication.class, args);
+                
+             
 	}
 
 }

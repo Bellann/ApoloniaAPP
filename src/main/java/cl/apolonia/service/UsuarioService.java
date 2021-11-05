@@ -26,7 +26,7 @@ public class UsuarioService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioDao.findByUsername(username);
 
-        if (usuario == null || usuario.getId_estado_usuario() != 1) {
+        if (usuario == null) {
 
             throw new UsernameNotFoundException(username);
         }
@@ -34,7 +34,7 @@ public class UsuarioService implements UserDetailsService {
         var roles = new ArrayList<GrantedAuthority>();
 
         
-        switch (usuario.getId_perfil()) {
+        switch (usuario.getNivel()) {
             case 1:
                 roles.add(new SimpleGrantedAuthority("ROLE_GERENCIA"));
                 break;
@@ -43,7 +43,7 @@ public class UsuarioService implements UserDetailsService {
                 break;
 
             default:
-                if (usuario.getId_perfil() >2){
+                if (usuario.getNivel() >2){
                 roles.add(new SimpleGrantedAuthority("ROLE_FUNCIONARIO"));
                 }
                 break;
