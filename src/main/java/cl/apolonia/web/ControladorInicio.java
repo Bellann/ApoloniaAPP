@@ -93,12 +93,16 @@ public class ControladorInicio {
         var procesosUni = procesosDao.findByRutUnidad(funcionariosService.rutUnidad());
         var procesosSub = procesosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var tareasRun = tareasEjecutadasDao.findByRunResponsable(funcionariosService.runResponsable());
+        var tareasUnidad = tareasEjecutadasDao.findByRutUnidad(funcionariosService.rutUnidad());
+        var tareasSubUni = tareasEjecutadasDao.findByIdSubUnidad(funcionariosService.idSubunidad());
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("procesosUni", procesosUni);
         model.addAttribute("procesosSub", procesosSub);
         model.addAttribute("tareasRun", tareasRun);
+        model.addAttribute("tareasUnidad", tareasUnidad);
+        model.addAttribute("tareasSubUni", tareasSubUni);
 
 
         return "flujoempresa";

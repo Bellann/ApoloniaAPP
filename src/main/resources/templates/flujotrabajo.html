@@ -32,9 +32,11 @@
             </div>
         </div>
         <!-- Data Table Listado de tareas por RUN -->
+        <span th:if="${tareasRun == null or tareasRun.empty}"> Usted no tiene tareas asignadas</span>
+
 
         <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
-            <table id="tareasEjec" class="table table-striped" style="width:100%">
+            <table id="tareasRun" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>Tarea</th>
@@ -53,7 +55,7 @@
                         <td th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
                         <td>No implementado</td>
                         <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
-                        <td><button>gestionar</button></td>
+                        <td><button>Gestionar</button></td>
                     </tr>
 
                 </tbody>
@@ -68,11 +70,8 @@
                     </tr>
                 </tfoot>
             </table>
-
-            <div th:if="${tareasRun == null or tareasRun.empty}">
-                La lista de procesos está vacía
-            </div>
         </div>
+
 
         <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 

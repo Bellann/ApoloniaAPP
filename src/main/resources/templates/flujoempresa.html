@@ -21,7 +21,7 @@
             <div class="d-flex mb-3 align-text-bottom">
                 <div class="me-auto p-2">
 
-                    <h1>Procesos</h1>
+                    <h1>Procesos activos</h1>
 
                 </div>
                 <div class="p-2">   
@@ -38,7 +38,7 @@
 
             <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
                 <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
-                    <table id="tareasUni" class="table table-striped" style="width:100%">
+                    <table id="procesosUni" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Proceso</th>
@@ -128,27 +128,89 @@
 
             <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
         </div>
-        <!-- Listado de tareas ejecutadas por responsable -->
+        <!-- Data Table Listado de tareas por Unidad-->
 
         <div class="d-flex mb-3 align-text-bottom">
             <div class="me-auto p-2">
 
-                <h1>Tareas</h1>
+                <h1>Tareas de su empresa</h1>
 
             </div>
             <div class="p-2">   
 
             </div>
             <div class="p-2">
-                
+
 
             </div>
         </div>
 
-        <!-- Data Table Listado de tareas por RUN -->
+        <span th:if="${tareasUnidad == null or tareasUnidad.empty}"> Su unidad no tiene tareas designadas</span>
 
-        <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
-            <table id="tareasEjec" class="table table-striped" style="width:100%">
+
+        <div th:if="${tareasUnidad != null and !tareasUnidad.empty}" class="contenedor-data">
+            <table id="tareasUnidad" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Tarea</th>
+                        <th>Asignada por</th>
+                        <th>Sub unidad</th>
+                        <th>Fecha límite</th>
+                        <th>Control</th>
+                        <th>Estado</th>
+                        <th>Ver</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr th:each="tareasUnidad : ${tareasRun}">
+                        <td th:text="${tareasUnidad.tarea}">Mostrar Tarea</td>
+                        <td th:text="${tareasUnidad.ejecutor}">Mostrar Asignado por</td>
+                        <td th:text="${tareasUnidad.subunidad}">Mostrar subunidad</td>
+                        <td th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
+                        <td>No implementado</td>
+                        <td th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
+                        <td><button>Ver</button></td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Tarea</th>
+                        <th>Asignada por</th>
+                        <th>Sub unidad</th>
+                        <th>Fecha límite</th>
+                        <th>Control</th>
+                        <th>Estado</th>
+                        <th>Ver</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+
+<!-- Data Table Listado de tareas por Sub Unidad-->
+
+        <div class="d-flex mb-3 align-text-bottom">
+            <div class="me-auto p-2">
+
+                <h1>Tareas de su área</h1>
+
+            </div>
+            <div class="p-2">   
+
+            </div>
+            <div class="p-2">
+
+
+            </div>
+        </div>
+
+        <span th:if="${tareasSubUni == null or tareasSubUni.empty}"> Su área no tiene tareas designadas</span>
+
+
+        <div th:if="${tareasSubUni != null and !tareasSubUni.empty}" class="contenedor-data">
+            <table id="tareasSubunidad" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>Tarea</th>
@@ -156,18 +218,18 @@
                         <th>Fecha límite</th>
                         <th>Control</th>
                         <th>Estado</th>
-                        <th>Gestionar</th>
+                        <th>Ver</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    <tr th:each="tareasRun : ${tareasRun}">
-                        <td th:text="${tareasRun.tarea}">Mostrar Tarea</td>
-                        <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
-                        <td th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
+                    <tr th:each="tareasSubUni : ${tareasRun}">
+                        <td th:text="${tareasSubUni.tarea}">Mostrar Tarea</td>
+                        <td th:text="${tareasSubUni.ejecutor}">Mostrar Asignado por</td>
+                        <td th:text="${tareasSubUni.fPrevFin}">Mostrar fecha fin</td>
                         <td>No implementado</td>
-                        <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
-                        <td><button>gestionar</button></td>
+                        <td th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
+                        <td><button>Ver</button></td>
                     </tr>
 
                 </tbody>
@@ -178,23 +240,17 @@
                         <th>Fecha límite</th>
                         <th>Control</th>
                         <th>Estado</th>
-                        <th>Gestionar</th>
+                        <th>Ver</th>
                     </tr>
                 </tfoot>
             </table>
 
-            <div th:if="${tareasRun == null or tareasRun.empty}">
-                La lista de procesos está vacía
-            </div>
-        </div>
+            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
-        <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
-
-
-            <script th:src="@{js/jquery-3.6.0.min.js}"></script>
-            <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-            <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-            <script th:src="@{/js/datatables.min.js}"></script>
-            <script th:src="@{/js/main.js}"></script>
-    </body>
-</html>
+                <script th:src="@{js/jquery-3.6.0.min.js}"></script>
+                <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+                <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+                <script th:src="@{/js/datatables.min.js}"></script>
+                <script th:src="@{/js/flujodata.js}"></script>
+                </body>
+                </html>
