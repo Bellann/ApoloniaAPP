@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Apolonia</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+        <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
+        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+
+    </head>
+    <body>
+
+        <header th:replace="layout/plantilla :: header"></header>
+
+        <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
+            <div class="d-flex mb-3 align-text-bottom">
+                <div class="me-auto p-2">
+
+                    <h1>Procesos</h1>
+
+                </div>
+                <div class="p-2">   
+
+                </div>
+                <div class="p-2">
+                    <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
+
+                </div>
+            </div>
+
+
+            <!-- Data Table Listado por unidad para GERENTE -->
+
+            <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
+                <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
+                    <table id="tareasUni" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Proceso</th>
+                                <th>Creador</th>
+                                <th>SubUnidad</th>
+                                <th>Fecha límite</th>
+                                <th>Control</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr th:each="procesosUni : ${procesosUni}">
+                                <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
+                                <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
+                                <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
+                                <td th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                                <td>No implementado</td>
+                                <td th:text="${procesosUni.estado}">Mostrar estado</td>
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Proceso</th>
+                                <th>Creador</th>
+                                <th>SubUnidad</th>
+                                <th>Fecha límite</th>
+                                <th>Control</th>
+                                <th>Estado</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div th:if="${procesosUni == null or procesosUni.empty}">
+                        La lista de procesos está vacía
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table para sub Unidad , para supervisores -->
+
+            <div sec:authorize="hasRole('ROLE_SUPERVISOR')">
+
+                <div th:if="${procesosSub != null and !procesosSub.empty}" class="contenedor-data">
+                    <table id="procesosSub" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Proceso</th>
+                                <th>Creador</th>
+                                <th>SubUnidad</th>
+                                <th>Fecha límite</th>
+                                <th>Control</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr th:each="procesosSub : ${procesosSub}">
+                                <td th:text="${procesosSub.proceso}">Mostrar Nombre</td>
+                                <td th:text="${procesosSub.ejecutor}">Mostrar creador</td>
+                                <td th:text="${procesosSub.subunidad}">Mostrar subunidad</td>
+                                <td th:text="${procesosSub.fechaLimite}">Mostrar fecha limite</td>
+                                <td>No implementado</td>
+                                <td th:text="${procesosSub.estado}">Mostrar estado</td>
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Proceso</th>
+                                <th>Creador</th>
+                                <th>SubUnidad</th>
+                                <th>Fecha límite</th>
+                                <th>Control</th>
+                                <th>Estado</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div th:if="${procesosSub == null or procesosSub.empty}">
+                        La lista de procesos está vacía
+                    </div>
+                </div>
+
+            </div>
+
+            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+        </div>
+        <!-- Listado de tareas ejecutadas por responsable -->
+
+        <div class="d-flex mb-3 align-text-bottom">
+            <div class="me-auto p-2">
+
+                <h1>Tareas</h1>
+
+            </div>
+            <div class="p-2">   
+
+            </div>
+            <div class="p-2">
+                
+
+            </div>
+        </div>
+
+        <!-- Data Table Listado de tareas por RUN -->
+
+        <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
+            <table id="tareasEjec" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Tarea</th>
+                        <th>Asignada por</th>
+                        <th>Fecha límite</th>
+                        <th>Control</th>
+                        <th>Estado</th>
+                        <th>Gestionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr th:each="tareasRun : ${tareasRun}">
+                        <td th:text="${tareasRun.tarea}">Mostrar Tarea</td>
+                        <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
+                        <td th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
+                        <td>No implementado</td>
+                        <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
+                        <td><button>gestionar</button></td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Tarea</th>
+                        <th>Asignada por</th>
+                        <th>Fecha límite</th>
+                        <th>Control</th>
+                        <th>Estado</th>
+                        <th>Gestionar</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div th:if="${tareasRun == null or tareasRun.empty}">
+                La lista de procesos está vacía
+            </div>
+        </div>
+
+        <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+
+
+            <script th:src="@{js/jquery-3.6.0.min.js}"></script>
+            <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+            <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+            <script th:src="@{/js/datatables.min.js}"></script>
+            <script th:src="@{/js/main.js}"></script>
+    </body>
+</html>

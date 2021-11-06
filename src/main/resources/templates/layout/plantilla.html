@@ -40,7 +40,7 @@
                                 <!-- Opciones menu tareas -->
                                 <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none">
                                     <li><a class="dropdown-item" th:href="@{/flujotrabajo}">Mi flujo de trabajo</a></li>
-                                    <li><a sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" class="dropdown-item" th:href="@{/prueba}">Flujo de mi empresa</a></li>
+                                    <li><a sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" class="dropdown-item" th:href="@{/flujoempresa}">Flujo de mi empresa</a></li>
                                 </ul>
                             </li>
 

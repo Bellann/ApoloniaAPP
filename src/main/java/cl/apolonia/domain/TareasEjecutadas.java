@@ -53,7 +53,7 @@ public class TareasEjecutadas {
     @Column(name="CON_DEPENDENCIAS")
     private int dependencias;
     
-    @Column(name="ESTA_SEGREGADA")
+    @Column(name="ESTA_DESAGREGADA")
     private int segregada;
     
     @Column(name="ESTADO")

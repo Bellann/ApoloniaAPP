@@ -115,5 +115,13 @@ public class FuncionariosServiceImpl implements FuncionariosService {
         return rut;
     }
 
+    @Override
+    public String runResponsable() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        
+        return currentPrincipalName;
+    }
+
 
 }

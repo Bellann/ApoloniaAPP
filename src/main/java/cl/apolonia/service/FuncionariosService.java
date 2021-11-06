@@ -16,4 +16,6 @@ public interface FuncionariosService {
     public String rutUnidad();
     
     public Integer idSubunidad();
+    
+    public String runResponsable();
 }
