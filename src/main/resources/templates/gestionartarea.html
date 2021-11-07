@@ -55,6 +55,7 @@
                             <p>Fecha de asignación: <span th:text="${tareasEjecutadas.fechaAsignacion}"></span></p>
                             <p>Fecha de de inicio <span th:text="${tareasEjecutadas.fPrevInicio}">fecha de inicio prevista</span></p>
                             <p>Fecha de de término prevista <span th:text="${tareasEjecutadas.fPrevFin}">fecha de término prevista</span></p>
+                            <p>Estado <span th:text="${tareasEjecutadas.estado}">Esstado</span></p>
                             <p>Fecha de asignación:
                                 <ul>
                                     <li>Fecha real de incio: <span th:text="${tareasEjecutadas.fRealInicio}">fecha de inicio prevista</span></li>
@@ -72,18 +73,22 @@
                             </br>
                             <p><b>Observaciones:</b>.</p></div>
                         <div class="col-sm-2"> 
-                            <p><button type="button" class="btn-flujo">Aceptar</button></p>
 
+                            <!-- BOTONES MENU TAREA -->
+                            <!-- Trigger aceptarModal -->
 
+                            <p><button class="btn-flujo" id="aceptarModalBtn">Aceptar</button></p>
+                            <p><button class="btn-flujo" id="inciarModalBtn" >Iniciar tarea</button></p>
+                            <p><button class="btn-flujo" id="subordinarModalBtn" >Subordinar tarea</button></p>
+                            <p><button class="btn-flujo" id="reportarModalBtn" >Reportar problema</button></p>
+                            <p><button class="btn-flujo" id="terminarModalBtn" >Dar por terminada</button></p>
+                            <p><button class="btn-flujo" id="rechazarModalBtn" >Rechazar</button></p>
+                            <p><a th:href="@{/flujotrabajo}"><button class="btn-flujo">Salir</button></a></p>   
 
-                            <p><button type="button" class="btn-flujo">Iniciar tarea</button></p>
-                            <p><button type="button" class="btn-flujo">Subordinar tarea</button></p>
-                            <p><button type="button" class="btn-flujo">Reportar problema</button></p>
-                            <p><button type="button" class="btn-flujo">Dar por terminada</button></p>
-                            <p><button type="button" class="btn-flujo">Rechazar</button></p>
-                            <p><a th:href="@{/flujotrabajo}"><button class="btn-flujo">Salir</button></a></p>    
                         </div>
+
                     </div>
+
                     <!-- Upload archivos -->
                     <div class="row">
                         <div class="col-sm-10">
@@ -94,55 +99,97 @@
                         <div class="col-sm-2"></div>
                     </div>
 
+                    <!-- Modal Aceptar --> 
+                    <div id="aceptarModal" class="modal"tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <!-- Modal content -->   
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Atencion</h5>
 
-            </div><!-- FIN DEL DIV QUE ITERA LOS DATOS -->
+                                </div>
+                                <div class="modal-body">
+                                    <center><p>Está aceptando esta tarea</p></center>
+                                    <center><p>¿Desea continuar?</p></center>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-flujo">Si</button>
+                                    <button type="button" class="close btn btn-flujo" data-dismiss="modal" aria-label="Close">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script th:inline="javascript">
 
+                        /*<![CDATA[*/
+
+                        var estado = [[${tareasEjecutadas.estado
+                        }
+                        ]];
+
+                        //*]]>*/
+                        switch (estado) {
+                            case 'Programada':
+                                document.getElementById("aceptarModalBtn").disabled = true;
+                                document.getElementById("inciarModalBtn").disabled = false;
+                                document.getElementById("subordinarModalBtn").disabled = false;
+                                document.getElementById("reportarModalBtn").disabled = false;
+                                document.getElementById("terminarModalBtn").disabled = false;
+                                document.getElementById("rechazarModalBtn").disabled = false;
+                                
+                                break;
+                                
+                            case 'Aceptada':
+                                document.getElementById("aceptarModalBtn").disabled = false;
+                                document.getElementById("inciarModalBtn").disabled = true;
+                                document.getElementById("subordinarModalBtn").disabled = false;
+                                document.getElementById("reportarModalBtn").disabled = true;
+                                document.getElementById("terminarModalBtn").disabled = false;
+                                document.getElementById("rechazarModalBtn").disabled = true;
+                                
+                                break;
+                                
+                            case 'En Desarrollo':
+                                document.getElementById("aceptarModalBtn").disabled = false;
+                                document.getElementById("inciarModalBtn").disabled = false;
+                                document.getElementById("subordinarModalBtn").disabled = true;
+                                document.getElementById("reportarModalBtn").disabled = true;
+                                document.getElementById("terminarModalBtn").disabled = true;
+                                document.getElementById("rechazarModalBtn").disabled = false;
+                                break;
+                            case 'Rechazada':
+                                document.getElementById("aceptarModalBtn").disabled = true;
+                                document.getElementById("inciarModalBtn").disabled = false;
+                                document.getElementById("subordinarModalBtn").disabled = false;
+                                document.getElementById("reportarModalBtn").disabled = false;
+                                document.getElementById("terminarModalBtn").disabled = false;
+                                document.getElementById("rechazarModalBtn").disabled = false;
+                                break;
+                            case 'Terminada':
+                                break;
+                            default:
+                                document.getElementById("aceptarModalBtn").disabled = false;
+                                document.getElementById("inciarModalBtn").disabled = false;
+                                document.getElementById("subordinarModalBtn").disabled = false;
+                                document.getElementById("reportarModalBtn").disabled = false;
+                                document.getElementById("terminarModalBtn").disabled = false;
+                                document.getElementById("rechazarModalBtn").disabled = false;
+                                break;
+                        }
+
+                    </script>
+            </div>
         </div>
 
-        
-        
         <footer th:replace="layout/plantilla :: footer"></footer>
 
-<!-- Trigger/Open The Modal --> 
-<button id="myBtn">Open Modal</button>
-
-<!-- The Modal --> 
-<div id="myModal" class="modal">
-
-<!-- Modal content -->   
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>   
-    </div>
-</div>
-
-<script> 
-// Get the modal 
-var modal = document.getElementById("myModal");
-// Get the button that opens the modal 
-var btn = document.getElementById("myBtn");
-// Get the <span> element that closes the modal 
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal  
-btn.onclick = function() {   modal.style.display = "block"; }
-
-// When the user clicks on <span> (x), close the modal 
-span.onclick = function() {   modal.style.display = "none"; }
-
-// When the user clicks anywhere outside of the modal, close it 
-window.onclick = function(event) {   
-    if (event.target == modal) {
-        modal.style.display = "none";   
-} } 
-</script>
         <script th:src="@{js/jquery-3.6.0.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
         <script th:src="@{/js/datatables.min.js}"></script>
         <script th:src="@{/js/main.js}"></script>
+        <script th:src="@{/js/aceptarModal.js}"></script>
 
- 
 
     </body>
 

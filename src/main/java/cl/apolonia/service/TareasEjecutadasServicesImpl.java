@@ -6,6 +6,7 @@ package cl.apolonia.service;
 
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.domain.TareasEjecutadas;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,14 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Autowired
     private TareasEjecutadasDao tareasEjecutadasDao;
+
+    @Override
+    public String estado(String runResponsable, Integer idtarea) {
+        List<TareasEjecutadas> tareasEjecutadas = tareasEjecutadasDao.findByRunResponsableAndIdtarea(runResponsable, idtarea);
+        return null;
+    }
+
+
     
     
 }
