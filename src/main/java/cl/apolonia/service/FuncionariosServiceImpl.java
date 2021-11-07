@@ -111,8 +111,8 @@ public class FuncionariosServiceImpl implements FuncionariosService {
         
         Usuario usuarioSaludo = new Usuario();
         usuarioSaludo = usuarioDao.findByUsername(currentPrincipalName);
-        Integer rut = usuarioSaludo.getIdsubunidad();
-        return rut;
+        Integer idSubunidad = usuarioSaludo.getIdsubunidad();
+        return idSubunidad;
     }
 
     @Override

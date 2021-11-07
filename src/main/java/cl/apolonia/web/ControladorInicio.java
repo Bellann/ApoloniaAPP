@@ -1,5 +1,6 @@
 package cl.apolonia.web;
 
+import cl.apolonia.dao.FuncionariosDao;
 import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.domain.TareasEjecutadas;
@@ -7,6 +8,7 @@ import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.TareasEjecutadasServices;
+import cl.apolonia.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,9 @@ public class ControladorInicio {
 
     @Autowired
     private TareasEjecutadasServices tareasEjecutadasService;
+    
+    @Autowired
+    private FuncionariosDao funcionariosDao;
 
     @GetMapping("/")
     public String inicio(Model model) {
@@ -119,12 +124,14 @@ public class ControladorInicio {
         var funcionarios = funcionariosService.listarFuncionarios();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
+        var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         model.addAttribute("run", urlParam);
         model.addAttribute("id", i);
         model.addAttribute("tareasEjecutadas", tareasEjecutadas);
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("funcionariosList", funcionariosList);
 
         return "gestionartarea";
     }

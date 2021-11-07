@@ -5,12 +5,15 @@
     <head>
         <title>Apolonia</title>
         <meta charset="UTF-8"/>
-        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
-        <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
-        <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
-        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
-        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+            <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+            <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
+            <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
+            <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
     </head>
@@ -71,126 +74,325 @@
                     <div class="row">
                         <div class="col-sm-10">
                             </br>
-                            <p><b>Observaciones:</b>.</p></div>
+                            <p><b>Observaciones:</b>.</p>
+
+
+
+
+                        </div>
                         <div class="col-sm-2"> 
 
-                            <!-- BOTONES MENU TAREA -->
-                            <!-- Trigger aceptarModal -->
+                            <!-- BOTONES MENU TAREA ---->                            
+                            <p><!-- boton aceptar -->
+                                <button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal">
+                                    Aceptar tarea
+                                </button></p>
 
-                            <p><button class="btn-flujo" id="aceptarModalBtn">Aceptar</button></p>
-                            <p><button class="btn-flujo" id="inciarModalBtn" >Iniciar tarea</button></p>
-                            <p><button class="btn-flujo" id="subordinarModalBtn" >Subordinar tarea</button></p>
-                            <p><button class="btn-flujo" id="reportarModalBtn" >Reportar problema</button></p>
-                            <p><button class="btn-flujo" id="terminarModalBtn" >Dar por terminada</button></p>
-                            <p><button class="btn-flujo" id="rechazarModalBtn" >Rechazar</button></p>
-                            <p><a th:href="@{/flujotrabajo}"><button class="btn-flujo">Salir</button></a></p>   
+                            <!-- Boton iniciar -->
+                            <p> <button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal2">
+                                    Iniciar tarea
+                                </button></p>
+                            <!-- Boton subordinar tarea -->
+                            <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal3">
+                                    Subordinar tarea
+                                </button><p>
+                            <!-- Button reportar problema -->
+                            <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal6">
+                                    Reportar problema
+                                </button><p>
+                            <!-- Button dar por terminada -->
+                            <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal5">
+                                        Dar por terminada
+                                    </button></p> 
+                            <!-- Button trigger modal -->
+                            <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal8">
+                                        Rechazar
+                            </button></p>
 
-                        </div>
+                            <!-- Boton salir - vuelve a la pantalla anterior -->
+                            <p><a th:href="@{/flujotrabajo}"><button class="btn-flujo">Salir</button></a></p>  
 
-                    </div>
-
-                    <!-- Upload archivos -->
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <div class="d-flex p-2 border border-secondary">
-                                <p>Adjunte archivo  &nbsp;&nbsp;&nbsp; <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
-                            </div>
-                        </div>
-                        <div class="col-sm-2"></div>
-                    </div>
-
-                    <!-- Modal Aceptar --> 
-                    <div id="aceptarModal" class="modal"tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <!-- Modal content -->   
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Atencion</h5>
-
-                                </div>
-                                <div class="modal-body">
-                                    <center><p>Está aceptando esta tarea</p></center>
-                                    <center><p>¿Desea continuar?</p></center>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn-flujo">Si</button>
-                                    <button type="button" class="close btn btn-flujo" data-dismiss="modal" aria-label="Close">No</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script th:inline="javascript">
-
-                        /*<![CDATA[*/
-
-                        var estado = [[${tareasEjecutadas.estado
-                        }
-                        ]];
-
-                        //*]]>*/
-                        switch (estado) {
-                            case 'Programada':
-                                document.getElementById("aceptarModalBtn").disabled = true;
-                                document.getElementById("inciarModalBtn").disabled = false;
-                                document.getElementById("subordinarModalBtn").disabled = false;
-                                document.getElementById("reportarModalBtn").disabled = false;
-                                document.getElementById("terminarModalBtn").disabled = false;
-                                document.getElementById("rechazarModalBtn").disabled = false;
-                                
-                                break;
-                                
-                            case 'Aceptada':
-                                document.getElementById("aceptarModalBtn").disabled = false;
-                                document.getElementById("inciarModalBtn").disabled = true;
-                                document.getElementById("subordinarModalBtn").disabled = false;
-                                document.getElementById("reportarModalBtn").disabled = true;
-                                document.getElementById("terminarModalBtn").disabled = false;
-                                document.getElementById("rechazarModalBtn").disabled = true;
-                                
-                                break;
-                                
-                            case 'En Desarrollo':
-                                document.getElementById("aceptarModalBtn").disabled = false;
-                                document.getElementById("inciarModalBtn").disabled = false;
-                                document.getElementById("subordinarModalBtn").disabled = true;
-                                document.getElementById("reportarModalBtn").disabled = true;
-                                document.getElementById("terminarModalBtn").disabled = true;
-                                document.getElementById("rechazarModalBtn").disabled = false;
-                                break;
-                            case 'Rechazada':
-                                document.getElementById("aceptarModalBtn").disabled = true;
-                                document.getElementById("inciarModalBtn").disabled = false;
-                                document.getElementById("subordinarModalBtn").disabled = false;
-                                document.getElementById("reportarModalBtn").disabled = false;
-                                document.getElementById("terminarModalBtn").disabled = false;
-                                document.getElementById("rechazarModalBtn").disabled = false;
-                                break;
-                            case 'Terminada':
-                                break;
-                            default:
-                                document.getElementById("aceptarModalBtn").disabled = false;
-                                document.getElementById("inciarModalBtn").disabled = false;
-                                document.getElementById("subordinarModalBtn").disabled = false;
-                                document.getElementById("reportarModalBtn").disabled = false;
-                                document.getElementById("terminarModalBtn").disabled = false;
-                                document.getElementById("rechazarModalBtn").disabled = false;
-                                break;
-                        }
-
-                    </script>
-            </div>
-        </div>
-
-        <footer th:replace="layout/plantilla :: footer"></footer>
-
-        <script th:src="@{js/jquery-3.6.0.min.js}"></script>
-        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-        <script th:src="@{/js/datatables.min.js}"></script>
-        <script th:src="@{/js/main.js}"></script>
-        <script th:src="@{/js/aceptarModal.js}"></script>
+                                    <!-- Modal aceptar -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Atención</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Está aceptando esta tarea</p>
+                                                    <p>¿Desea continuar?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn-flujo" >Si</button>
+                                                    <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-    </body>
 
-</html>
+                                    <!-- Modal iniciar -->
+                                    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel2">Atención</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Dará por inciada esta tarea</p>
+                                                    <p>¿Desea continuar?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn-flujo">Si</button>
+                                                    <button type="button" class="btn-flujo"  data-dismiss="modal">No</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Modal Subordinar -->
+                                    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel3">Subordinar Tarea</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <div class="d-flex p-2 border border-secondary">
+                                                        <p><span th:text=${tareasEjecutadas.tarea}>a</span></p>
+                                                    </div>
+                                                    <form>
+                                                        <div class="form-group">
+                                                            </br>
+
+                                                            Nombre de la tarea
+                                                            <input type="text" class="form-control" id="tareaSubordinada" placeholder="ingrese el nombre de la nueva tarea">
+                                                                Descripcion   
+                                                                <textarea class="form-control" id="descripcionSubordinada" rows="3"></textarea>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        Asignar a :
+                                                                    </button>
+                                                                    <ul class="dropdown-menu" aria-labelledby="funcionariosList">
+                                                                        <li th:each="funcionariosList : ${funcionariosList}"> <a class="dropdown-item" href="#"th:text="${funcionariosList.email}"></a> </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <!--                                                                <button type="submit" class="btn btn-primary">Submit</button>-->
+                                                                </form>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal7">
+                                                                Aceptar
+                                                            </button>
+                                                            <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                   
+                                                   
+                                    </div>
+
+                                    </div>
+
+                                    <!-- Modal 5 dar por terminada -->
+                                    <div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel5">Atención</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Dará por terminada esta tarea</p>
+                                                    <p>¿Desea continuar?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    
+                                                    <button type="button" class="btn-flujo">Si</button>
+                                                    <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+      
+
+                                    <!-- Modal 6 - reportar problema -->
+                                    <div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel6">Reportar problema</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Reportar problema</p>
+                                                    <form action="action">
+                                                        <textarea class="form-control" id="descripcionproblema" rows="3"></textarea>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    
+                                                    <button type="button" class="btn-flujo">Enviar</button>
+                                                    <button type="button" class="btn-flujo" data-dismiss="modal">cancelar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal 7 subordinar tarea 2 / confirmacion -->
+                                    <div class="modal fade" id="exampleModal7" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel7" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel7">Atencion</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>¿Está seguro de delegar esta tarea?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn-flujo" >Si</button>
+                                                    <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Modal 8 rechazar -->
+                                    <div class="modal fade" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel8" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel8">Rechazar tarea</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Ingrese la justificacion</p>
+                                                    <form action="action">
+                                                        <textarea class="form-control" id="descripcionproblema" rows="3"></textarea>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    
+                                                    <button type="button" class="btn-flujo">Aceptar</button>
+                                                    <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Upload archivos -->
+                                    <div class="flex-fill">
+                                        
+                                            
+                                                <p>Adjunte archivo  &nbsp;&nbsp;&nbsp; <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
+                                            
+                                        
+                                      
+                                    </div>
+
+
+
+
+
+                                    <script th:inline="javascript">
+
+
+                                        /*<![CDATA[*/
+
+                                        var estado = [[${tareasEjecutadas.estado
+                                        }
+                                        ]];
+                                        //*]]>*/
+                                        switch (estado) {
+                                        case 'Programada':
+                                                document.getElementById("aceptarModalBtn").disabled = false;
+                                        document.getElementById("inciarModalBtn").disabled = false;
+                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                        document.getElementById("reportarModalBtn").disabled = false;
+                                        document.getElementById("terminarModalBtn").disabled = false;
+                                        document.getElementById("rechazarModalBtn").disabled = false;
+                                        break;
+                                        case 'Aceptada':
+                                                document.getElementById("aceptarModalBtn").disabled = false;
+                                        document.getElementById("inciarModalBtn").disabled = true;
+                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                        document.getElementById("reportarModalBtn").disabled = true;
+                                        document.getElementById("terminarModalBtn").disabled = false;
+                                        document.getElementById("rechazarModalBtn").disabled = true;
+                                        break;
+                                        case 'En Desarrollo':
+                                                document.getElementById("aceptarModalBtn").disabled = false;
+                                        document.getElementById("inciarModalBtn").disabled = false;
+                                        document.getElementById("subordinarModalBtn").disabled = true;
+                                        document.getElementById("reportarModalBtn").disabled = true;
+                                        document.getElementById("terminarModalBtn").disabled = true;
+                                        document.getElementById("rechazarModalBtn").disabled = false;
+                                        break;
+                                        case 'Rechazada':
+                                                document.getElementById("aceptarModalBtn").disabled = true;
+                                        document.getElementById("inciarModalBtn").disabled = false;
+                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                        document.getElementById("reportarModalBtn").disabled = false;
+                                        document.getElementById("terminarModalBtn").disabled = false;
+                                        document.getElementById("rechazarModalBtn").disabled = false;
+                                        break;
+                                        case 'Terminada':
+                                                break;
+                                        default:
+                                                document.getElementById("aceptarModalBtn").disabled = true;
+                                        document.getElementById("inciarModalBtn").disabled = true;
+                                        document.getElementById("subordinarModalBtn").disabled = true;
+                                        document.getElementById("reportarModalBtn").disabled = true;
+                                        document.getElementById("terminarModalBtn").disabled = true;
+                                        document.getElementById("rechazarModalBtn").disabled = true;
+                                        break;
+                                        }
+
+                                    </script>
+                                    </div>
+                                    </div>
+
+                                    <footer th:replace="layout/plantilla :: footer"></footer>
+
+
+                                    <!--        <script th:src="@{/js/datatables.min.js}"></script>
+                                            <script th:src="@{/js/main.js}"></script>
+                                            <script th:src="@{/js/aceptarModal.js}"></script>
+                                            <script th:src="@{/js/iniciarModal.js}"></script>
+                                            <script th:src="@{/js/subordinarModal.js}"></script>
+                                            <script th:src="@{/js/reportarModal.js}"></script>
+                                            <script th:src="@{/js/terminarModal.js}"></script>
+                                            <script th:src="@{/js/rechazarModal.js}"></script>-->
+
+
+                                    </body>
+
+                                    </html>
