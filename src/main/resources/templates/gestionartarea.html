@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Apolonia</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+        <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
+        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+
+
+    </head>
+    <body>
+
+        <header th:replace="layout/plantilla :: header"></header>
+        <div class="contenedor-data">
+            <div th:each="tareasEjecutadas  : ${tareasEjecutadas}"> <!-- INICIO DEL DIV QUE ITERA LOS DATOS -->
+                <div class="d-flex p-2 border border-secondary">
+                    <span th:text=${tareasEjecutadas.tarea}>a</span>
+                </div>
+                <hr style="height:10px; width:100%; border-width:0; background-color: #FFFFFF">
+
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <p> Asignado por: <span th:text="${tareasEjecutadas.ejecutor}"></span> </p>
+                            <p> Descripción:  <span th:text="${tareasEjecutadas.descTarea}"></span></p>
+                            </br>
+                            </br>
+
+                            <div class="col-sm-5">
+                                <p>Documentos de la tarea</p>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Archivo</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Descargar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">No implementado</th>
+                                            <th scope="col">No implementado</th>
+                                            <th scope="col"><img src="../static/img/archivo.png" th:src="@{img/archivo.png}" alt="archivo ico"></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-3" >
+                            <p>Fecha de asignación: <span th:text="${tareasEjecutadas.fechaAsignacion}"></span></p>
+                            <p>Fecha de de inicio <span th:text="${tareasEjecutadas.fPrevInicio}">fecha de inicio prevista</span></p>
+                            <p>Fecha de de término prevista <span th:text="${tareasEjecutadas.fPrevFin}">fecha de término prevista</span></p>
+                            <p>Fecha de asignación:
+                                <ul>
+                                    <li>Fecha real de incio: <span th:text="${tareasEjecutadas.fRealInicio}">fecha de inicio prevista</span></li>
+                                    <li>Fecha real de término: <span th:text="${tareasEjecutadas.fRealFin}">fecha de inicio prevista</span></li>
+                                </ul>
+                            </p>
+                            <p><span style="background-color:#FFE900;">semaforo no implementado</span></li></p>
+
+                        </div>
+                    </div>
+
+                    <!-- OBSERVACIONES Y BOTONES -->
+                    <div class="row">
+                        <div class="col-sm-10">
+                            </br>
+                            <p><b>Observaciones:</b>.</p></div>
+                        <div class="col-sm-2"> 
+                            <p><button type="button" class="btn-flujo">Aceptar</button></p>
+
+
+
+                            <p><button type="button" class="btn-flujo">Iniciar tarea</button></p>
+                            <p><button type="button" class="btn-flujo">Subordinar tarea</button></p>
+                            <p><button type="button" class="btn-flujo">Reportar problema</button></p>
+                            <p><button type="button" class="btn-flujo">Dar por terminada</button></p>
+                            <p><button type="button" class="btn-flujo">Rechazar</button></p>
+                            <p><a th:href="@{/flujotrabajo}"><button class="btn-flujo">Salir</button></a></p>    
+                        </div>
+                    </div>
+                    <!-- Upload archivos -->
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="d-flex p-2 border border-secondary">
+                                <p>Adjunte archivo  &nbsp;&nbsp;&nbsp; <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+
+
+            </div><!-- FIN DEL DIV QUE ITERA LOS DATOS -->
+
+        </div>
+
+        
+        
+        <footer th:replace="layout/plantilla :: footer"></footer>
+
+<!-- Trigger/Open The Modal --> 
+<button id="myBtn">Open Modal</button>
+
+<!-- The Modal --> 
+<div id="myModal" class="modal">
+
+<!-- Modal content -->   
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>   
+    </div>
+</div>
+
+<script> 
+// Get the modal 
+var modal = document.getElementById("myModal");
+// Get the button that opens the modal 
+var btn = document.getElementById("myBtn");
+// Get the <span> element that closes the modal 
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal  
+btn.onclick = function() {   modal.style.display = "block"; }
+
+// When the user clicks on <span> (x), close the modal 
+span.onclick = function() {   modal.style.display = "none"; }
+
+// When the user clicks anywhere outside of the modal, close it 
+window.onclick = function(event) {   
+    if (event.target == modal) {
+        modal.style.display = "none";   
+} } 
+</script>
+        <script th:src="@{js/jquery-3.6.0.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        <script th:src="@{/js/datatables.min.js}"></script>
+        <script th:src="@{/js/main.js}"></script>
+
+ 
+
+    </body>
+
+</html>

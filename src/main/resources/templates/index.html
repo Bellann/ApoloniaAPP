@@ -6,33 +6,7 @@
         <body>
 
             <header th:replace="layout/plantilla :: header"></header>
-            <b>User:</b> <span sec:authentication="name"></span> |
-            <b>Roles:</b> <span sec:authentication="principal.authorities"></span> |
 
-
-            <div th:if="${funcionarios != null and !funcionarios.empty}">
-                <table border="1">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-
-                        <th>RUN</th>
-                    </tr>
-                    <tr th:each="funcionarios : ${funcionarios}">
-                        <td th:text="${funcionarios.nombres}">Mostrar Nombre</td>
-                        <td th:text="${funcionarios.apellidop}">Mostrar Apellido</td>
-
-                        <td th:text="${funcionarios.username}">Mostrar Teléfono</td>
-                    </tr>
-                </table>
-            </div>
-            <div th:if="${funcionarios == null or funcionarios.empty}">
-                La lista de funcionarios está vacía
-            </div>
-
-            <form method="POST" th:action="@{/logout}">
-                <a href="#" onclick="this.parentNode.submit();">Logout</a>
-            </form>
-
+            <footer th:replace="layout/plantilla :: footer"></footer>
         </body>
 </html>

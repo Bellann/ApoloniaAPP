@@ -76,11 +76,18 @@ public class TareasEjecutadas {
     
     @Column(name="ID_PROCESO_EJECUTADO")
     private String idProcesoEjecutado;
+    
+    @Column(name="FCH_ASIGNACION")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaAsignacion;
+    
+    @Column(name="DESC_TAREA")
+    private String descTarea;
 
     public TareasEjecutadas() {
     }
 
-    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, int dependencias, int segregada, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, String idProcesoEjecutado) {
+    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, int dependencias, int segregada, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, String idProcesoEjecutado, Date fechaAsignacion, String descTarea) {
         this.idtarea = idtarea;
         this.tarea = tarea;
         this.ejecutor = ejecutor;
@@ -100,6 +107,8 @@ public class TareasEjecutadas {
         this.idSubUnidad = idSubUnidad;
         this.procesoEjecutado = procesoEjecutado;
         this.idProcesoEjecutado = idProcesoEjecutado;
+        this.fechaAsignacion = fechaAsignacion;
+        this.descTarea = descTarea;
     }
 
     public Integer getIdtarea() {
@@ -253,9 +262,23 @@ public class TareasEjecutadas {
     public void setIdProcesoEjecutado(String idProcesoEjecutado) {
         this.idProcesoEjecutado = idProcesoEjecutado;
     }
-    
-    
-    
+
+    public Date getFechaAsignacion() {
+        return fechaAsignacion;
+    }
+
+    public void setFechaAsignacion(Date fechaAsignacion) {
+        this.fechaAsignacion = fechaAsignacion;
+    }
+
+    public String getDescTarea() {
+        return descTarea;
+    }
+
+    public void setDescTarea(String descTarea) {
+        this.descTarea = descTarea;
+    }
+
     
     
     

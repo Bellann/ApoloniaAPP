@@ -11,4 +11,6 @@ public interface TareasEjecutadasDao extends JpaRepository<TareasEjecutadas, Int
     List<TareasEjecutadas> findByRutUnidad(String rutUnidad);
 
     List<TareasEjecutadas> findByIdSubUnidad(Integer idSubUnidad);
+    
+    List<TareasEjecutadas> findByRunResponsableAndIdtarea(String runResponsable, Integer idtarea);
 }

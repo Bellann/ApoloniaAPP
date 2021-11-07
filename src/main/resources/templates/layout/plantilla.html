@@ -99,7 +99,15 @@
             <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
         </header>
 
-
+        <footer th:fragment="footer" >
+        </br>
+            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+            <div class="saludo-usuario">
+                <p style="text-align:center">Apolonia - <span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}"></span></p>
+            </br>
+            </div>
+            
+        </footer>
 
 
     </body>
