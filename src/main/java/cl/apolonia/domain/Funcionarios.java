@@ -26,7 +26,7 @@ public class Funcionarios implements Serializable {
     private int id_estado_usuario;
     private int id_rol;
     private String rut_unidad;
-    private int idSubunidad;
+    private Integer idSubunidad;
     private String username;
     
     

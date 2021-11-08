@@ -16,11 +16,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     @Autowired
     private TareasEjecutadasDao tareasEjecutadasDao;
 
-    @Override
-    public String estado(String runResponsable, Integer idtarea) {
-        List<TareasEjecutadas> tareasEjecutadas = tareasEjecutadasDao.findByRunResponsableAndIdtarea(runResponsable, idtarea);
-        return null;
-    }
+
 
 
     

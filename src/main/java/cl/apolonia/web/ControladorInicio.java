@@ -120,7 +120,6 @@ public class ControladorInicio {
     public String gestionarTarea(@RequestParam(value = "r") String urlParam,
             @RequestParam(value = "i") Integer i, Model model) {
         var tareasEjecutadas = tareasEjecutadasDao.findByRunResponsableAndIdtarea(urlParam, i);
-        var estado = tareasEjecutadasService.estado(urlParam, i);
         var funcionarios = funcionariosService.listarFuncionarios();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
