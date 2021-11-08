@@ -38,7 +38,7 @@ public class Usuario implements Serializable {
     @Column(name="IDSUBUNIDAD")
     private int idsubunidad;
     
-   @Column(name="NIVEL")
+    @Column(name="NIVEL")
     private int nivel;
     
     @Column(name="NOMBRE")

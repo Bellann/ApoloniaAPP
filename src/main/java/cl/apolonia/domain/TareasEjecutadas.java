@@ -75,7 +75,7 @@ public class TareasEjecutadas {
     private String procesoEjecutado;
     
     @Column(name="ID_PROCESO_EJECUTADO")
-    private String idProcesoEjecutado;
+    private int idProcesoEjecutado;
     
     @Column(name="FCH_ASIGNACION")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -87,7 +87,7 @@ public class TareasEjecutadas {
     public TareasEjecutadas() {
     }
 
-    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, int dependencias, int segregada, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, String idProcesoEjecutado, Date fechaAsignacion, String descTarea) {
+    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, int dependencias, int segregada, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, int idProcesoEjecutado, Date fechaAsignacion, String descTarea) {
         this.idtarea = idtarea;
         this.tarea = tarea;
         this.ejecutor = ejecutor;
@@ -255,11 +255,11 @@ public class TareasEjecutadas {
         this.procesoEjecutado = procesoEjecutado;
     }
 
-    public String getIdProcesoEjecutado() {
+    public int getIdProcesoEjecutado() {
         return idProcesoEjecutado;
     }
 
-    public void setIdProcesoEjecutado(String idProcesoEjecutado) {
+    public void setIdProcesoEjecutado(int idProcesoEjecutado) {
         this.idProcesoEjecutado = idProcesoEjecutado;
     }
 
@@ -279,7 +279,7 @@ public class TareasEjecutadas {
         this.descTarea = descTarea;
     }
 
-    
+
     
     
 }
