@@ -77,10 +77,7 @@
                             </br>
                             <p><b>Observaciones:</b>.</p>
 
-                            <tr th:each="funcionariosList : ${funcionariosList}">
-                                <td th:text="${funcionariosList.nombres}+' '+${funcionariosList.apellidop}">Mostrar Nombre</td>
 
-                            </tr>
 
 
 
@@ -191,6 +188,14 @@
                                                                         <textarea class="form-control" id="descripcionSubordinada" rows="3"></textarea>
                                                                         </br>
 
+                                                                        <div class="col-lg-6" th:object="${funcionariosList}">
+                                                                            <select class="form-control" id="funcionariosList" name="funcionariosList">
+                                                                                <option value="">Asignar a: </option>
+                                                                                <option th:each="funcionariosList : ${funcionariosList}"
+                                                                                        th:value="${funcionariosList.run}"
+                                                                                        th:text="${funcionariosList.nombres}+' '+${funcionariosList.apellidop}"></option>
+                                                                            </select>
+                                                                        </div>
 
                                                                         <!-- <button type="submit" class="btn btn-primary">Submit</button>-->
                                                                         </form>

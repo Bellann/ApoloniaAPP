@@ -31,11 +31,11 @@
 
             </div>
         </div>
-        <!-- Data Table Listado de procesos por RUN -->
-        <span th:if="${tareasRun == null or tareasRun.empty}"> Usted no procesos asignados</span>
+        <!-- Data Table Listado de procesos en los que tiene tareas involucradas, por run de usuario logueado -->
+        <span th:if="${misProcesos == null or misProcesos.empty}"> Usted no procesos asignados</span>
 
 
-        <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
+        <div th:if="${misProcesos != null and !misProcesos.empty}" class="contenedor-data">
             <table id="procesos" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
@@ -47,10 +47,11 @@
                 </thead>
                 <tbody>
 
-                    <tr th:each="tareasRun,iterationStatus : ${tareasRun}">
+                    <tr th:each="misProcesos,iterationStatus : ${misProcesos}">
                         <td th:text="${iterationStatus.count}">1</td>
-                        <td th:text="${tareasRun.procesoEjecutado}">Mostrar Tarea</td>
-                        <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
+                        <td th:text="${misProcesos.estado}">Mostrar Tarea</td>
+                        <td>No implementado</td>
+                        
                         <td>No implementado</td>
                         <td>No implementado</td>
 

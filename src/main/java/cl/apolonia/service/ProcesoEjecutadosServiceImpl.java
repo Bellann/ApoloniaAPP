@@ -22,10 +22,8 @@ public class ProcesoEjecutadosServiceImpl implements ProcesoEjecutadosService {
         return (List<ProcesoEjecutados>) procesoEjecutadosDao.findAll();
     }
 
-    @Override
-    public List<ProcesoEjecutados> findByRut_unidad(String rut_unidad) {
-       return null;
-    }
+
+
 
 
 

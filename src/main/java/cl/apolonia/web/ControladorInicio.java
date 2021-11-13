@@ -3,18 +3,17 @@ package cl.apolonia.web;
 import cl.apolonia.dao.FuncionariosDao;
 import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
-import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.TareasEjecutadasServices;
-import cl.apolonia.service.UsuarioService;
+import cl.apolonia.service.procParticipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class ControladorInicio {
@@ -39,6 +38,9 @@ public class ControladorInicio {
     
     @Autowired
     private FuncionariosDao funcionariosDao;
+    
+    @Autowired
+    private procParticipoService procParticipoService;
 
     @GetMapping("/")
     public String inicio(Model model) {
@@ -69,12 +71,15 @@ public class ControladorInicio {
         var procesosUni = procesosDao.findByRutUnidad(funcionariosService.rutUnidad());
         var procesosSub = procesosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var tareasRun = tareasEjecutadasDao.findByRunResponsable(funcionariosService.runResponsable());
+        var misProcesos = procParticipoService.procesoParticipo("88444005k");
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("procesosUni", procesosUni);
         model.addAttribute("procesosSub", procesosSub);
         model.addAttribute("tareasRun", tareasRun);
+        model.addAttribute("misProcesos", misProcesos);
+
 
         return "flujotrabajo";
 
@@ -85,9 +90,11 @@ public class ControladorInicio {
         var procesos = procesosService.listarProcesos();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
+
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("procesos", procesos);
+
 
         return "ejecutarproceso";
     }
