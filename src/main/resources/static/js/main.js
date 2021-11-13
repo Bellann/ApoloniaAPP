@@ -22,7 +22,7 @@
   }
   
     $(document).ready(function() {
-    $('#procesos').DataTable({
+    $('#procesos1').DataTable({
         "language":{
             "LengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",

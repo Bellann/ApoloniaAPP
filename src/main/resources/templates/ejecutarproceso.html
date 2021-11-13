@@ -6,51 +6,166 @@
     <head>
         <title>Apolonia</title>
         <meta charset="UTF-8"/>
-        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
-        <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
-        <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.standalone.css}"/>
-        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
-        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+            <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+            <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.standalone.css}"/>
+            <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+            <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
     </head>
 
     <body>
         <header th:replace="layout/plantilla :: header"></header>
 
+        <!-- Listado de procesos por Unidad / Falta por subunidad -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <form role="form" id="enviarid" th:action=@{/enviarid} method="GET">
+                        <select class="form-control" id="procesosTipoList" name="nombre">
+                            <option value="">Seleccione proceso a ejecutar </option>
+                            <option th:each="listaProcesos : ${listaProcesos}"
+                                    th:value="${listaProcesos.nombre}"
+                                    th:text="${listaProcesos.nombre}"></option>
+                        </select>
+                        </br>
+                        <button class="btn-flujo" type="submit" value="Cargar tareas asociadas">Listar tareas asociadas</button>
 
-
-
-        <div class="d-flex">
-            <!-- dropdown de los procesos, por ahora estan todos -->
-            <div class="p-2 flex-fill">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Nombre Proceso
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="procesosEjecutar">
-                        <li th:each="procesos : ${procesos}"> <a class="dropdown-item" href="#"th:text="${procesos.proceso}"></a> </li>
-                    </ul>
+                    </form>
+                    </br>
+                    <a th:href="@{/ejecutarproceso}"><button class="btn-flujo">Refrescar procesos</button></a>
                 </div>
-            </div>
-            <div class="p-2 bg-warning flex-fill"></div>
-            <div class="p-2 flex-fill">
-                Fecha de Inicio*
-
-                <div class="input-group date" data-provide="datepicker">
-                    <div class="col-xs-3">
-                        <input type="text" class="form-control" placeholder="   /   /    ">
-                            <span class="glyphicon glyphicon-th">HOLA</span>
-                    </div>
+                <div class="col-md-4">
+                    DATE PICKER
                 </div>
             </div>
         </div>
-        <footer th:replace="layout/plantilla :: footer"></footer>
 
-        <script th:src="@{js/jquery-3.6.0.min.js}"></script>
-        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-        <script th:src="@{/js/main.js}"></script>
+        <!-- Data de tareas por proceso -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div th:each="procesotipo : ${procesotipo}" > 
+                        </br>
+                        <h3>Nombre del Proceso</h3> 
+                        <p th:text="${procesotipo.nombre}"></p>
+                        <h3>Descripción:</h3> 
+                        <p th:text="${procesotipo.descripcion}"></p>
+                        <p th:text="${idProceso}"></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!-- Data table procesos en los que participo -->
+                    <span th:if="${tareasProceso == null or tareasProceso.empty}"> No existen tareas para este proceso</span>
+
+
+                    <div th:if="${tareasProceso != null and !tareasProceso.empty}" class="contenedor-data">
+                        <table id="procesos1" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Nombre Tarea</th>
+                                    <th>Duracion</th>
+                                    <th>Responsable</th>
+                                    <th>Editar responsable</th>
+                                    <th>área</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr th:each="tareasProceso  : ${tareasProceso}">
+                                    <td th:text="${tareasProceso.nombre}"></td>
+                                    <td th:text="${tareasProceso.duracion}+ ' dias'"></td>
+                                    <td th:text="${tareasProceso.nombres}+' '+${tareasProceso.apellidop}"></td>
+                                    <td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                                            Cambiar responsable
+                                        </button></td>
+                                    <td th:text="${tareasProceso.subunidad}"></td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Nombre Tarea</th>
+                                    <th>Duracion</th>
+                                    <th>Responsable</th>
+                                    <th>Editar responsable</th>
+                                    <th>área</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+
+                    <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+
+
+                        <!-- Button trigger modal -->
+
+
+                        <!-- Modal Funcionarios-->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Nada
+                </div>
+                <div class="col-md-4">
+                    Nada
+                </div>
+                <div class="col-md-4">
+                    Botones
+                </div>
+            </div>
+        </div>
+
+
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
+        <script th:src="@{/js/procesosData.js}"></script>
         <script th:src="@{/js/bootstrap-datepicker.js}"></script>
         <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
     </body>

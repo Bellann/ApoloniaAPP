@@ -16,8 +16,8 @@
     <body>
 
         <header th:replace="layout/plantilla :: header"></header>
-        
-         <div class="d-flex mb-3 align-text-bottom">
+        <!-- Procesos en los que participo -->    
+        <div class="d-flex mb-3 align-text-bottom">
             <div class="me-auto p-2">
 
                 <h1>Procesos en los que participo</h1>
@@ -31,36 +31,37 @@
 
             </div>
         </div>
-        <!-- Data Table Listado de procesos en los que tiene tareas involucradas, por run de usuario logueado -->
-        <span th:if="${misProcesos == null or misProcesos.empty}"> Usted no procesos asignados</span>
+        <!-- Data table procesos en los que participo -->
+        <span th:if="${misProcesos == null or misProcesos.empty}"> Usted no tiene tareas asignadas</span>
 
 
         <div th:if="${misProcesos != null and !misProcesos.empty}" class="contenedor-data">
-            <table id="procesos" class="table table-striped" style="width:100%">
+            <table id="procesos1" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>N°</th>
-                        <th>Proceso<th>
-                        <th>Control</th>
+                        <th>proceso</th>
+                        <th>fecha limite</th>
+                        <th>Asignado por</th>
                         <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    <tr th:each="misProcesos,iterationStatus : ${misProcesos}">
-                        <td th:text="${iterationStatus.count}">1</td>
-                        <td th:text="${misProcesos[1]}">Mostrar Tarea</td>
-                        <td th:text="${misProcesos[2]}">Mostrar Tarea</td>
-                        <td th:text="${misProcesos[3]}">Mostrar Tarea</td>
-                        <td th:text="${misProcesos[4]}">Mostrar Tarea</td>
- 
+                    <tr th:each="misProcesos,iterationStatus  : ${misProcesos}">
+                        <td th:text="${misProcesos[1]}"></td>
+                        <td th:text="${misProcesos[2]}"></td>
+                        <td th:text="${misProcesos[3]}"></td>
+                        <td th:text="${misProcesos[4]}"></td>
 
                     </tr>
 
                 </tbody>
                 <tfoot>
                     <tr>
-
+                        <th>proceso</th>
+                        <th>fecha limite</th>
+                        <th>Asignado por</th>
+                        <th>Estado</th>
                     </tr>
                 </tfoot>
             </table>
@@ -69,72 +70,77 @@
 
         <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
-       <div class="d-flex mb-3 align-text-bottom">
-            <div class="me-auto p-2">
+            <div class="d-flex mb-3 align-text-bottom">
+                <div class="me-auto p-2">
 
-                <h1>Mis Tareas</h1>
+                    <h1>Mis Tareas</h1>
 
+                </div>
+                <div class="p-2">   
+
+                </div>
+                <div class="p-2">
+                    <a class="dropdown-item" th:href="@{/}"><button class="btn-flujo">Nueva Tarea</button></a>
+
+                </div>
             </div>
-            <div class="p-2">   
+            <!-- Data Table Listado de tareas por RUN -->
+            <span th:if="${tareasRun == null or tareasRun.empty}"> Usted no tiene tareas asignadas</span>
 
+
+            <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
+                <table id="tareasRun" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Tarea</th>
+                            <th>Asignada por</th>
+                            <th>Fecha límite</th>
+                            <th>Control</th>
+                            <th>Estado</th>
+                            <th>Gestionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each="tareasRun,iterationStatus  : ${tareasRun}">
+                            <td th:text="${iterationStatus.count}">1</td>
+                            <td th:text="${tareasRun.tarea}">Mostrar Tarea</td>
+                            <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
+                            <td th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
+                            <td>No implementado</td>
+                            <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
+                            <td><a th:href="@{/gestionartarea(r=${tareasRun.runResponsable} , i=${tareasRun.idtarea})}"> <img src="../static/img/gestionar.png" th:src="@{img/gestionar.png}" alt="gestionar"></a></td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>N°</th>
+                            <th>Tarea</th>
+                            <th>Asignada por</th>
+                            <th>Fecha límite</th>
+                            <th>Control</th>
+                            <th>Estado</th>
+                            <th>Gestionar</th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-            <div class="p-2">
-                <a class="dropdown-item" th:href="@{/}"><button class="btn-flujo">Nueva Tarea</button></a>
-
-            </div>
-        </div>
-        <!-- Data Table Listado de tareas por RUN -->
-        <span th:if="${tareasRun == null or tareasRun.empty}"> Usted no tiene tareas asignadas</span>
 
 
-        <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
-            <table id="tareasRun" class="table table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>N°</th>
-                        <th>Tarea</th>
-                        <th>Asignada por</th>
-                        <th>Fecha límite</th>
-                        <th>Control</th>
-                        <th>Estado</th>
-                        <th>Gestionar</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr th:each="tareasRun,iterationStatus  : ${tareasRun}">
-                        <td th:text="${iterationStatus.count}">1</td>
-                        <td th:text="${tareasRun.tarea}">Mostrar Tarea</td>
-                        <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
-                        <td th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
-                        <td>No implementado</td>
-                        <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
-                        <td><a th:href="@{/gestionartarea(r=${tareasRun.runResponsable} , i=${tareasRun.idtarea})}"> <img src="../static/img/gestionar.png" th:src="@{img/gestionar.png}" alt="gestionar"></a></td>
-                    </tr>
-
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>N°</th>
-                        <th>Tarea</th>
-                        <th>Asignada por</th>
-                        <th>Fecha límite</th>
-                        <th>Control</th>
-                        <th>Estado</th>
-                        <th>Gestionar</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
 
-        <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
-<footer th:replace="layout/plantilla :: footer"></footer>
-            <script th:src="@{js/jquery-3.6.0.min.js}"></script>
-            <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-            <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-            <script th:src="@{/js/datatables.min.js}"></script>
-            <script th:src="@{/js/main.js}"></script>
-    </body>
-</html>
+
+
+
+                <footer th:replace="layout/plantilla :: footer"></footer>
+                <script th:src="@{js/jquery-3.6.0.min.js}"></script>
+                <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+                <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+                <script th:src="@{/js/datatables.min.js}"></script>
+                <script th:src="@{/js/main.js}"></script>
+                </body>
+                </html>

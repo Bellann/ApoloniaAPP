@@ -5,7 +5,5 @@ import java.util.List;
 
 public interface procParticipoService {
     
-    List<procParticipo> procesoParticipo(String runIN);
-    
     List<Object[]> procParticipo(String runIN);
 }
