@@ -71,7 +71,7 @@ public class ControladorInicio {
         var procesosUni = procesosDao.findByRutUnidad(funcionariosService.rutUnidad());
         var procesosSub = procesosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var tareasRun = tareasEjecutadasDao.findByRunResponsable(funcionariosService.runResponsable());
-        var misProcesos = procParticipoService.procesoParticipo("88444005k");
+        var misProcesos = procParticipoService.procParticipo("88444005k");
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);

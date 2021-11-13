@@ -34,7 +34,22 @@ public class procParticipoServiceImp implements procParticipoService {
 
         query.execute();
 
-        List<procParticipo> result = query.getResultList();
+        List<Object[]> result = query.getResultList();
+        return null;
+    }
+
+    @Override
+    public List<Object[]> procParticipo(String runIN) {
+                StoredProcedureQuery query = entityManager
+                .createStoredProcedureQuery("r_proc_by_run")
+                .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(2, void.class, ParameterMode.REF_CURSOR);
+        query.setParameter(1, runIN);
+
+
+        query.execute();
+
+        List<Object[]> result = query.getResultList();
         return result;
     }
 
