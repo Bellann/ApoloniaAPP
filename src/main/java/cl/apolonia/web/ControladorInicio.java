@@ -5,7 +5,6 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
-import cl.apolonia.domain.ProcesosTipo;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
@@ -16,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -176,6 +172,16 @@ public class ControladorInicio {
         model.addAttribute("funcionariosList", funcionariosList);
 
         return "gestionartarea";
+    }
+    
+    @GetMapping("/nuevaTarea")
+    public String nuevaTarea(@RequestParam(value = "r") String urlParam, Model model){
+    var r = urlParam;
+    
+    var tareaejecutada = tareasEjecutadasDao.findById(19);
+    model.addAttribute("r", r);
+    model.addAttribute("tareaejecutada", tareaejecutada);
+    return "nuevaTarea";
     }
 
 }

@@ -1,0 +1,71 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:fragment="head">
+        <title>Apolonia</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    </head>
+
+    <body>
+
+        <p th:text="${r}"></p> ID PROCESO
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1> Nueva tarea del proceso : </h1>
+                </div>
+            </div>
+            <form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>Nombre</p>  
+                            <input type="text" placeholder="Ingrese el nombre para la nueva tarea" class="form-control" id="nombre">
+                                </br>
+                                <p>Descripcion</p>  
+                                <textarea class="form-control" id="descripcion" rows="5" placeholder="Ingrese la descripcion de la tarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div th:each="tareaejecutada  : ${tareaejecutada}">
+                                <p th:text="${tareaejecutada}"
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
+    </body>
+</html>

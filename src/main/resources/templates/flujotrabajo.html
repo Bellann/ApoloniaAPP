@@ -24,10 +24,10 @@
 
             </div>
             <div class="p-2">   
-
+               
             </div>
             <div class="p-2">
-                
+
 
             </div>
         </div>
@@ -43,15 +43,17 @@
                         <th>fecha limite</th>
                         <th>Asignado por</th>
                         <th>Estado</th>
+                        <th>Nueva tarea</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     <tr th:each="misProcesos,iterationStatus  : ${misProcesos}">
-                        <td th:text="${misProcesos[1]}"></td>
-                        <td th:text="${misProcesos[2]}"></td>
-                        <td th:text="${misProcesos[3]}"></td>
-                        <td th:text="${misProcesos[4]}"></td>
+                        <td th:text="${misProcesos.nombreProceso}"></td>
+                        <td th:text="${misProcesos.fechaPrevistaFin}"></td>
+                        <td th:text="${misProcesos.asignadoPor}"></td>
+                        <td th:text="${misProcesos.estado}"></td>
+                        <td> <a class="dropdown-item" th:href="@{/nuevaTarea(r=${misProcesos.idProceso})}"><button class="btn-flujo">Nueva Tarea</button></a></td>
 
                     </tr>
 
@@ -62,6 +64,7 @@
                         <th>fecha limite</th>
                         <th>Asignado por</th>
                         <th>Estado</th>
+                        <th>Nueva tarea</th>
                     </tr>
                 </tfoot>
             </table>
@@ -80,7 +83,7 @@
 
                 </div>
                 <div class="p-2">
-                    <a class="dropdown-item" th:href="@{/}"><button class="btn-flujo">Nueva Tarea</button></a>
+
 
                 </div>
             </div>
