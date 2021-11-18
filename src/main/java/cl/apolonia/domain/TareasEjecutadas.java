@@ -1,7 +1,9 @@
 package cl.apolonia.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 import org.hibernate.annotations.NamedNativeQuery;
 
@@ -84,10 +86,14 @@ public class TareasEjecutadas {
     @Column(name="DESC_TAREA")
     private String descTarea;
 
+    @OneToMany(targetEntity = Responsables.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="ID_TAREA_EJECUTADA")
+    private List<Responsables> responsables;
+
     public TareasEjecutadas() {
     }
 
-    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, int dependencias, int segregada, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, int idProcesoEjecutado, Date fechaAsignacion, String descTarea) {
+    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, int dependencias, int segregada, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, int idProcesoEjecutado, Date fechaAsignacion, String descTarea, List<Responsables> responsables) {
         this.idtarea = idtarea;
         this.tarea = tarea;
         this.ejecutor = ejecutor;
@@ -109,6 +115,7 @@ public class TareasEjecutadas {
         this.idProcesoEjecutado = idProcesoEjecutado;
         this.fechaAsignacion = fechaAsignacion;
         this.descTarea = descTarea;
+        this.responsables = responsables;
     }
 
     public Integer getIdtarea() {
@@ -279,6 +286,13 @@ public class TareasEjecutadas {
         this.descTarea = descTarea;
     }
 
+    public List<Responsables> getResponsables() {
+        return responsables;
+    }
+
+    public void setResponsables(List<Responsables> responsables) {
+        this.responsables = responsables;
+    }
 
     
     

@@ -20,8 +20,9 @@ public class procParticipo {
     @Column(name="NOMBRE_PROCESO")
     private String nombreProceso;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+    
     @Column(name="FECHa_PREVISTA_FIN")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaPrevistaFin;
     
     @Column(name="ASIGNADO_POR")
