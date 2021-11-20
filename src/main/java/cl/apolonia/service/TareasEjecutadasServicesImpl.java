@@ -30,12 +30,12 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public boolean crearTarea(int idproceso, String nombre, String descripcion, int duracion, String fecha1, int dependencia, int desagregada) {
-        try {
+        //try {
             int idTareaEjecutada = 0;
             //Pasar de String a Date las variables de fechas
-            String s = fecha1;
-            Date d = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss.S").parse(s);
-            String sd = new SimpleDateFormat("dd/MM/yyyy").format(d);
+           // String s = fecha1;
+            //Date d = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss.S").parse(s);
+            //String sd = new SimpleDateFormat("dd/MM/yyyy").format(d);
 
             StoredProcedureQuery query = entityManager
                     .createStoredProcedureQuery("c_tarea_ejecutada")
@@ -43,8 +43,8 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(3, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(4, int.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(5, Date.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(6, Date.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(5, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(6, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(7, int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(8, int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(9, int.class, ParameterMode.OUT);
@@ -52,8 +52,8 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             query.setParameter(2, nombre);
             query.setParameter(3, descripcion);
             query.setParameter(4, duracion);
-            query.setParameter(5, sd);
-            query.setParameter(6, sd);
+            query.setParameter(5, fecha1);
+            query.setParameter(6, fecha1);
             query.setParameter(7, dependencia);
             query.setParameter(8, desagregada);
 
@@ -64,9 +64,9 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                 return true;
             }
 
-        } catch (ParseException ex) {
-            Logger.getLogger(TareasEjecutadasServicesImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //} catch (ParseException ex) {
+          //  Logger.getLogger(TareasEjecutadasServicesImpl.class.getName()).log(Level.SEVERE, null, ex);
+        //}
         return true;
     }
 
