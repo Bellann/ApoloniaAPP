@@ -5,17 +5,28 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.Funcionarios;
+import cl.apolonia.domain.Responsables;
+import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
+import java.util.ArrayList;
+import java.util.Date;
+import static java.util.Optional.empty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ControladorInicio {
@@ -174,14 +185,42 @@ public class ControladorInicio {
         return "gestionartarea";
     }
     
-    @GetMapping("/nuevaTarea")
-    public String nuevaTarea(@RequestParam(value = "r") String urlParam, Model model){
+    @PostMapping("/nuevaTarea")
+    public String nuevaTarea(@RequestParam(value = "r") int urlParam,
+                             @RequestParam(value = "n") String n, 
+                             Model model){
+    //variables
     var r = urlParam;
-    
-    var tareaejecutada = tareasEjecutadasDao.findById(19);
+    var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
+    var tareas = tareasEjecutadasDao.findByIdProcesoEjecutado(r);
+    //modelo
+    model.addAttribute("tareas", tareas);
     model.addAttribute("r", r);
-    model.addAttribute("tareaejecutada", tareaejecutada);
+    model.addAttribute("nombreProceso", n);
+    model.addAttribute("funcionariosList", funcionariosList);
     return "nuevaTarea";
     }
 
+    @GetMapping("/CrearNuevaTarea")
+    public String CrearNuevaTarea (
+                                   @RequestParam(value ="nombre") String urlParam, 
+                                   @RequestParam(value = "descripcion") String descripcion,
+                                   @RequestParam(value = "responsable",required=false) String responsable,
+                                   @RequestParam(value = "idproceso") int idproceso,
+                                   @RequestParam(value = "fechai" )String fechai,
+                                   @RequestParam(value = "fechat" )String fechat,
+                                   @RequestParam(value = "duracion" )int duracion,
+                                   @RequestParam(value = "dependencia",required=false)String dependencia,
+                                   Model model){
+    //variables
+    var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
+    
+    var nombre = urlParam;
+    var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, fechat, fechat, 0, 0);
+    model.addAttribute("creaTarea", creaTarea);
+        return "nuevaTarea";
+    }
+    
+    
+    
 }

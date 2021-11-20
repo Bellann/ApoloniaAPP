@@ -64,6 +64,7 @@
                                 <ul>
                                     <li>Fecha real de incio: <span th:text="${tareasEjecutadas.fRealInicio}">fecha de inicio prevista</span></li>
                                     <li>Fecha real de término: <span th:text="${tareasEjecutadas.fRealFin}">fecha de inicio prevista</span></li>
+                                    
                                 </ul>
                             </p>
                             <p><span style="background-color:#FFE900;">semaforo no implementado</span></li></p>
@@ -78,8 +79,9 @@
                             <p><b>Observaciones:</b></p>
 
                             <!-- Prueba RESPONSABLES -- BORRAR DESPUES -->
-                            <div th:each="tareasEjecutadas.responsables  : ${tareasEjecutadas.responsables}">
-                                <p th:text="${tareasEjecutadas.responsables.id}"></p>
+                            RESPONSABLES
+                            <div th:each=" responsable : ${tareasEjecutadas.responsables}">
+                                <p th:text="${responsable.runFuncionario }"></p>
                             </div>
 
 

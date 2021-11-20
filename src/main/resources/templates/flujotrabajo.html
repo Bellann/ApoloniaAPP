@@ -53,7 +53,12 @@
                         <td th:text="${misProcesos.fechaPrevistaFin}"></td>
                         <td th:text="${misProcesos.asignadoPor}"></td>
                         <td th:text="${misProcesos.estado}"></td>
-                        <td> <a class="dropdown-item" th:href="@{/nuevaTarea(r=${misProcesos.idProceso})}"><button class="btn-flujo">Nueva Tarea</button></a></td>
+                        
+                        <td>
+                            <form method="POST" th:action="@{/nuevaTarea(r=${misProcesos.idProceso}, n=${misProcesos.nombreProceso})}">
+                                
+                                    <button class="btn-flujo" type="submit">Nueva Tarea</button></form>
+                        </td>
 
                     </tr>
 

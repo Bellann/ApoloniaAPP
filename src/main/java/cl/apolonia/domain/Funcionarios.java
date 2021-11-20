@@ -25,7 +25,8 @@ public class Funcionarios implements Serializable {
     private String password;
     private int id_estado_usuario;
     private int id_rol;
-    private String rut_unidad;
+    @Column(name="RUT_UNIDAD")
+    private String rutunidad;
     private Integer idSubunidad;
     private String username;
     

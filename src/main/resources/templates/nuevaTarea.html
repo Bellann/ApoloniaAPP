@@ -5,67 +5,146 @@
     <head th:fragment="head">
         <title>Apolonia</title>
         <meta charset="UTF-8"/>
-        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <!-- Date Picker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css" integrity="sha512-p4vIrJ1mDmOVghNMM4YsWxm0ELMJ/T0IkdEvrkNHIcgFsSzDi/fV7YxzTzb3mnMvFPawuIyIrHcpxClauEfpQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Bootstrap -->
+        <link th:rel="stylesheet" th:href="@{webjars/bootstrap/5.1.2/css/bootstrap.min.css} "/> 
+        <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.15.4/css/all.css} "/>
+        <!-- Personalizados -->
         <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
         <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
-        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
-        crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <!-- Data table -->
+        <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/> 
+
+
 
     </head>
 
     <body>
+        <header th:replace="layout/plantilla :: header"></header><!-- Menu y saludo -->
 
-        <p th:text="${r}"></p> ID PROCESO
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h1> Nueva tarea del proceso : </h1>
+                    <h2> Nueva tarea del proceso : <span th:text="${nombreProceso}"></span></h2>
                 </div>
             </div>
-            <form>
+            <form th:action="@{/CrearNuevaTarea}">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>Nombre</p>  
-                            <input type="text" placeholder="Ingrese el nombre para la nueva tarea" class="form-control" id="nombre">
+                            ID PROCESO <p th:text="${r}"></p> 
+                            <input type="hidden" th:name="idproceso" th:value="${r}"/>
+                            <h3>Nombre de la tarea</h3>  
+                            <input type="text" placeholder="Ingrese el nombre para la nueva tarea" class="form-control" id="nombre" th:name="nombre">
+                                <p class="text-danger" th:text="${errorNombre}"></p>
                                 </br>
-                                <p>Descripcion</p>  
-                                <textarea class="form-control" id="descripcion" rows="5" placeholder="Ingrese la descripcion de la tarea"></textarea>
+                                <h3>Descripcion</h3>  
+                                <textarea class="form-control" id="descripcion" rows="5" placeholder="Ingrese la descripcion de la tarea" th:name="descripcion"></textarea>
+                                <p class="text-danger" th:text="${errorDescripcion}"></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <div th:each="tareaejecutada  : ${tareaejecutada}">
-                                <p th:text="${tareaejecutada}"
+                            <h3>Asigne responsable(s) a la tarea</h3>
+                            <div th:each="responsable : ${funcionariosList}" th:object="${responsables}">
+                                <input type="checkbox" th:value="${responsable.run} ?: '(not specified)'" id="checked" th:name="responsable">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        <p th:text="${responsable.nombres}+' '+${responsable.apellidop}"></p>
+                                    </label>
                             </div>
+                            <p class="text-danger" th:text="${errorAsignado}"></p>
+
                         </div>
                         <div class="col-md-6">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-6">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                        </div>
-                        <div class="col-md-4">
+                            <h3>Fechas y duración de la tarea</h3>
+                            <div class="col-md-3">
+                                <label for="inicio">Fecha inicial prevista</label>
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" id="fInicial" autocomplete="off" th:name="fechai" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label for="termino">Fecha termino prevista</label>
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" id="fInicial" autocomplete="off" th:name="fechat" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                </br>
+                                <label for="duracion">Duración de la tarea: </label>
+                                <input type="number" value="1" min="1" max="365" step="1" th:name="duracion"/>&nbsp;días
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Seleccione si esta tarea debe ser realizada después de otra (opcional)</h3>
+                <span th:if="${tareas == null or tareas.empty}"> Este proceso no tiene tareas en ejecución</span>
+                <div th:each="dependencia : ${tareas}">
+                    <input type="checkbox" th:value="${dependencia.idtarea}" id="checked2" th:name="dependencia">
+                        <label class="form-check-label" for="defaultCheck3">
+                            <p th:text="${dependencia.tarea}"></p>
+                        </label>
+                </div>
+                
+                </div>
 
 
 
+
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <input type="submit" value="crear tarea" 
+                       class="btn-flujo" id="btnvalida"/>
+            </div>
+        </div>
+        </div>
+        </div>
+        </form>
+            <p th:text="${creaTarea}"></p>
+
+
+        <!-- Scripts -->
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        <script th:src="@{/js/nuevatarea.js}"></script>
+        <script th:src="@{/js/datatables.min.js}"></script>
+        <!-- Data Picker -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+            $('.input-group.date').datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                format: 'yyyy-mm-dd',
+                languaje: "es"
+            });
+        </script>
+        <script src="src/bootstrap-input-spinner.js"></script>
+        <script>
+            $("input[type='number']").inputSpinner();
+        </script>
     </body>
 </html>

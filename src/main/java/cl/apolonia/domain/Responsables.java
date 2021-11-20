@@ -23,4 +23,39 @@ public class Responsables implements Serializable {
     
     @Column(name="RUN_FUNCIONARIO")
     private String runFuncionario;
+
+    public Responsables() {
+    }
+
+    public Responsables(Integer id, Integer idtarea, String runFuncionario) {
+        this.id = id;
+        this.idtarea = idtarea;
+        this.runFuncionario = runFuncionario;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getIdtarea() {
+        return idtarea;
+    }
+
+    public void setIdtarea(Integer idtarea) {
+        this.idtarea = idtarea;
+    }
+
+    public String getRunFuncionario() {
+        return runFuncionario;
+    }
+
+    public void setRunFuncionario(String runFuncionario) {
+        this.runFuncionario = runFuncionario;
+    }
+    
+    
 }
