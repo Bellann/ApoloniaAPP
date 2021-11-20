@@ -208,7 +208,6 @@ public class ControladorInicio {
                                    @RequestParam(value = "responsable",required=false) String responsable,
                                    @RequestParam(value = "idproceso") int idproceso,
                                    @RequestParam(value = "fechai" )String fechai,
-                                   @RequestParam(value = "fechat" )String fechat,
                                    @RequestParam(value = "duracion" )int duracion,
                                    @RequestParam(value = "dependencia",required=false)String dependencia,
                                    Model model){
@@ -216,7 +215,7 @@ public class ControladorInicio {
     var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
     
     var nombre = urlParam;
-    var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, fechat, fechat, 0, 0);
+    var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, fechai, 0, 0);
     model.addAttribute("creaTarea", creaTarea);
         return "nuevaTarea";
     }

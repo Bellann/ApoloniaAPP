@@ -9,6 +9,6 @@ public interface TareasEjecutadasServices {
      *
      * @return confirmacion de creacion de tarea ejecutada segun proceso tipo
      */
-    boolean crearTarea(int idproceso, String nombre, String descripcion, int duracion, String fecha1, String fecha2, int dependencia, int desagregada);
+    boolean crearTarea(int idproceso, String nombre, String descripcion, int duracion, String fecha1, int dependencia, int desagregada);
     
 }

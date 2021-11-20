@@ -29,7 +29,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     EntityManager entityManager;
 
     @Override
-    public boolean crearTarea(int idproceso, String nombre, String descripcion, int duracion, String fecha1, String fecha2, int dependencia, int desagregada) {
+    public boolean crearTarea(int idproceso, String nombre, String descripcion, int duracion, String fecha1, int dependencia, int desagregada) {
         try {
             int idTareaEjecutada = 0;
             //Pasar de String a Date las variables de fechas
