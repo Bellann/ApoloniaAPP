@@ -76,20 +76,30 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     }
 
     public LocalDate sumaDiasDeDuracion(Date fechaInicial, int days) {
-      //pasar el util.date a local date
+      
+        System.out.println(fechaInicial);
+        
+        //pasar el util.date a local date
         LocalDate result = fechaInicial.toInstant()
       .atZone(ZoneId.systemDefault())
       .toLocalDate();
-        
+        System.out.println(result);
       //agregar días
        int addedDays = 0;
         while (addedDays < days) {
-           result = result.plusDays(1);
-           if (!(result.getDayOfWeek() == DayOfWeek.SUNDAY || result.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+           
+            System.out.println(result);
+            System.out.println(result.getDayOfWeek());
+            
+            result = result.plusDays(1);
+            
+            System.out.println(result);
+            System.out.println(result.getDayOfWeek());
+
+           if (!(result.getDayOfWeek().toString() == "SATURDAY" || result.getDayOfWeek().toString() == "SUNDAY")) {
                ++addedDays;
            }
-        }
-        
+        }        
         return result;
     }
 }
