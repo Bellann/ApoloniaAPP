@@ -31,7 +31,7 @@
                     <h2> Nueva tarea del proceso : <span th:text="${nombreProceso}"></span></h2>
                 </div>
             </div>
-            <form th:action="@{/CrearNuevaTarea}">
+            <form th:action="@{/CrearNuevaTarea}" method="POST">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">

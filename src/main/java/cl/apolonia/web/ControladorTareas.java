@@ -90,7 +90,7 @@ public class ControladorTareas {
         return "nuevaTarea";
     }
 
-    @GetMapping("/CrearNuevaTarea")
+    @PostMapping("/CrearNuevaTarea")
     public String CrearNuevaTarea(
             @RequestParam(value = "nombre") String urlParam,
             @RequestParam(value = "descripcion") String descripcion,
@@ -107,9 +107,6 @@ public class ControladorTareas {
         var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
 
         //var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, d, 0, 0);
-        //model.addAttribute("creaTarea", creaTarea);
-        model.addAttribute("fecha", fechai);
-        model.addAttribute("local", local2);
         return "nuevaTarea";
     }
 

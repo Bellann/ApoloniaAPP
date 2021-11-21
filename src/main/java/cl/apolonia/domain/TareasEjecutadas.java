@@ -52,12 +52,6 @@ public class TareasEjecutadas {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fRealFin;
     
-    @Column(name="CON_DEPENDENCIAS")
-    private int dependencias;
-    
-    @Column(name="ESTA_DESAGREGADA")
-    private int segregada;
-    
     @Column(name="ESTADO")
     private String estado;
     
@@ -104,8 +98,6 @@ public class TareasEjecutadas {
         this.fPrevFin = fPrevFin;
         this.fRealInicio = fRealInicio;
         this.fRealFin = fRealFin;
-        this.dependencias = dependencias;
-        this.segregada = segregada;
         this.estado = estado;
         this.unidad = unidad;
         this.subunidad = subunidad;
@@ -196,22 +188,6 @@ public class TareasEjecutadas {
 
     public void setfRealFin(Date fRealFin) {
         this.fRealFin = fRealFin;
-    }
-
-    public int getDependencias() {
-        return dependencias;
-    }
-
-    public void setDependencias(int dependencias) {
-        this.dependencias = dependencias;
-    }
-
-    public int getSegregada() {
-        return segregada;
-    }
-
-    public void setSegregada(int segregada) {
-        this.segregada = segregada;
     }
 
     public String getEstado() {

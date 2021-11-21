@@ -16,6 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
         registro.addViewController("/ejecutarproceso");
         registro.addViewController("/funcionarios");
         registro.addViewController("/gestionartarea/**");
+        registro.addViewController("/nuevaTarea/**");
         registro.addViewController("/errores/403").setViewName("error 403");
     }
 
