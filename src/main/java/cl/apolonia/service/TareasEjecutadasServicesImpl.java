@@ -55,22 +55,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
         creaTarea.execute();
         
-        StoredProcedureQuery creaResponsable = entityManager
-                .createStoredProcedureQuery("c_resp_tarea_ejec")
-                .registerStoredProcedureParameter(0, int.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(3, int.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(4, String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(5, String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(6, int.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(7, int.class, ParameterMode.IN);
-                //.registerStoredProcedureParameter(8, int.class, ParameterMode.OUT);
-        creaResponsable.setParameter(0, idproceso);
-        creaResponsable.setParameter(1, nombre);
-
-
-        creaResponsable.execute();
 
         return true;
     }

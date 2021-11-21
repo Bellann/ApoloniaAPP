@@ -14,7 +14,7 @@ import org.hibernate.annotations.NamedNativeQuery;
         query = "(? = call r_tarea_eject_all())",
         resultClass = Procesos.class)
 @Table(name="TAREASEJECUTADAS")
-public class TareasEjecutadas {
+public class TareasEjecutadas implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

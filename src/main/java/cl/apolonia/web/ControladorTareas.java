@@ -5,6 +5,7 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
@@ -13,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -106,7 +108,9 @@ public class ControladorTareas {
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
         var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
 
-        //var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, d, 0, 0);
+        var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, d);
+        Integer encontrado = tareasEjecutadasDao.findByTarea(nombre).get().getIdtarea();
+        model.addAttribute("encontrado", encontrado);
         return "nuevaTarea";
     }
 
