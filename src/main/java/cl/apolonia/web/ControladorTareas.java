@@ -97,22 +97,19 @@ public class ControladorTareas {
             @RequestParam(value = "responsable", required = false) String responsable,
             @RequestParam(value = "idproceso") int idproceso,
             @RequestParam(value = "fechai") String fechai,
-            @RequestParam(value = "duracion") String duracion,
+            @RequestParam(value = "duracion") int duracion,
             @RequestParam(value = "dependencia", required = false) String dependencia,
             Model model) throws ParseException {
         //variables
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var nombre = urlParam;
-
-
-        
-        //Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
-        //var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, 2);
+        Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
+        var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
 
         //var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, d, 0, 0);
         //model.addAttribute("creaTarea", creaTarea);
         model.addAttribute("fecha", fechai);
-        //model.addAttribute("local", local2);
+        model.addAttribute("local", local2);
         return "nuevaTarea";
     }
 

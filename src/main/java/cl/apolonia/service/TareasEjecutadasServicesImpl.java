@@ -58,11 +58,13 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return true;
     }
 
-    public LocalDate sumaDiasDeDuracion(Date dateToConvert, int days) {
-        LocalDate result = dateToConvert.toInstant()
+    public LocalDate sumaDiasDeDuracion(Date fechaInicial, int days) {
+      //pasar el util.date a local date
+        LocalDate result = fechaInicial.toInstant()
       .atZone(ZoneId.systemDefault())
       .toLocalDate();
-
+        
+      //agregar días
        int addedDays = 0;
         while (addedDays < days) {
            result = result.plusDays(1);
