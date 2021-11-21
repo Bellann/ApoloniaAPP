@@ -6,13 +6,12 @@ import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.service.FuncionariosService;
-import cl.apolonia.service.ProcesoEjecutadosService;
-import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,15 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ControladorTareas {
-    
+
     @Autowired
     private FuncionariosService funcionariosService;
-
-    @Autowired
-    private ProcesoEjecutadosService procesoEjecutadosService;
-
-    @Autowired
-    private ProcesosSerivce procesosService;
 
     @Autowired
     private ProcesosDao procesosDao;
@@ -56,8 +49,7 @@ public class ControladorTareas {
 
     @Autowired
     private TareasTipoDao tareasTipoDao;
-    
-    
+
     @GetMapping("/gestionartarea")
     public String gestionarTarea(@RequestParam(value = "r") String urlParam,
             @RequestParam(value = "i") Integer i, Model model) {
@@ -76,45 +68,52 @@ public class ControladorTareas {
 
         return "gestionartarea";
     }
-    
+
     @PostMapping("/nuevaTarea")
     public String nuevaTarea(@RequestParam(value = "r") int urlParam,
-                             @RequestParam(value = "n") String n, 
-                             Model model){
-    //variables
-    var r = urlParam;
-    var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
-    var tareas = tareasEjecutadasDao.findByIdProcesoEjecutado(r);
-    //modelo
-    model.addAttribute("tareas", tareas);
-    model.addAttribute("r", r);
-    model.addAttribute("nombreProceso", n);
-    model.addAttribute("funcionariosList", funcionariosList);
-    return "nuevaTarea";
+            @RequestParam(value = "n") String n,
+            Model model) {
+        //variables
+
+        var r = urlParam;
+        var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
+        var tareas = tareasEjecutadasDao.findByIdProcesoEjecutado(r);
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        //modelo
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("tareas", tareas);
+        model.addAttribute("r", r);
+        model.addAttribute("nombreProceso", n);
+        model.addAttribute("funcionariosList", funcionariosList);
+        return "nuevaTarea";
     }
 
     @GetMapping("/CrearNuevaTarea")
-    public String CrearNuevaTarea (
-                                   @RequestParam(value ="nombre") String urlParam, 
-                                   @RequestParam(value = "descripcion") String descripcion,
-                                   @RequestParam(value = "responsable",required=false) String responsable,
-                                   @RequestParam(value = "idproceso") int idproceso,
-                                   @RequestParam(value = "fechai" )String fechai,
-                                   @RequestParam(value = "duracion" )int duracion,
-                                   @RequestParam(value = "dependencia",required=false)String dependencia,
-                                   Model model) throws ParseException{
-    //variables
-    var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
-    
-    var nombre = urlParam;
-    Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
+    public String CrearNuevaTarea(
+            @RequestParam(value = "nombre") String urlParam,
+            @RequestParam(value = "descripcion") String descripcion,
+            @RequestParam(value = "responsable", required = false) String responsable,
+            @RequestParam(value = "idproceso") int idproceso,
+            @RequestParam(value = "fechai") String fechai,
+            @RequestParam(value = "duracion") String duracion,
+            @RequestParam(value = "dependencia", required = false) String dependencia,
+            Model model) throws ParseException {
+        //variables
+        var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
+        var nombre = urlParam;
 
-    //var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, d, 0, 0);
-    //model.addAttribute("creaTarea", creaTarea);
-    model.addAttribute("fecha", d);
-    //model.addAttribute("fecha2", fechaF);
+
+        
+        //Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
+        //var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, 2);
+
+        //var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, d, 0, 0);
+        //model.addAttribute("creaTarea", creaTarea);
+        model.addAttribute("fecha", fechai);
+        //model.addAttribute("local", local2);
         return "nuevaTarea";
     }
-    
-    
+
 }
