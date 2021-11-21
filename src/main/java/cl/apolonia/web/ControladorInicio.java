@@ -14,7 +14,6 @@ import cl.apolonia.service.procParticipoService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -100,42 +99,7 @@ public class ControladorInicio {
 
     }
 
-    @GetMapping("/ejecutarproceso")
-    public String ejecutarproceso(Model model) {
-        var procesos = procesosService.listarProcesos();
-        var nombreCompleto = funcionariosService.nombreCompleto();
-        var rolSaludo = funcionariosService.rolSaludo();
-        var listaProcesos = procesosTipoService.listarPorUnidad(funcionariosService.rutUnidad());
-        //var procesotipo = procesosTipoDao.findByNombre("Prueba Proceso");
-        //model.addAttribute("procesotipo", procesotipo);
-        model.addAttribute("nusuario", nombreCompleto);
-        model.addAttribute("rolsaludo", rolSaludo);
-        model.addAttribute("procesos", procesos);
-        model.addAttribute("listaProcesos", listaProcesos);
-
-        return "ejecutarproceso";
-    }
-
-    @GetMapping(value = {"/enviarid"})
-    public String tareasporproceso(@RequestParam(value = "nombre") String urlParam, Model model) {
-        var nombre = urlParam;
-        var procesotipo = procesosTipoDao.findByNombre(nombre);
-        var idProceso = procesosTipoService.getId(nombre);
-        var tareasProceso = tareasTipoDao.findByIdProcesoTipo(idProceso);
-        var nombreCompleto = funcionariosService.nombreCompleto();
-        var rolSaludo = funcionariosService.rolSaludo();
-        var funcionarios = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
-        model.addAttribute("procesotipo", procesotipo);
-        model.addAttribute("nombre", nombre);
-        model.addAttribute("idProceso", idProceso);
-        model.addAttribute("tareasProceso", tareasProceso);
-        model.addAttribute("nusuario", nombreCompleto);
-        model.addAttribute("rolsaludo", rolSaludo);
-        model.addAttribute("funcionarios", funcionarios);
-
-        return "ejecutarproceso";
-    }
-
+   
     @GetMapping("/flujoempresa")
     public String flujoempresa(Model model) {
 
@@ -160,62 +124,6 @@ public class ControladorInicio {
 
     }
 
-    @GetMapping("/gestionartarea")
-    public String gestionarTarea(@RequestParam(value = "r") String urlParam,
-            @RequestParam(value = "i") Integer i, Model model) {
-        var tareasEjecutadas = tareasEjecutadasDao.findByRunResponsableAndIdtarea(urlParam, i);
-        var funcionarios = funcionariosService.listarFuncionarios();
-        var nombreCompleto = funcionariosService.nombreCompleto();
-        var rolSaludo = funcionariosService.rolSaludo();
-        var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
-        model.addAttribute("run", urlParam);
-        model.addAttribute("id", i);
-        model.addAttribute("tareasEjecutadas", tareasEjecutadas);
-        model.addAttribute("funcionarios", funcionarios);
-        model.addAttribute("nusuario", nombreCompleto);
-        model.addAttribute("rolsaludo", rolSaludo);
-        model.addAttribute("funcionariosList", funcionariosList);
-
-        return "gestionartarea";
-    }
-    
-    @PostMapping("/nuevaTarea")
-    public String nuevaTarea(@RequestParam(value = "r") int urlParam,
-                             @RequestParam(value = "n") String n, 
-                             Model model){
-    //variables
-    var r = urlParam;
-    var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
-    var tareas = tareasEjecutadasDao.findByIdProcesoEjecutado(r);
-    //modelo
-    model.addAttribute("tareas", tareas);
-    model.addAttribute("r", r);
-    model.addAttribute("nombreProceso", n);
-    model.addAttribute("funcionariosList", funcionariosList);
-    return "nuevaTarea";
-    }
-
-    @GetMapping("/CrearNuevaTarea")
-    public String CrearNuevaTarea (
-                                   @RequestParam(value ="nombre") String urlParam, 
-                                   @RequestParam(value = "descripcion") String descripcion,
-                                   @RequestParam(value = "responsable",required=false) String responsable,
-                                   @RequestParam(value = "idproceso") int idproceso,
-                                   @RequestParam(value = "fechai" )String fechai,
-                                   @RequestParam(value = "duracion" )int duracion,
-                                   @RequestParam(value = "dependencia",required=false)String dependencia,
-                                   Model model) throws ParseException{
-    //variables
-    var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
-    
-    var nombre = urlParam;
-    //Date d = new SimpleDateFormat("yyyy/MM/dd").parse("2013-07-01");
-    var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, fechai, 0, 0);
-    model.addAttribute("creaTarea", creaTarea);
-    //model.addAttribute("fecha", d);
-        return "nuevaTarea";
-    }
-    
     
     
 }

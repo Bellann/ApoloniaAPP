@@ -94,12 +94,7 @@
                             <p th:text="${dependencia.tarea}"></p>
                         </label>
                 </div>
-
             </div>
-
-
-
-
         </div>
         <div class="col-md-6">
         </div>
@@ -117,6 +112,7 @@
         </div>
         </form>
         <p th:text="${fecha}"></p>
+        <p th:text="${crearTarea}"></p>
 
 
         <!-- Scripts -->
@@ -132,7 +128,7 @@
             $('.input-group.date').datepicker({
                 autoclose: true,
                 todayHighlight: true,
-                format: 'yyyy-mm-dd',
+                format: 'yyyy/mm/dd',
                 languaje: "es"
             });
         </script>
