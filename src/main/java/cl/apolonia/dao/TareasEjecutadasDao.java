@@ -2,6 +2,7 @@ package cl.apolonia.dao;
 
 import cl.apolonia.domain.TareasEjecutadas;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TareasEjecutadasDao extends JpaRepository<TareasEjecutadas, Integer> {
@@ -15,6 +16,9 @@ public interface TareasEjecutadasDao extends JpaRepository<TareasEjecutadas, Int
     List<TareasEjecutadas> findByRunResponsableAndIdtarea(String runResponsable, Integer idtarea);
     
     List<TareasEjecutadas> findByIdProcesoEjecutado(int idProcesoEjecutado);
+    
+    Optional<TareasEjecutadas> findByTarea(String tarea); 
+   
     
     
 }
