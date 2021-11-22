@@ -14,7 +14,7 @@ public interface TareasEjecutadasServices {
     
 
     
-   
+   LocalDate sumaDiasDeDuracion(Date fechaInicial, int days);
     
     
 }

@@ -37,6 +37,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
         //Dar fomato a las fechas Date 
         String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
+
         //Sumar días de duracion
         LocalDate fechaSumar = sumaDiasDeDuracion(tarea.getfPrevInicio(), duracion);
         //paso a String fecha final
@@ -62,10 +63,10 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             var id = (Integer) creaTarea.getOutputParameterValue("i_id_tarea");
             tarea.setIdtarea(id);
 
+
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 
@@ -86,7 +87,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                 ++addedDays;
             }
         }
-
         return result;
     }
 
