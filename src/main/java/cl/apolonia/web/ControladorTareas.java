@@ -111,18 +111,20 @@ public class ControladorTareas {
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var nombre = urlParam;
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
-        
+
         responsable.stream().forEach((p)-> System.out.println(p));
 //        var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
-        if(tareasEjecutadasService.crearTarea(tarea))
+        if(tareasEjecutadasService.crearTarea(tarea,duracion))
         {
-            
+           //COLOCAR ALERT 
         }
         else
         {
-            
+            //COLOCAR ALERT
         }
+        var responable = tareasEjecutadasService.ListaResponsable(tarea.getIdtarea(), responsable);
+        model.addAttribute("responable", responable);
 
         return "nuevaTarea";
     }

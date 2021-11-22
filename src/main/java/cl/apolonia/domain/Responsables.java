@@ -32,6 +32,11 @@ public class Responsables implements Serializable {
         this.idtarea = idtarea;
         this.runFuncionario = runFuncionario;
     }
+    
+    public Responsables(Integer idtarea, String runFuncionario) {
+        this.idtarea = idtarea;
+        this.runFuncionario = runFuncionario;
+    }
 
     public Integer getId() {
         return id;
