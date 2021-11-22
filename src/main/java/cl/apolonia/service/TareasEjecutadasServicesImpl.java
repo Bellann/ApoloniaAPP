@@ -5,17 +5,12 @@
 package cl.apolonia.service;
 
 import cl.apolonia.dao.TareasEjecutadasDao;
-import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
-import static java.lang.Integer.parseInt;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -135,6 +130,42 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean crearEstado(TareasEjecutadas tarea) {
+        try {
+            
+            //Estado inicial siempre sera 1, para avanzar en los estados sera el update
+            int estado=1;
+            //Fecha del dia de ejecucion LocalDate + paso a String para mandar a oracle
+            
+            String fecha =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+            StoredProcedureQuery creaEstado = entityManager
+                    .createStoredProcedureQuery("c_tarea_eject_estados")
+                    .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fecha_estado", int.class, ParameterMode.IN)
+            .registerStoredProcedureParameter("i_run_funcionario", int.class, ParameterMode.IN)
+            .registerStoredProcedureParameter("i_id_estado_tarea", int.class, ParameterMode.IN);
+            creaEstado.setParameter("i_id_tarea_ejecutada", tarea.getIdtarea());
+            creaEstado.setParameter("i_fecha_estado", fecha);
+            creaEstado.setParameter("i_run_funcionario", tarea.getResponsables());
+            creaEstado.setParameter("i_id_estado_tarea", estado);
+
+            creaEstado.execute();
+
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public TareasEjecutadas encontrarTarea(TareasEjecutadas tareasEjecutadas) {
+        
+        return tareasEjecutadasDao.findById(tareasEjecutadas.getIdtarea()).orElse(null);
     }
 
 

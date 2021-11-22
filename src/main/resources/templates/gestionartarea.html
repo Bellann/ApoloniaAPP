@@ -64,7 +64,7 @@
                                 <ul>
                                     <li>Fecha real de incio: <span th:text="${tareasEjecutadas.fRealInicio}">fecha de inicio prevista</span></li>
                                     <li>Fecha real de término: <span th:text="${tareasEjecutadas.fRealFin}">fecha de inicio prevista</span></li>
-                                    
+
                                 </ul>
                             </p>
                             <p><span style="background-color:#FFE900;">semaforo no implementado</span></li></p>
@@ -137,7 +137,7 @@
                                                             <p>¿Desea continuar?</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn-flujo" >Si</button>
+                                                            <a th:href="@{/AceptarTarea/}+ ${tareasEjecutadas.idtarea}"><button type="button" class="btn-flujo" >Si</button></a>
                                                             <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
                                                         </div>
                                                     </div>
@@ -330,8 +330,10 @@
 
 
                                             </div>
+                                            </div>
+                                            </div>
 
-
+                                            <footer th:replace="layout/plantilla :: footer"></footer>
 
 
 
@@ -340,62 +342,54 @@
 
                                                 /*<![CDATA[*/
 
-                                                var estado = [[${tareasEjecutadas.estado
-                                                }
-                                                ]];
+                                                var estado = 'programada';
                                                 //*]]>*/
                                                 switch (estado) {
-                                                case 'Programada':
+                                                    case 'Programada':
                                                         document.getElementById("aceptarModalBtn").disabled = false;
-                                                document.getElementById("inciarModalBtn").disabled = false;
-                                                document.getElementById("subordinarModalBtn").disabled = false;
-                                                document.getElementById("reportarModalBtn").disabled = false;
-                                                document.getElementById("terminarModalBtn").disabled = false;
-                                                document.getElementById("rechazarModalBtn").disabled = false;
-                                                break;
-                                                case 'Aceptada':
-                                                        document.getElementById("aceptarModalBtn").disabled = false;
-                                                document.getElementById("inciarModalBtn").disabled = true;
-                                                document.getElementById("subordinarModalBtn").disabled = false;
-                                                document.getElementById("reportarModalBtn").disabled = true;
-                                                document.getElementById("terminarModalBtn").disabled = false;
-                                                document.getElementById("rechazarModalBtn").disabled = true;
-                                                break;
-                                                case 'En Desarrollo':
-                                                        document.getElementById("aceptarModalBtn").disabled = false;
-                                                document.getElementById("inciarModalBtn").disabled = false;
-                                                document.getElementById("subordinarModalBtn").disabled = true;
-                                                document.getElementById("reportarModalBtn").disabled = true;
-                                                document.getElementById("terminarModalBtn").disabled = true;
-                                                document.getElementById("rechazarModalBtn").disabled = false;
-                                                break;
-                                                case 'Rechazada':
-                                                        document.getElementById("aceptarModalBtn").disabled = true;
-                                                document.getElementById("inciarModalBtn").disabled = false;
-                                                document.getElementById("subordinarModalBtn").disabled = false;
-                                                document.getElementById("reportarModalBtn").disabled = false;
-                                                document.getElementById("terminarModalBtn").disabled = false;
-                                                document.getElementById("rechazarModalBtn").disabled = false;
-                                                break;
-                                                case 'Terminada':
+                                                        document.getElementById("inciarModalBtn").disabled = false;
+                                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                                        document.getElementById("reportarModalBtn").disabled = false;
+                                                        document.getElementById("terminarModalBtn").disabled = false;
+                                                        document.getElementById("rechazarModalBtn").disabled = false;
                                                         break;
-                                                default:
+                                                    case 'Aceptada':
+                                                        document.getElementById("aceptarModalBtn").disabled = false;
+                                                        document.getElementById("inciarModalBtn").disabled = true;
+                                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                                        document.getElementById("reportarModalBtn").disabled = true;
+                                                        document.getElementById("terminarModalBtn").disabled = false;
+                                                        document.getElementById("rechazarModalBtn").disabled = true;
+                                                        break;
+                                                    case 'En Desarrollo':
+                                                        document.getElementById("aceptarModalBtn").disabled = false;
+                                                        document.getElementById("inciarModalBtn").disabled = false;
+                                                        document.getElementById("subordinarModalBtn").disabled = true;
+                                                        document.getElementById("reportarModalBtn").disabled = true;
+                                                        document.getElementById("terminarModalBtn").disabled = true;
+                                                        document.getElementById("rechazarModalBtn").disabled = false;
+                                                        break;
+                                                    case 'Rechazada':
                                                         document.getElementById("aceptarModalBtn").disabled = true;
-                                                document.getElementById("inciarModalBtn").disabled = true;
-                                                document.getElementById("subordinarModalBtn").disabled = true;
-                                                document.getElementById("reportarModalBtn").disabled = true;
-                                                document.getElementById("terminarModalBtn").disabled = true;
-                                                document.getElementById("rechazarModalBtn").disabled = true;
-                                                break;
+                                                        document.getElementById("inciarModalBtn").disabled = false;
+                                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                                        document.getElementById("reportarModalBtn").disabled = false;
+                                                        document.getElementById("terminarModalBtn").disabled = false;
+                                                        document.getElementById("rechazarModalBtn").disabled = false;
+                                                        break;
+                                                    case 'Terminada':
+                                                        break;
+                                                    default:
+                                                        document.getElementById("aceptarModalBtn").disabled = true;
+                                                        document.getElementById("inciarModalBtn").disabled = true;
+                                                        document.getElementById("subordinarModalBtn").disabled = true;
+                                                        document.getElementById("reportarModalBtn").disabled = true;
+                                                        document.getElementById("terminarModalBtn").disabled = true;
+                                                        document.getElementById("rechazarModalBtn").disabled = true;
+                                                        break;
                                                 }
 
                                             </script>
-                                            </div>
-                                            </div>
-
-                                            <footer th:replace="layout/plantilla :: footer"></footer>
-
-
 
                                             </body>
 

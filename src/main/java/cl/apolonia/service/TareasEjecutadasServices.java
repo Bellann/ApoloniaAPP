@@ -1,6 +1,5 @@
 package cl.apolonia.service;
 
-import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
 import java.time.LocalDate;
 import java.util.Date;
@@ -12,11 +11,10 @@ public interface TareasEjecutadasServices {
     boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String>responsables, List<String> dependencias);
     boolean crearResponsables(TareasEjecutadas tarea, String responsable);
     boolean crearDependencia(TareasEjecutadas tarea, String dependencia);
-    //boolean crearResponsable ():
-    
-
-    
+    boolean crearEstado(TareasEjecutadas tarea);
+       
    LocalDate sumaDiasDeDuracion(Date fechaInicial, int days);
+   TareasEjecutadas encontrarTarea (TareasEjecutadas tareasEjecutadas);
     
     
 }

@@ -18,7 +18,7 @@
     <body>
         <header th:replace="layout/plantilla :: header"></header>
         
-        <a sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" th:href="@{/prueba}">ejecutar proceso</a>
+        <p th:text="${tarea}"></p>
 
         <div>TODO write content</div>
     </body>
