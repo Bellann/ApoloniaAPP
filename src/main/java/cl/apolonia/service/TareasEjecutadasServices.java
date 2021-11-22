@@ -14,7 +14,7 @@ public interface TareasEjecutadasServices {
     boolean crearEstado(TareasEjecutadas tarea);
        
    LocalDate sumaDiasDeDuracion(Date fechaInicial, int days);
-   TareasEjecutadas encontrarTarea (TareasEjecutadas tareasEjecutadas);
+   TareasEjecutadas encontrarTarea (Integer id);
     
     
 }

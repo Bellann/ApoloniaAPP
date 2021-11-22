@@ -17,7 +17,9 @@ public interface TareasEjecutadasDao extends JpaRepository<TareasEjecutadas, Int
     
     List<TareasEjecutadas> findByIdProcesoEjecutado(int idProcesoEjecutado);
     
-    Optional<TareasEjecutadas> findByTarea(String tarea); 
+    Optional<TareasEjecutadas> findByTarea(String tarea);
+    
+    Optional<TareasEjecutadas> findFirstByIdtarea(Integer id); 
    
     
     
