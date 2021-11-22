@@ -1,11 +1,14 @@
 package cl.apolonia.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import org.hibernate.annotations.NamedNativeQuery;
+
+
 
 @Entity
 @NamedNativeQuery(
@@ -16,6 +19,7 @@ import org.hibernate.annotations.NamedNativeQuery;
 @Table(name="TAREASEJECUTADAS")
 public class TareasEjecutadas implements Serializable {
     
+    //<editor-fold defaultstate="collapsed" desc="Atributos">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_TAREA", insertable = false, updatable = false)
@@ -83,7 +87,7 @@ public class TareasEjecutadas implements Serializable {
     @OneToMany(targetEntity = Responsables.class, cascade = CascadeType.ALL)
     @JoinColumn(name="ID_TAREA_EJECUTADA")
     private List<Responsables> responsables;
-
+    //</editor-fold>
     public TareasEjecutadas() {
     }
 
@@ -110,6 +114,14 @@ public class TareasEjecutadas implements Serializable {
         this.responsables = responsables;
     }
 
+    public TareasEjecutadas(String tarea, Date fPrevInicio, int idProcesoEjecutado, String descTarea) {
+        this.tarea = tarea;
+        this.fPrevInicio = fPrevInicio;
+        this.idProcesoEjecutado = idProcesoEjecutado;
+        this.descTarea = descTarea;
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="Getter and Setter">
     public Integer getIdtarea() {
         return idtarea;
     }
@@ -233,7 +245,7 @@ public class TareasEjecutadas implements Serializable {
     public String getProcesoEjecutado() {
         return procesoEjecutado;
     }
-
+   
     public void setProcesoEjecutado(String procesoEjecutado) {
         this.procesoEjecutado = procesoEjecutado;
     }
@@ -269,7 +281,5 @@ public class TareasEjecutadas implements Serializable {
     public void setResponsables(List<Responsables> responsables) {
         this.responsables = responsables;
     }
-
-    
-    
+    //</editor-fold>    
 }
