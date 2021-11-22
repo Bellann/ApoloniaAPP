@@ -120,7 +120,8 @@ public class ControladorTareas {
         {
             //COLOCAR ALERT
         }
-        
+        var responable = tareasEjecutadasService.ListaResponsable(tarea.getIdtarea(), responsable);
+        model.addAttribute("responable", responable);
 
         return "nuevaTarea";
     }
