@@ -14,6 +14,9 @@ public interface TareasEjecutadasServices {
     //boolean crearResponsable ():
     LocalDate sumaDiasDeDuracion(Date fecha, int duracion);
     
+    boolean crearResponsable(String runResponsable);
+    
    
+    
     
 }
