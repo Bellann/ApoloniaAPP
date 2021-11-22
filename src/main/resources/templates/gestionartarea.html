@@ -20,7 +20,7 @@
     <body>
 
         <header th:replace="layout/plantilla :: header"></header>
-
+        <p th:text="${prueba}"></p>
         <div class="contenedor-data">
             <div th:each="tareasEjecutadas  : ${tareasEjecutadas}"> <!-- INICIO DEL DIV QUE ITERA LOS DATOS -->
                 <div class="d-flex p-2 border border-secondary">

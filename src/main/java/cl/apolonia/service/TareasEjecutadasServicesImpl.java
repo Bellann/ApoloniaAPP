@@ -7,10 +7,8 @@ package cl.apolonia.service;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.domain.TareasEjecutadas;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Date;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import javax.persistence.EntityManager;
@@ -51,6 +49,30 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         creaTarea.setParameter("i_fch_previs_inicio", fechaini);
         creaTarea.setParameter("i_fch_previs_fin", fechaini);
           
+
+        String fechaIni = new SimpleDateFormat("dd/MM/yyyy").format(fecha1);
+        //Sumar días de duracion
+        LocalDate fechaSumar =sumaDiasDeDuracion(fecha1,duracion);
+        String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        StoredProcedureQuery creaTarea = entityManager
+                .createStoredProcedureQuery("c_tarea_ejecutada")
+                .registerStoredProcedureParameter(0, int.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(3, int.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(4, String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(5, String.class, ParameterMode.IN);
+                //.registerStoredProcedureParameter(8, int.class, ParameterMode.OUT);
+        creaTarea.setParameter(0, idproceso);
+        creaTarea.setParameter(1, nombre);
+        creaTarea.setParameter(2, descripcion);
+        creaTarea.setParameter(3, duracion);
+        creaTarea.setParameter(4, fechaIni);
+        creaTarea.setParameter(5, fechaTerm);
+
+
+
         creaTarea.execute();
         var id = (Integer)creaTarea.getOutputParameterValue("i_id_tarea");
         System.out.println(id);
@@ -66,26 +88,21 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return true;
     }
 
-    public String sumaDiasDeDuracion(Date fechaInicial, int days) {
-      
-        System.out.println(fechaInicial);
-        
+
+    public LocalDate sumaDiasDeDuracion(Date fechaInicial, int days) {
+
         //pasar el util.date a local date
         LocalDate result = fechaInicial.toInstant()
       .atZone(ZoneId.systemDefault())
       .toLocalDate();
-        System.out.println(result);
-      //agregar días
+
+        //agregar días
        int addedDays = 0;
         while (addedDays < days) {
            
-            System.out.println(result);
-            System.out.println(result.getDayOfWeek());
             
             result = result.plusDays(1);
             
-            System.out.println(result);
-            System.out.println(result.getDayOfWeek());
 
            if (!(result.getDayOfWeek().toString() == "SATURDAY" || result.getDayOfWeek().toString() == "SUNDAY")) {
                ++addedDays;
@@ -94,4 +111,12 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return result.format(formatter);
     }
+
+    @Override
+    public boolean crearResponsable(String runResponsable) {
+        System.out.println("chao");
+        return true;
+    }
+    
+
 }

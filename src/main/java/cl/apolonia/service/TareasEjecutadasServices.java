@@ -10,6 +10,9 @@ public interface TareasEjecutadasServices {
     boolean crearTarea(TareasEjecutadas tarea);
     //boolean crearResponsable ():
     
+    boolean crearResponsable(String runResponsable);
+    
    
+    
     
 }

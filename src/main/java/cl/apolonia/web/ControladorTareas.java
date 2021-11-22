@@ -67,6 +67,9 @@ public class ControladorTareas {
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("funcionariosList", funcionariosList);
+        
+
+        
 
         return "gestionartarea";
     }
@@ -106,6 +109,7 @@ public class ControladorTareas {
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var nombre = urlParam;
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
+
 //        var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
         if(tareasEjecutadasService.crearTarea(tarea))
@@ -116,6 +120,7 @@ public class ControladorTareas {
         {
             
         }
+
         return "nuevaTarea";
     }
 
