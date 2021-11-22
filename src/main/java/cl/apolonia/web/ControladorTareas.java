@@ -105,7 +105,7 @@ public class ControladorTareas {
             @RequestParam(value = "idproceso") int idproceso,
             @RequestParam(value = "fechai") String fechai,
             @RequestParam(value = "duracion") int duracion,
-            @RequestParam(value = "dependencia", required = false) String dependencia,
+            @RequestParam(value = "dependencia", required = false) List<String> dependencia,
             Model model) throws ParseException {
         //variables
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
@@ -115,7 +115,7 @@ public class ControladorTareas {
         responsable.stream().forEach((p)-> System.out.println(p));
 //        var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
-        if(tareasEjecutadasService.crearTarea(tarea,duracion))
+        if(tareasEjecutadasService.crearTarea(tarea,duracion, responsable, dependencia))
         {
            //COLOCAR ALERT 
         }
@@ -123,8 +123,6 @@ public class ControladorTareas {
         {
             //COLOCAR ALERT
         }
-        var responable = tareasEjecutadasService.ListaResponsable(tarea.getIdtarea(), responsable);
-        model.addAttribute("responable", responable);
 
         return "nuevaTarea";
     }

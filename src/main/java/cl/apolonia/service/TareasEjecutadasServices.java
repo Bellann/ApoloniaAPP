@@ -9,7 +9,9 @@ import java.util.List;
 public interface TareasEjecutadasServices {
     
     
-    boolean crearTarea(TareasEjecutadas tarea, int duracion);
+    boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String>responsables, List<String> dependencias);
+    boolean crearResponsables(TareasEjecutadas tarea, String responsable);
+    boolean crearDependencia(TareasEjecutadas tarea, String dependencia);
     //boolean crearResponsable ():
     
 
