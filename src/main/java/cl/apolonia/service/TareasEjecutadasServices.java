@@ -12,7 +12,7 @@ public interface TareasEjecutadasServices {
     
     boolean crearResponsable(String runResponsable);
     
-   
+   LocalDate sumaDiasDeDuracion(Date fechaInicial, int days);
     
     
 }

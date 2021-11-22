@@ -5,6 +5,7 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.*;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesosTipoService;
@@ -14,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -99,7 +101,7 @@ public class ControladorTareas {
     public String CrearNuevaTarea(
             @RequestParam(value = "nombre") String urlParam,
             @RequestParam(value = "descripcion") String descripcion,
-            @RequestParam(value = "responsable", required = false) String responsable,
+            @RequestParam(value = "responsable", required = false) List<String> responsable,
             @RequestParam(value = "idproceso") int idproceso,
             @RequestParam(value = "fechai") String fechai,
             @RequestParam(value = "duracion") int duracion,
@@ -109,7 +111,8 @@ public class ControladorTareas {
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var nombre = urlParam;
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
-
+        
+        responsable.stream().forEach((p)-> System.out.println(p));
 //        var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
         if(tareasEjecutadasService.crearTarea(tarea))

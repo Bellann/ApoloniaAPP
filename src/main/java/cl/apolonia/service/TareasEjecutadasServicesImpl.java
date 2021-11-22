@@ -48,31 +48,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         creaTarea.setParameter("i_duracion", 1);
         creaTarea.setParameter("i_fch_previs_inicio", fechaini);
         creaTarea.setParameter("i_fch_previs_fin", fechaini);
-          
-
-        String fechaIni = new SimpleDateFormat("dd/MM/yyyy").format(fecha1);
-        //Sumar días de duracion
-        LocalDate fechaSumar =sumaDiasDeDuracion(fecha1,duracion);
-        String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        StoredProcedureQuery creaTarea = entityManager
-                .createStoredProcedureQuery("c_tarea_ejecutada")
-                .registerStoredProcedureParameter(0, int.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(3, int.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(4, String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(5, String.class, ParameterMode.IN);
-                //.registerStoredProcedureParameter(8, int.class, ParameterMode.OUT);
-        creaTarea.setParameter(0, idproceso);
-        creaTarea.setParameter(1, nombre);
-        creaTarea.setParameter(2, descripcion);
-        creaTarea.setParameter(3, duracion);
-        creaTarea.setParameter(4, fechaIni);
-        creaTarea.setParameter(5, fechaTerm);
-
-
-
+        
         creaTarea.execute();
         var id = (Integer)creaTarea.getOutputParameterValue("i_id_tarea");
         System.out.println(id);
@@ -82,9 +58,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             System.out.println(e);
             return false;
         }
-        
-        
-       
         return true;
     }
 
@@ -108,8 +81,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                ++addedDays;
            }
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return result.format(formatter);
+        return result;
     }
 
     @Override
