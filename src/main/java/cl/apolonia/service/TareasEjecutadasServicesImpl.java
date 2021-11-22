@@ -5,6 +5,7 @@
 package cl.apolonia.service;
 
 import cl.apolonia.dao.TareasEjecutadasDao;
+import cl.apolonia.domain.TareasEjecutadas;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -27,9 +28,28 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     EntityManager entityManager;
 
     @Override
-    public boolean crearTarea(int idproceso, String nombre, String descripcion, int duracion, Date fecha1) {
+    public  boolean crearTarea(TareasEjecutadas tarea) {
 
         //Dar fomato a las fechas Date 
+        String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
+        try { 
+        StoredProcedureQuery creaTarea = entityManager
+                .createStoredProcedureQuery("c_tarea_ejecutada_prueba")
+                .registerStoredProcedureParameter("i_id_proceso_ejecutado", int.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("i_nombre", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("i_descripcion", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("i_duracion", int.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("i_fch_previs_inicio", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("i_fch_previs_fin", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("i_id_tarea", Integer.class, ParameterMode.OUT);
+        creaTarea.setParameter("i_id_proceso_ejecutado", tarea.getIdProcesoEjecutado());
+        creaTarea.setParameter("i_nombre", tarea.getTarea());
+        creaTarea.setParameter("i_descripcion", tarea.getDescTarea());
+        creaTarea.setParameter("i_duracion", 1);
+        creaTarea.setParameter("i_fch_previs_inicio", fechaini);
+        creaTarea.setParameter("i_fch_previs_fin", fechaini);
+          
+
         String fechaIni = new SimpleDateFormat("dd/MM/yyyy").format(fecha1);
         //Sumar días de duracion
         LocalDate fechaSumar =sumaDiasDeDuracion(fecha1,duracion);
@@ -52,14 +72,25 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         creaTarea.setParameter(5, fechaTerm);
 
 
-        creaTarea.execute();
-        
 
+        creaTarea.execute();
+        var id = (Integer)creaTarea.getOutputParameterValue("i_id_tarea");
+        System.out.println(id);
+        tarea.setIdtarea(id);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+        
+        
+       
         return true;
     }
 
+
     public LocalDate sumaDiasDeDuracion(Date fechaInicial, int days) {
-          
+
         //pasar el util.date a local date
         LocalDate result = fechaInicial.toInstant()
       .atZone(ZoneId.systemDefault())
@@ -76,8 +107,9 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
            if (!(result.getDayOfWeek().toString() == "SATURDAY" || result.getDayOfWeek().toString() == "SUNDAY")) {
                ++addedDays;
            }
-        }        
-        return result;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return result.format(formatter);
     }
 
     @Override

@@ -109,11 +109,18 @@ public class ControladorTareas {
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var nombre = urlParam;
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
-        var creaTarea = tareasEjecutadasService.crearTarea(idproceso, nombre, descripcion, duracion, d);
-        
-       
-        
-       
+
+//        var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
+        TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
+        if(tareasEjecutadasService.crearTarea(tarea))
+        {
+            
+        }
+        else
+        {
+            
+        }
+
         return "nuevaTarea";
     }
 
