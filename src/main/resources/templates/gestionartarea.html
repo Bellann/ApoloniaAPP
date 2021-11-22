@@ -20,9 +20,10 @@
     <body>
 
         <header th:replace="layout/plantilla :: header"></header>
-        <p th:text="${prueba}"></p>
+
         <div class="contenedor-data">
             <div th:each="tareasEjecutadas  : ${tareasEjecutadas}"> <!-- INICIO DEL DIV QUE ITERA LOS DATOS -->
+                <p th:text="${tareasEjecutadas.idtarea}"></p>
                 <div class="d-flex p-2 border border-secondary">
                     <span th:text=${tareasEjecutadas.tarea}>a</span>
                 </div>
@@ -64,7 +65,7 @@
                                 <ul>
                                     <li>Fecha real de incio: <span th:text="${tareasEjecutadas.fRealInicio}">fecha de inicio prevista</span></li>
                                     <li>Fecha real de término: <span th:text="${tareasEjecutadas.fRealFin}">fecha de inicio prevista</span></li>
-                                    
+
                                 </ul>
                             </p>
                             <p><span style="background-color:#FFE900;">semaforo no implementado</span></li></p>
@@ -83,10 +84,6 @@
                             <div th:each=" responsable : ${tareasEjecutadas.responsables}">
                                 <p th:text="${responsable.runFuncionario }"></p>
                             </div>
-
-
-
-
 
 
                         </div>
@@ -137,7 +134,9 @@
                                                             <p>¿Desea continuar?</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn-flujo" >Si</button>
+                                                            <form method="POST" th:action="@{/AceptarTarea(id=${tareasEjecutadas.idtarea})}">
+                                                                <button class="btn-flujo" type="submit">Si</button>
+                                                            </form>
                                                             <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
                                                         </div>
                                                     </div>
@@ -161,7 +160,9 @@
                                                             <p>¿Desea continuar?</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn-flujo">Si</button>
+                                                            <form method="POST" th:action="@{/iniciarTarea(id=${tareasEjecutadas.idtarea})}">
+                                                                <button class="btn-flujo" type="submit">Si</button>
+                                                            </form>
                                                             <button type="button" class="btn-flujo"  data-dismiss="modal">No</button>
                                                         </div>
                                                     </div>
@@ -170,7 +171,7 @@
 
 
                                             <!-- Modal Subordinar -->
-                                            <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                                            <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true" "overflow-y: scroll;">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -193,14 +194,17 @@
                                                                         Descripcion   
                                                                         <textarea class="form-control" id="descripcionSubordinada" rows="3"></textarea>
                                                                         </br>
+                                                                        </br>
+                                                                        <label for="duracion">Duración de la tarea: </label>
+                                                                        <input type="number" value="1" min="1" max="365" step="1" th:name="duracion"/>&nbsp;días 
 
                                                                         <div class="col-lg-6" th:object="${funcionariosList}">
-                                                                            <select class="form-control" id="funcionariosList" name="funcionariosList">
-                                                                                <option value="">Asignar a: </option>
-                                                                                <option th:each="funcionariosList : ${funcionariosList}"
-                                                                                        th:value="${funcionariosList.run}"
-                                                                                        th:text="${funcionariosList.nombres}+' '+${funcionariosList.apellidop}"></option>
-                                                                            </select>
+                                                                            <div th:each="responsable : ${funcionariosList}" th:object="${responsables}">
+                                                                                <input type="checkbox" th:value="${responsable.run}" id="checked" th:name="responsable">
+                                                                                    <label class="form-check-label" for="defaultCheck1">
+                                                                                        <p th:text="${responsable.nombres}+' '+${responsable.apellidop}"></p>
+                                                                                    </label>
+                                                                            </div>
                                                                         </div>
 
                                                                         <!-- <button type="submit" class="btn btn-primary">Submit</button>-->
@@ -330,8 +334,10 @@
 
 
                                             </div>
+                                            </div>
+                                            </div>
 
-
+                                            <footer th:replace="layout/plantilla :: footer"></footer>
 
 
 
@@ -340,62 +346,54 @@
 
                                                 /*<![CDATA[*/
 
-                                                var estado = [[${tareasEjecutadas.estado
-                                                }
-                                                ]];
+                                                var estado = 'programada';
                                                 //*]]>*/
                                                 switch (estado) {
-                                                case 'Programada':
+                                                    case 'Programada':
                                                         document.getElementById("aceptarModalBtn").disabled = false;
-                                                document.getElementById("inciarModalBtn").disabled = false;
-                                                document.getElementById("subordinarModalBtn").disabled = false;
-                                                document.getElementById("reportarModalBtn").disabled = false;
-                                                document.getElementById("terminarModalBtn").disabled = false;
-                                                document.getElementById("rechazarModalBtn").disabled = false;
-                                                break;
-                                                case 'Aceptada':
-                                                        document.getElementById("aceptarModalBtn").disabled = false;
-                                                document.getElementById("inciarModalBtn").disabled = true;
-                                                document.getElementById("subordinarModalBtn").disabled = false;
-                                                document.getElementById("reportarModalBtn").disabled = true;
-                                                document.getElementById("terminarModalBtn").disabled = false;
-                                                document.getElementById("rechazarModalBtn").disabled = true;
-                                                break;
-                                                case 'En Desarrollo':
-                                                        document.getElementById("aceptarModalBtn").disabled = false;
-                                                document.getElementById("inciarModalBtn").disabled = false;
-                                                document.getElementById("subordinarModalBtn").disabled = true;
-                                                document.getElementById("reportarModalBtn").disabled = true;
-                                                document.getElementById("terminarModalBtn").disabled = true;
-                                                document.getElementById("rechazarModalBtn").disabled = false;
-                                                break;
-                                                case 'Rechazada':
-                                                        document.getElementById("aceptarModalBtn").disabled = true;
-                                                document.getElementById("inciarModalBtn").disabled = false;
-                                                document.getElementById("subordinarModalBtn").disabled = false;
-                                                document.getElementById("reportarModalBtn").disabled = false;
-                                                document.getElementById("terminarModalBtn").disabled = false;
-                                                document.getElementById("rechazarModalBtn").disabled = false;
-                                                break;
-                                                case 'Terminada':
+                                                        document.getElementById("inciarModalBtn").disabled = false;
+                                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                                        document.getElementById("reportarModalBtn").disabled = false;
+                                                        document.getElementById("terminarModalBtn").disabled = false;
+                                                        document.getElementById("rechazarModalBtn").disabled = false;
                                                         break;
-                                                default:
+                                                    case 'Aceptada':
+                                                        document.getElementById("aceptarModalBtn").disabled = false;
+                                                        document.getElementById("inciarModalBtn").disabled = true;
+                                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                                        document.getElementById("reportarModalBtn").disabled = true;
+                                                        document.getElementById("terminarModalBtn").disabled = false;
+                                                        document.getElementById("rechazarModalBtn").disabled = true;
+                                                        break;
+                                                    case 'En Desarrollo':
+                                                        document.getElementById("aceptarModalBtn").disabled = false;
+                                                        document.getElementById("inciarModalBtn").disabled = false;
+                                                        document.getElementById("subordinarModalBtn").disabled = true;
+                                                        document.getElementById("reportarModalBtn").disabled = true;
+                                                        document.getElementById("terminarModalBtn").disabled = true;
+                                                        document.getElementById("rechazarModalBtn").disabled = false;
+                                                        break;
+                                                    case 'Rechazada':
                                                         document.getElementById("aceptarModalBtn").disabled = true;
-                                                document.getElementById("inciarModalBtn").disabled = true;
-                                                document.getElementById("subordinarModalBtn").disabled = true;
-                                                document.getElementById("reportarModalBtn").disabled = true;
-                                                document.getElementById("terminarModalBtn").disabled = true;
-                                                document.getElementById("rechazarModalBtn").disabled = true;
-                                                break;
+                                                        document.getElementById("inciarModalBtn").disabled = false;
+                                                        document.getElementById("subordinarModalBtn").disabled = false;
+                                                        document.getElementById("reportarModalBtn").disabled = false;
+                                                        document.getElementById("terminarModalBtn").disabled = false;
+                                                        document.getElementById("rechazarModalBtn").disabled = false;
+                                                        break;
+                                                    case 'Terminada':
+                                                        break;
+                                                    default:
+                                                        document.getElementById("aceptarModalBtn").disabled = true;
+                                                        document.getElementById("inciarModalBtn").disabled = true;
+                                                        document.getElementById("subordinarModalBtn").disabled = true;
+                                                        document.getElementById("reportarModalBtn").disabled = true;
+                                                        document.getElementById("terminarModalBtn").disabled = true;
+                                                        document.getElementById("rechazarModalBtn").disabled = true;
+                                                        break;
                                                 }
 
                                             </script>
-                                            </div>
-                                            </div>
-
-                                            <footer th:replace="layout/plantilla :: footer"></footer>
-
-
 
                                             </body>
 

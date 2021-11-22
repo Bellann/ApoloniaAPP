@@ -84,7 +84,7 @@ public class TareasEjecutadas implements Serializable {
     @Column(name="DESC_TAREA")
     private String descTarea;
 
-    @OneToMany(targetEntity = Responsables.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Responsables.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="ID_TAREA_EJECUTADA")
     private List<Responsables> responsables;
     //</editor-fold>

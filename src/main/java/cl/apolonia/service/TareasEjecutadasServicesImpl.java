@@ -1,20 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cl.apolonia.service;
 
 import cl.apolonia.dao.TareasEjecutadasDao;
-import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -33,7 +25,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     EntityManager entityManager;
 
     @Override
-    public boolean crearTarea(TareasEjecutadas tarea, int duracion) {
+    public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias) {
 
         //Dar fomato a las fechas Date 
         String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
@@ -62,8 +54,9 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             creaTarea.execute();
             var id = (Integer) creaTarea.getOutputParameterValue("i_id_tarea");
             tarea.setIdtarea(id);
-
-
+            
+            responsables.stream().forEach((p)-> crearResponsables(tarea, p) );
+            dependencias.stream().forEach((p)-> crearDependencia(tarea, p));
         } catch (Exception e) {
             return false;
         }
@@ -88,6 +81,87 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean crearResponsables(TareasEjecutadas tarea, String responsable) {
+        try {
+            
+            System.out.println(responsable);
+            System.out.println(tarea.getIdtarea());
+            
+            StoredProcedureQuery crearResponsable = entityManager
+                    .createStoredProcedureQuery("c_resp_tarea_ejec")
+                    .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_run_funcionario", String.class, ParameterMode.IN);
+            crearResponsable.setParameter("i_id_tarea_ejecutada", tarea.getIdtarea());
+            crearResponsable.setParameter("i_run_funcionario", responsable);
+
+            crearResponsable.execute();
+
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean crearDependencia(TareasEjecutadas tarea, String dependencia) {
+        try {
+            System.out.println("Entre");
+            int id = Integer.parseInt(dependencia);
+
+            StoredProcedureQuery crearResponsable = entityManager
+                    .createStoredProcedureQuery("c_dependen_tarea_ej")
+                    .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_id_tarea_previa", int.class, ParameterMode.IN);
+            crearResponsable.setParameter("i_id_tarea_ejecutada", tarea.getIdtarea());
+            crearResponsable.setParameter("i_id_tarea_previa", id);
+
+            crearResponsable.execute();
+
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean crearEstado(TareasEjecutadas tarea) {
+        try {
+            
+            //Estado inicial siempre sera 1, para avanzar en los estados sera el update
+            int estado=1;
+            //Fecha del dia de ejecucion LocalDate + paso a String para mandar a oracle
+            
+            String fecha =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+            StoredProcedureQuery creaEstado = entityManager
+                    .createStoredProcedureQuery("c_tarea_eject_estados")
+                    .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fecha_estado", int.class, ParameterMode.IN)
+            .registerStoredProcedureParameter("i_run_funcionario", int.class, ParameterMode.IN)
+            .registerStoredProcedureParameter("i_id_estado_tarea", int.class, ParameterMode.IN);
+            creaEstado.setParameter("i_id_tarea_ejecutada", tarea.getIdtarea());
+            creaEstado.setParameter("i_fecha_estado", fecha);
+            creaEstado.setParameter("i_run_funcionario", tarea.getResponsables());
+            creaEstado.setParameter("i_id_estado_tarea", estado);
+
+            creaEstado.execute();
+
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public TareasEjecutadas encontrarTarea(Integer id) {
+        
+        return tareasEjecutadasDao.findFirstByIdtarea(id).orElse(null);
     }
 
 
