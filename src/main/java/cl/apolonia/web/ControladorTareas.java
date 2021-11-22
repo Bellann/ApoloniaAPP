@@ -5,6 +5,7 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesosTipoService;
@@ -110,16 +111,16 @@ public class ControladorTareas {
         var nombre = urlParam;
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
 
-//        var local2= tareasEjecutadasService.sumaDiasDeDuracion(d, duracion);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
-        if(tareasEjecutadasService.crearTarea(tarea))
+        if(tareasEjecutadasService.crearTarea(tarea,duracion))
         {
-            
+           //COLOCAR ALERT 
         }
         else
         {
-            
+            //COLOCAR ALERT
         }
+        
 
         return "nuevaTarea";
     }
