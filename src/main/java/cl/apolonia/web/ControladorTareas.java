@@ -106,24 +106,19 @@ public class ControladorTareas {
     }
 
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
-    @PostMapping("/subordinarTarea")
-    public ModelAndView subordinarTarea(@RequestParam(value = "id") Integer urlParam,
-            @RequestParam(value = "nombreSub") String nombreSub,
-            @RequestParam(value = "descripcionSub") String descripcionSub,
-            @RequestParam(value = "responsableSub") List<String> responsableSub,
-            @RequestParam(value = "idproceso") Integer idproceso,
-            TareasEjecutadas tareaEjecutada,
-            Model model) {
+      @GetMapping("/subordinar")
+    public String subordinar(@RequestParam(value = "idtarea") Integer urlParam,
+                             @RequestParam(value = "nombreSub") String nombreSub,
+                             @RequestParam(value = "descripcionSub") String descripcionSub,
+                             @RequestParam(value = "responsableSub") List<String> responsableSub,
+                             @RequestParam(value = "idproceso") Integer idproceso,
+                             @RequestParam(value = "duracionSub") int duracion,
+                             TareasEjecutadas tareaEjecutada,
+                             Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-        //run usuario logeado, para el historico
-        var runUser = funcionariosService.runResponsable();
-        String fechaHoy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+   
         
-        
-        
-        //Llamar método para cambio de estado, despues de conversar 
-        return new ModelAndView("redirect:/flujotrabajo");
-
+        return "gestionartarea";
     }
     
         //Desde gestionar tarea
