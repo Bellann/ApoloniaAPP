@@ -91,7 +91,7 @@ public class ControladorTareas {
     }
 
     //Desde gestionar tarea
-    @PostMapping("/IniciarTarea")
+    @PostMapping("/iniciarTarea")
     public ModelAndView IniciarTarea(@RequestParam(value = "id") Integer urlParam,
             TareasEjecutadas tareaEjecutada,
             Model model) {
@@ -100,9 +100,13 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
-        model.addAttribute("tarea", tarea);
-
-        return new ModelAndView("redirect:/flujotrabajo");
+        if(tareasEjecutadasService.iniciarTarea(tarea)){
+            return new ModelAndView("redirect:/flujotrabajo");
+        }
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
     }
 
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
@@ -116,9 +120,16 @@ public class ControladorTareas {
                              TareasEjecutadas tareaEjecutada,
                              Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-   
-        
-        return "gestionartarea";
+
+        //run usuario logeado, para el historico
+        var runUser = funcionariosService.runResponsable();
+        if(tareasEjecutadasService.crearTarea(tarea, 0, responsableSub, null, true))
+            return new ModelAndView("redirect:/flujotrabajo");
+        else
+            return new ModelAndView("/gestionarTarea");
+
+        //Llamar método para cambio de estado, despues de conversar 
+
     }
     
         //Desde gestionar tarea
@@ -136,10 +147,6 @@ public class ControladorTareas {
         return new ModelAndView("redirect:/flujotrabajo");
     }
     
-    
-    
-    
-
     //Nueva tarea a partir de un proceso seleccionado
     @PostMapping("/nuevaTarea")
     public String nuevaTarea(@RequestParam(value = "r") int urlParam,
@@ -178,7 +185,7 @@ public class ControladorTareas {
         String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
-        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
+        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia, false)) {
             return new ModelAndView("redirect:/flujotrabajo");
         } else {
             return new ModelAndView("redirect:/nuevaTarea");
