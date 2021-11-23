@@ -53,13 +53,13 @@
                             </thead>
                             <tbody>
 
-                                <tr name="procRow" th:each="procesosUni : ${procesosUni}">
+                                <tr name="row" th:each="procesosUni : ${procesosUni}">
                                     <td>ESTADO</td>
                                     <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
                                     <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
                                     <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
-                                    <td name="procEnd" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
-                                    <td name="procControl"><span class="bg-succes"></span></td>
+                                    <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                                    <td name="control"></td>
                                     <td th:text="${procesosUni.estado}">Mostrar estado</td>
                                 </tr>
 
@@ -102,14 +102,14 @@
                             </thead>
                             <tbody>
 
-                                <tr th:each="procesosSub : ${procesosSub}">
+                                <tr name="row" th:each="procesosUni : ${procesosUni}">
                                     <td>ESTADO</td>
-                                    <td th:text="${procesosSub.proceso}">Mostrar Nombre</td>
-                                    <td th:text="${procesosSub.ejecutor}">Mostrar creador</td>
-                                    <td th:text="${procesosSub.subunidad}">Mostrar subunidad</td>
-                                    <td th:text="${procesosSub.fechaLimite}">Mostrar fecha limite</td>
-                                    <td><span class="bg-succes col-1"> 2 </span></td>
-                                    <td th:text="${procesosSub.estado}">Mostrar estado</td>
+                                    <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
+                                    <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
+                                    <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
+                                    <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                                    <td name="control"></td>
+                                    <td th:text="${procesosUni.estado}">Mostrar estado</td>
                                 </tr>
 
                             </tbody>
@@ -170,12 +170,12 @@
                     </thead>
                     <tbody>
 
-                        <tr th:each="tareasUnidad : ${tareasRun}">
+                        <tr name="row" th:each="tareasUnidad : ${tareasRun}">
                             <td th:text="${tareasUnidad.tarea}">Mostrar Tarea</td>
                             <td th:text="${tareasUnidad.ejecutor}">Mostrar Asignado por</td>
                             <td th:text="${tareasUnidad.subunidad}">Mostrar subunidad</td>
-                            <td th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
-                            <td>No implementado</td>
+                            <td name="end" th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
+                            <td name="control"></td>
                             <td th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
                             <td><button>Ver</button></td>
                         </tr>
@@ -230,11 +230,11 @@
                             </thead>
                             <tbody>
 
-                                <tr th:each="tareasSubUni : ${tareasRun}">
+                                <tr name="row" th:each="tareasSubUni : ${tareasRun}">
                                     <td th:text="${tareasSubUni.tarea}">Mostrar Tarea</td>
                                     <td th:text="${tareasSubUni.ejecutor}">Mostrar Asignado por</td>
-                                    <td th:text="${tareasSubUni.fPrevFin}">Mostrar fecha fin</td>
-                                    <td>No implementado</td>
+                                    <td name="end" th:text="${tareasSubUni.fPrevFin}">Mostrar fecha fin</td>
+                                    <td name="control"></td>
                                     <td th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
                                     <td><button>Ver</button></td>
                                 </tr>
@@ -261,5 +261,25 @@
                     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
                     <script th:src="@{/js/datatables.min.js}"></script>
                     <script th:src="@{/js/flujodata.js}"></script>
+                    <script>
+                        $("tr[name='row']").each(function(){
+                        console.log("entra");
+                            var date = new Date($(this).children("td[name='end']").html());
+                            var today = new Date();
+                            var timeLeft = (date.getTime()-today.getTime())/(1000*60*60*24);
+                            console.log(timeLeft);
+                            
+                            if(timeLeft > 7)
+                            {
+                                $(this).children("td[name='control']").addClass("bg-success");
+                            } else if (timeLeft > 0)
+                            {
+                                $(this).children("td[name='control']").addClass("bg-warning");
+                            } else
+                            {
+                                $(this).children("td[name='control']").addClass("bg-danger");
+                            }
+                        });
+                    </script>
                     </body>
                     </html>
