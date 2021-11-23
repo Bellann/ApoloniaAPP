@@ -195,7 +195,9 @@
                                                             <form method="POST" th:action="@{/subordinarTarea}" name="subordinarform">
                                                                 <div class="form-group">
                                                                     </br>
+
                                                                     <label type="hidden" th:value="${tareasEjecutadas.idProcesoEjecutado}" th:name="idproceso"></label>
+
                                                                     Nombre de la tarea
                                                                     <input type="text" class="form-control" id="tareaSubordinada" placeholder="ingrese el nombre de la nueva tarea" th:name="nombreSub">
                                                                         Descripcion   
