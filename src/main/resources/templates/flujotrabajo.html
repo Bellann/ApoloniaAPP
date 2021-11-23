@@ -40,15 +40,15 @@
                 </thead>
                 <tbody>
 
-                    <tr th:each="misProcesos,iterationStatus  : ${misProcesos}">
+                    <tr name="row" th:each="misProcesos,iterationStatus  : ${misProcesos}">
                         <td th:text="${misProcesos.nombreProceso}"></td>
                         <td align="left">
                           <input type="image" src="../static/img/ver.png" th:src="@{img/ver.png}" data-toggle="modal" data-target="#procesoModal"/>
                         </td>                      
-                        <td th:text="${#dates.format(misProcesos.fechaPrevistaFin,'yyyy-MM-dd')}"></td>
+                        <td name="end" th:text="${#dates.format(misProcesos.fechaPrevistaFin,'yyyy-MM-dd')}"></td>
                         <td th:text="${misProcesos.asignadoPor}"></td>
                         <td th:text="${misProcesos.estado}"></td>
-                        <td><span style="background-color:green" name="estadoGrafico">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                        <td name="control"></td>
                         <td>
                             <form method="POST" th:action="@{/nuevaTarea(r=${misProcesos.idProceso}, n=${misProcesos.nombreProceso})}">
                                 <button class="btn-table" type="submit">Nueva Tarea</button>
@@ -131,12 +131,12 @@
                     </thead>
                     <tbody>
 
-                        <tr th:each="tareasRun,iterationStatus  : ${tareasRun}">
+                        <tr name="row" th:each="tareasRun,iterationStatus  : ${tareasRun}">
                             <td th:text="${iterationStatus.count}">1</td>
                             <td th:text="${tareasRun.tarea}">Mostrar Tarea</td>
                             <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
-                            <td th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
-                            <td>No implementado</td>
+                            <td name="end" th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
+                            <td name="control"></td>
                             <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
                             <td><a th:href="@{/gestionartarea(r=${tareasRun.runResponsable} , i=${tareasRun.idtarea})}"> <img src="../static/img/gestionar.png" th:src="@{img/gestionar.png}" alt="gestionar"></a></td>
                         </tr>
@@ -168,5 +168,25 @@
 
                 <script th:src="@{/js/datatables.min.js}"></script>
                 <script th:src="@{/js/main.js}"></script>
+                <script>
+                        $("tr[name='row']").each(function(){
+                        console.log("entra");
+                            var date = new Date($(this).children("td[name='end']").html());
+                            var today = new Date();
+                            var timeLeft = (date.getTime()-today.getTime())/(1000*60*60*24);
+                            console.log(timeLeft);
+                            
+                            if(timeLeft > 7)
+                            {
+                                $(this).children("td[name='control']").addClass("bg-success");
+                            } else if (timeLeft > 0)
+                            {
+                                $(this).children("td[name='control']").addClass("bg-warning");
+                            } else
+                            {
+                                $(this).children("td[name='control']").addClass("bg-danger");
+                            }
+                        });
+                    </script>
                 </body>
                 </html>
