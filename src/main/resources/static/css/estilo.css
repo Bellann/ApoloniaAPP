@@ -123,3 +123,23 @@ form-control-inline{
     display: inline;
     background-color: #304F8C;
 }
+
+.btn-table{
+    background-color: #55cee6;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 4px;
+    border: none;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 30px;
+}
+
+.btn-table:hover{
+    color: #4AB0D9;
+
+}

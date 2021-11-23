@@ -14,7 +14,7 @@
 
             </div>
             <div class="p-2">   
-               
+
             </div>
             <div class="p-2">
 
@@ -34,6 +34,7 @@
                         <th>fecha limite</th>
                         <th>Asignado por</th>
                         <th>Estado</th>
+                        <th>Estado gráfico</th>
                         <th>Nueva tarea</th>
                     </tr>
                 </thead>
@@ -41,15 +42,17 @@
 
                     <tr th:each="misProcesos,iterationStatus  : ${misProcesos}">
                         <td th:text="${misProcesos.nombreProceso}"></td>
-                        <td></td>
-                        <td th:text="${misProcesos.fechaPrevistaFin}"></td>
+                        <td align="left">
+                          <input type="image" src="../static/img/ver.png" th:src="@{img/ver.png}" data-toggle="modal" data-target="#procesoModal"/>
+                        </td>                      
+                        <td th:text="${#dates.format(misProcesos.fechaPrevistaFin,'yyyy-MM-dd')}"></td>
                         <td th:text="${misProcesos.asignadoPor}"></td>
                         <td th:text="${misProcesos.estado}"></td>
-                        
+                        <td>no implementdo</td>
                         <td>
                             <form method="POST" th:action="@{/nuevaTarea(r=${misProcesos.idProceso}, n=${misProcesos.nombreProceso})}">
-                                
-                                    <button class="btn-flujo" type="submit">Nueva Tarea</button></form>
+                                <button class="btn-table" type="submit">Nueva Tarea</button>
+                            </form>
                         </td>
 
                     </tr>
@@ -62,12 +65,36 @@
                         <th>fecha limite</th>
                         <th>Asignado por</th>
                         <th>Estado</th>
+                        <th>Estado gráfico</th>
                         <th>Nueva tarea</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
 
+
+        <!-- Modal tareas de los procesos -->
+        <div class="modal fade" id="procesoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="procesoModal">Atención</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        AQUI VA LA INFO DE LAS TAREAS
+                    </div>
+                    <div class="modal-footer">
+
+
+
+                        <button type="button" class="btn-flujo"  data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
