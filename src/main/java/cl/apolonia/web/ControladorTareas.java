@@ -103,9 +103,9 @@ public class ControladorTareas {
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
     @PostMapping("/subordinarTarea")
     public ModelAndView subordinarTarea(@RequestParam(value = "id") Integer urlParam,
-            @RequestParam(value = "nombre") String nombre,
-            @RequestParam(value = "descripcion") String descripcion,
-            @RequestParam(value = "responsable") List<String> responsable,
+            @RequestParam(value = "nombreSub") String nombreSub,
+            @RequestParam(value = "descripcionSub") String descripcionSub,
+            @RequestParam(value = "responsableSub") List<String> responsableSub,
             @RequestParam(value = "idproceso") Integer idproceso,
             TareasEjecutadas tareaEjecutada,
             Model model) {
@@ -113,11 +113,32 @@ public class ControladorTareas {
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
         String fechaHoy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
+        
+        
+        
         //Llamar método para cambio de estado, despues de conversar 
         return new ModelAndView("redirect:/flujotrabajo");
 
     }
+    
+        //Desde gestionar tarea
+    @PostMapping("/ReportarProblema")
+    public ModelAndView ReportarProblema(@RequestParam(value = "id") Integer urlParam,
+                                         @RequestParam(value = "descripcion") String descripcion,
+                                            TareasEjecutadas tareaEjecutada,
+                                            Model model) {
+        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        //run usuario logeado, para registrar el problema
+        var runUser = funcionariosService.runResponsable();
+
+        //Llamar método para registrar problema
+
+        return new ModelAndView("redirect:/flujotrabajo");
+    }
+    
+    
+    
+    
 
     //Nueva tarea a partir de un proceso seleccionado
     @PostMapping("/nuevaTarea")
