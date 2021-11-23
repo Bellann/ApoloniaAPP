@@ -80,7 +80,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
-        model.addAttribute("tarea", tarea);
+
 
         return new ModelAndView("redirect:/flujotrabajo");
     }

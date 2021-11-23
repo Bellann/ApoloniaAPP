@@ -48,7 +48,7 @@
                         <td th:text="${#dates.format(misProcesos.fechaPrevistaFin,'yyyy-MM-dd')}"></td>
                         <td th:text="${misProcesos.asignadoPor}"></td>
                         <td th:text="${misProcesos.estado}"></td>
-                        <td>no implementdo</td>
+                        <td><span style="color:green">No implementado</span></td>
                         <td>
                             <form method="POST" th:action="@{/nuevaTarea(r=${misProcesos.idProceso}, n=${misProcesos.nombreProceso})}">
                                 <button class="btn-table" type="submit">Nueva Tarea</button>
