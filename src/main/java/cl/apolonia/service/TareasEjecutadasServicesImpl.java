@@ -166,6 +166,32 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return tareasEjecutadasDao.findFirstByIdtarea(id).orElse(null);
     }
 
+    @Override
+    public boolean aceptarTarea(TareasEjecutadas tarea) {
+
+        
+        try {
+            StoredProcedureQuery cmd = entityManager
+                    .createStoredProcedureQuery("u_tarea_ejec")
+                    .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fch_real_inicio", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fch_real_fin", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_id_estado", int.class, ParameterMode.IN);
+            cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
+            cmd.setParameter("i_fch_real_inicio", "");
+            cmd.setParameter("i_fch_real_fin", "");
+            cmd.setParameter("i_id_estado", 2);
+
+            cmd.execute();
+
+            
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+
+    }
+
 
 
 

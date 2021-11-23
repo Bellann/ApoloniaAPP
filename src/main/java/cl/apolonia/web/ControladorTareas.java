@@ -78,11 +78,15 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-
-        //Llamar método para cambio de estado, despues de conversar 
-        model.addAttribute("tarea", tarea);
-
-        return new ModelAndView("redirect:/flujotrabajo");
+        
+        //Llamar método para cambio de estado, despues de conversar
+        if(tareasEjecutadasService.aceptarTarea(tarea)){
+            return new ModelAndView("redirect:/flujotrabajo");
+        }
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
     }
 
     //Desde gestionar tarea
