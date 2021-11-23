@@ -110,15 +110,17 @@ public class ControladorTareas {
     }
 
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
-    @PostMapping("/subordinarTarea")
-    public ModelAndView subordinarTarea(@RequestParam(value = "id") Integer urlParam,
-            @RequestParam(value = "nombreSub") String nombreSub,
-            @RequestParam(value = "descripcionSub") String descripcionSub,
-            @RequestParam(value = "responsableSub") List<String> responsableSub,
-            @RequestParam(value = "idproceso") Integer idproceso,
-            TareasEjecutadas tareaEjecutada,
-            Model model) {
+      @GetMapping("/subordinar")
+    public String subordinar(@RequestParam(value = "idtarea") Integer urlParam,
+                             @RequestParam(value = "nombreSub") String nombreSub,
+                             @RequestParam(value = "descripcionSub") String descripcionSub,
+                             @RequestParam(value = "responsableSub") List<String> responsableSub,
+                             @RequestParam(value = "idproceso") Integer idproceso,
+                             @RequestParam(value = "duracionSub") int duracion,
+                             TareasEjecutadas tareaEjecutada,
+                             Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
         if(tareasEjecutadasService.crearTarea(tarea, 0, responsableSub, null, true))
@@ -145,10 +147,6 @@ public class ControladorTareas {
         return new ModelAndView("redirect:/flujotrabajo");
     }
     
-    
-    
-    
-
     //Nueva tarea a partir de un proceso seleccionado
     @PostMapping("/nuevaTarea")
     public String nuevaTarea(@RequestParam(value = "r") int urlParam,
