@@ -3,22 +3,29 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:fragment="head">
+       <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Apolonia</title>
-        <meta charset="UTF-8"/>
-        <!-- Date Picker -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css" integrity="sha512-p4vIrJ1mDmOVghNMM4YsWxm0ELMJ/T0IkdEvrkNHIcgFsSzDi/fV7YxzTzb3mnMvFPawuIyIrHcpxClauEfpQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- Bootstrap -->
-        <link th:rel="stylesheet" th:href="@{webjars/bootstrap/5.1.2/css/bootstrap.min.css} "/> 
-        <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.15.4/css/all.css} "/>
-        <!-- Personalizados -->
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <!-- estilos propios-->
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
         <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
         <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
-        <!-- Data table -->
+         <!-- Date Picker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css" integrity="sha512-p4vIrJ1mDmOVghNMM4YsWxm0ELMJ/T0IkdEvrkNHIcgFsSzDi/fV7YxzTzb3mnMvFPawuIyIrHcpxClauEfpQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+       
+        <!-- Data table-->
         <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
-        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/> 
-
-
+        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <!-- Always remember to call the above files first before calling the bootstrap.min.js file -->      
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
     </head>
 
@@ -41,7 +48,7 @@
                             <input type="text" placeholder="Ingrese el nombre para la nueva tarea" class="form-control" id="nombre" th:name="nombre">
                                 <p class="text-danger" th:text="${errorNombre}"></p>
                                 </br>
-                                <h3>Descripcion</h3>  
+                                <h3>Descripción</h3>  
                                 <textarea class="form-control" id="descripcion" rows="5" placeholder="Ingrese la descripcion de la tarea" th:name="descripcion"></textarea>
                                 <p class="text-danger" th:text="${errorDescripcion}"></p>
                         </div>
@@ -115,9 +122,7 @@
 
 
         <!-- Scripts -->
-        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
         <script th:src="@{/js/nuevatarea.js}"></script>
         <script th:src="@{/js/datatables.min.js}"></script>
         <!-- Data Picker -->

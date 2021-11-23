@@ -212,9 +212,9 @@
 
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal7">
-                                                                        Aceptar
-                                                                    </button>
+                                                                    <form method="POST" th:action="@{/subordinarTarea(id=${tareasEjecutadas.idtarea})}">
+                                                                        <button class="btn-flujo" type="submit">Si</button>
+                                                                    </form>
                                                                     <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                                                                 </div>
                                                         </div>

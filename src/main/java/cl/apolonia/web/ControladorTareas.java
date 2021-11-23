@@ -120,7 +120,7 @@ public class ControladorTareas {
     }
 
     //Nueva tarea a partir de un proceso seleccionado
-    @PostMapping("/subordinar")
+    @PostMapping("/nuevaTarea")
     public String nuevaTarea(@RequestParam(value = "r") int urlParam,
             @RequestParam(value = "n") String n,
             Model model) {
