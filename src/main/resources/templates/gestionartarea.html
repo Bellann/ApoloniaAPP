@@ -23,7 +23,7 @@
 
         <div class="contenedor-data">
             <div th:each="tareasEjecutadas  : ${tareasEjecutadas}"> <!-- INICIO DEL DIV QUE ITERA LOS DATOS -->
-                <p th:text="${tareasEjecutadas.idtarea}"></p>
+
                 <div class="d-flex p-2 border border-secondary">
                     <span th:text=${tareasEjecutadas.tarea}>a</span>
                 </div>
@@ -68,7 +68,7 @@
 
                                 </ul>
                             </p>
-                            <p><span style="background-color:#FFE900;">semaforo no implementado</span></li></p>
+
 
                         </div>
                     </div>
@@ -84,14 +84,6 @@
                             <div th:each=" responsable : ${tareasEjecutadas.responsables}">
                                 <p th:text="${responsable.runFuncionario }"></p>
                             </div>
-
-
-
-
-                            <p th:text="${descripcionSub}"></p>
-
-
-
 
                         </div>
                         <div class="col-sm-2"> 
@@ -119,12 +111,42 @@
                                                     Dar por terminada
                                                 </button></p> 
                                             <!-- Button trigger modal -->
-                                            <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal8">
-                                                    Rechazar
+                                            <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal7">
+                                                    Rechazar tarea
                                                 </button></p>
 
                                             <!-- Boton salir - vuelve a la pantalla anterior -->
                                             <p><a th:href="@{/flujotrabajo}"><button class="btn-flujo">Salir</button></a></p>  
+                                            </div>
+
+                                            <!-- MODALES DE LOS BOTONES -->
+                                            <!-- Modal Rechazar -->
+                                            <div class="modal fade" id="exampleModal7" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel7" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel7">Rechazar la tarea</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Justifique el motivo del rechazo</p>
+                                                             <form th:action="@{/rechazarTarea}">
+                                                                 <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="id">
+                                                            <textarea class="form-control" id="descripcionrechazo" rows="3" th:name="descRechazo"></textarea>
+                                                            <p>Esta información será enviada a su supervisor para aprobar o rechazar su solicitud</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            
+                                                                <button class="btn-flujo" type="submit">Enviar rechazo</button>
+                                                            </form>
+                                                            <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <!-- Modal aceptar -->
                                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -196,10 +218,10 @@
                                                                 <div class="form-group">
 
                                                                     <input type="hidden" th:value="${tareasEjecutadas.idProcesoEjecutado}" th:name="idproceso"></label>
-                                                                     <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="idtarea"/> 
+                                                                        <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="idtarea"/> 
                                                                         Nombre de la tarea
                                                                         <input type="text" class="form-control" id="nombreSub" placeholder="ingrese el nombre de la nueva tarea" th:name="nombreSub">
-                                                                        </br> Descripción
+                                                                            </br> Descripción
                                                                             <textarea class="form-control" id="descripcionSubordinada" rows="3" th:name="descripcionSub"></textarea>
                                                                             </br>
                                                                             </br>
@@ -220,7 +242,7 @@
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <input type="submit" value="crear tarea" 
-                                                                                                             class="btn-flujo" id="btnvalida"/>
+                                                                                       class="btn-flujo" id="btnvalida"/>
                                                                                 </form>
                                                                                 <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                                                                             </div>
@@ -230,7 +252,7 @@
 
 
 
-                                                                            </div>
+
 
                                                                             </div>
 
@@ -250,7 +272,9 @@
                                                                                         </div>
                                                                                         <div class="modal-footer">
 
-                                                                                            <button type="button" class="btn-flujo">Si</button>
+                                                                                            <form method="POST" th:action="@{/terminarTarea(id=${tareasEjecutadas.idtarea})}">
+                                                                                                <button class="btn-flujo" type="submit">Si</button>
+                                                                                            </form>
                                                                                             <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
                                                                                         </div>
                                                                                     </div>
@@ -271,68 +295,23 @@
                                                                                         </div>
                                                                                         <div class="modal-body">
                                                                                             <p>Reportar problema</p>
-
-                                                                                            <textarea class="form-control" id="descripcionproblema" rows="3" ht:name="descripcionPro"></textarea>
+                                                                                            <form th:action="@{/reportarProblema}">
+                                                                                                <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="id">
+                                                                                            <textarea class="form-control" id="descripcionproblema" rows="3" ht:name="descripcion"></textarea>
 
                                                                                         </div>
                                                                                         <div class="modal-footer">
-                                                                                            <form method="POST" th:action="@{/ReportarProblema(id=${tareasEjecutadas.idtarea}+(descripcion=${descripcionPro}))}">
-                                                                                                <button type="button" class="btn-flujo">Enviar</button>
-                                                                                            </form>
+
+                                                                                           <button class="btn-flujo" type="submit">Enviar rechazo</button>
+                                                                                        </form>
                                                                                             <button type="button" class="btn-flujo" data-dismiss="modal">cancelar</button>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
 
-                                                                            <!-- Modal confirmacion final de sobordinar -->
-                                                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                                <div class="modal-dialog" role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title" id="exampleModalLabel">Subordinar tarea</h5>
-                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            ¿Se encuentra seguro que desea subordinar su tarea?
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
 
-                                                                                            <button type="submit" form ="subordinarform" value="Submit" class="btn btn-secondary" data-dismiss="modal">si</button>
-
-                                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>      
-
-
-                                                                            <!-- Modal 8 rechazar -->
-                                                                            <div class="modal fade" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel8" aria-hidden="true">
-                                                                                <div class="modal-dialog" role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title" id="exampleModalLabel8">Rechazar tarea</h5>
-                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <p>Ingrese la justificacion</p>
-                                                                                            <form action="action">
-                                                                                                <textarea class="form-control" id="descripcionproblema" rows="3"></textarea>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
-
-                                                                                            <button type="button" class="btn-flujo">Aceptar</button>
-                                                                                            <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                   
 
                                                                             <!-- Upload archivos -->
                                                                             <div class="flex-fill">
