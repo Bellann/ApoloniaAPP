@@ -91,7 +91,7 @@ public class ControladorTareas {
     }
 
     //Desde gestionar tarea
-    @PostMapping("/IniciarTarea")
+    @PostMapping("/iniciarTarea")
     public ModelAndView IniciarTarea(@RequestParam(value = "id") Integer urlParam,
             TareasEjecutadas tareaEjecutada,
             Model model) {
@@ -100,9 +100,13 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
-        model.addAttribute("tarea", tarea);
-
-        return new ModelAndView("redirect:/flujotrabajo");
+        if(tareasEjecutadasService.iniciarTarea(tarea)){
+            return new ModelAndView("redirect:/flujotrabajo");
+        }
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
     }
 
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
@@ -162,7 +166,7 @@ public class ControladorTareas {
         String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
-        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
+        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia, false)) {
             return new ModelAndView("redirect:/flujotrabajo");
         } else {
             return new ModelAndView("redirect:/nuevaTarea");

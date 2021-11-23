@@ -25,7 +25,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     EntityManager entityManager;
 
     @Override
-    public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias) {
+    public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias, boolean isDesagregada) {
 
         //Dar fomato a las fechas Date 
         String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
@@ -57,6 +57,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             var id = (Integer) creaTarea.getOutputParameterValue("i_id_tarea");
             tarea.setIdtarea(id);
             
+            if(isDesagregada)
+            {
+                crearDesagregada(id, 0);
+            }
+            
             if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(tarea, p) );
             if(dependencias != null)dependencias.stream().forEach((p)-> crearDependencia(tarea, p));
         } catch (Exception e) {
@@ -65,6 +70,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return true;
     }
 
+    @Override
     public LocalDate sumaDiasDeDuracion(Date fechaInicial, int days) {
 
         //pasar el util.date a local date
@@ -190,6 +196,41 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         }
         return true;
 
+    }
+
+    @Override
+    public boolean iniciarTarea(TareasEjecutadas tarea) {
+        try {
+            
+            String fecha =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            
+            StoredProcedureQuery cmd = entityManager
+                    .createStoredProcedureQuery("u_tarea_ejec")
+                    .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fch_real_inicio", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fch_real_fin", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_id_estado", int.class, ParameterMode.IN);
+            cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
+            cmd.setParameter("i_fch_real_inicio", fecha);
+            cmd.setParameter("i_fch_real_fin", "");
+            cmd.setParameter("i_id_estado", 3);
+
+            cmd.execute();
+
+            
+        } catch (Exception e) {
+            return false;
+        }
+        return true;    }
+
+    @Override
+    public boolean crearDesagregada(int idTarea, int idPadre) {
+        //Dar fomato a las fechas Date 
+        try {
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 
