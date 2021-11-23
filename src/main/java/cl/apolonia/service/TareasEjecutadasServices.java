@@ -10,8 +10,8 @@ public interface TareasEjecutadasServices {
     
     boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String>responsables, List<String> dependencias, boolean isDesagregada);
     boolean crearDesagregada(int idTarea, int idPadre);
-    boolean crearResponsables(TareasEjecutadas tarea, String responsable);
-    boolean crearDependencia(TareasEjecutadas tarea, String dependencia);
+    boolean crearResponsables(int tarea, String responsable);
+    boolean crearDependencia(int tarea, String dependencia);
     boolean crearEstado(TareasEjecutadas tarea);
     boolean aceptarTarea(TareasEjecutadas tarea);
     boolean iniciarTarea(TareasEjecutadas tarea);

@@ -122,9 +122,11 @@ public class ControladorTareas {
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
         String fechaHoy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
+        if(tareasEjecutadasService.crearTarea(tarea, 0, responsable, null, true))
+            return new ModelAndView("redirect:/flujotrabajo");
+        else
+            return new ModelAndView("/gestionarTarea");
         //Llamar método para cambio de estado, despues de conversar 
-        return new ModelAndView("redirect:/flujotrabajo");
 
     }
 

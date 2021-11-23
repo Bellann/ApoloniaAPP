@@ -59,11 +59,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             
             if(isDesagregada)
             {
-                crearDesagregada(id, 0);
+                crearDesagregada(id, tarea.getIdtarea());
             }
             
-            if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(tarea, p) );
-            if(dependencias != null)dependencias.stream().forEach((p)-> crearDependencia(tarea, p));
+            if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(id, p) );
+            if(dependencias != null)dependencias.stream().forEach((p)-> crearDependencia(id, p));
         } catch (Exception e) {
             return false;
         }
@@ -92,17 +92,15 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     }
 
     @Override
-    public boolean crearResponsables(TareasEjecutadas tarea, String responsable) {
+    public boolean crearResponsables(int tarea, String responsable) {
         try {
             
-            System.out.println(responsable);
-            System.out.println(tarea.getIdtarea());
             
             StoredProcedureQuery crearResponsable = entityManager
                     .createStoredProcedureQuery("c_resp_tarea_ejec")
                     .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_run_funcionario", String.class, ParameterMode.IN);
-            crearResponsable.setParameter("i_id_tarea_ejecutada", tarea.getIdtarea());
+            crearResponsable.setParameter("i_id_tarea_ejecutada", tarea);
             crearResponsable.setParameter("i_run_funcionario", responsable);
 
             crearResponsable.execute();
@@ -115,16 +113,15 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     }
 
     @Override
-    public boolean crearDependencia(TareasEjecutadas tarea, String dependencia) {
+    public boolean crearDependencia(int tarea, String dependencia) {
         try {
-            System.out.println("Entre");
             int id = Integer.parseInt(dependencia);
 
             StoredProcedureQuery crearResponsable = entityManager
                     .createStoredProcedureQuery("c_dependen_tarea_ej")
                     .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_id_tarea_previa", int.class, ParameterMode.IN);
-            crearResponsable.setParameter("i_id_tarea_ejecutada", tarea.getIdtarea());
+            crearResponsable.setParameter("i_id_tarea_ejecutada", tarea);
             crearResponsable.setParameter("i_id_tarea_previa", id);
 
             crearResponsable.execute();
@@ -227,6 +224,14 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     public boolean crearDesagregada(int idTarea, int idPadre) {
         //Dar fomato a las fechas Date 
         try {
+            StoredProcedureQuery crearResponsable = entityManager
+                    .createStoredProcedureQuery("c_dependen_tarea_ej")
+                    .registerStoredProcedureParameter("i_id_tarea_padre", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_id_tarea_desagregada", int.class, ParameterMode.IN);
+            crearResponsable.setParameter("i_id_tarea_padre", idPadre);
+            crearResponsable.setParameter("i_id_tarea_desagregada", idTarea);
+
+            crearResponsable.execute();
         } catch (Exception e) {
             return false;
         }
