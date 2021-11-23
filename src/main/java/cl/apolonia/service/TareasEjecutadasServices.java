@@ -12,7 +12,8 @@ public interface TareasEjecutadasServices {
     boolean crearResponsables(TareasEjecutadas tarea, String responsable);
     boolean crearDependencia(TareasEjecutadas tarea, String dependencia);
     boolean crearEstado(TareasEjecutadas tarea);
-       
+    boolean aceptarTarea(TareasEjecutadas tarea);
+
    LocalDate sumaDiasDeDuracion(Date fechaInicial, int days);
    TareasEjecutadas encontrarTarea (Integer id);
     

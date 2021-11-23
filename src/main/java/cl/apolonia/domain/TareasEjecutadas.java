@@ -114,11 +114,12 @@ public class TareasEjecutadas implements Serializable {
         this.responsables = responsables;
     }
 
-    public TareasEjecutadas(String tarea, Date fPrevInicio, int idProcesoEjecutado, String descTarea) {
+    public TareasEjecutadas(String tarea, Date fPrevInicio, int idProcesoEjecutado, String descTarea, String runEjecutor) {
         this.tarea = tarea;
         this.fPrevInicio = fPrevInicio;
         this.idProcesoEjecutado = idProcesoEjecutado;
         this.descTarea = descTarea;
+        this.runEjecutor = runEjecutor;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getter and Setter">

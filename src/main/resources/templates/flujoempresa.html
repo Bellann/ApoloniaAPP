@@ -53,13 +53,13 @@
                             </thead>
                             <tbody>
 
-                                <tr th:each="procesosUni : ${procesosUni}">
+                                <tr name="procRow" th:each="procesosUni : ${procesosUni}">
                                     <td>ESTADO</td>
                                     <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
                                     <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
                                     <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
-                                    <td th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
-                                    <td>No implementado</td>
+                                    <td name="procEnd" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                                    <td name="procControl"><span class="bg-succes"></span></td>
                                     <td th:text="${procesosUni.estado}">Mostrar estado</td>
                                 </tr>
 
@@ -108,7 +108,7 @@
                                     <td th:text="${procesosSub.ejecutor}">Mostrar creador</td>
                                     <td th:text="${procesosSub.subunidad}">Mostrar subunidad</td>
                                     <td th:text="${procesosSub.fechaLimite}">Mostrar fecha limite</td>
-                                    <td>No implementado</td>
+                                    <td><span class="bg-succes col-1"> 2 </span></td>
                                     <td th:text="${procesosSub.estado}">Mostrar estado</td>
                                 </tr>
 

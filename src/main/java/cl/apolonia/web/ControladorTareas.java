@@ -78,11 +78,16 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
+        
+        //Llamar método para cambio de estado, despues de conversar
+        if(tareasEjecutadasService.aceptarTarea(tarea)){
+            return new ModelAndView("redirect:/flujotrabajo");
+        }
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
 
-        //Llamar método para cambio de estado, despues de conversar 
-
-
-        return new ModelAndView("redirect:/flujotrabajo");
     }
 
     //Desde gestionar tarea
@@ -175,8 +180,9 @@ public class ControladorTareas {
             Model model) throws ParseException {
         //variables
         var nombre = urlParam;
+        String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
-        TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
+        TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
         if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
             return new ModelAndView("redirect:/flujotrabajo");
         } else {
