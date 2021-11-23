@@ -43,6 +43,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                     .registerStoredProcedureParameter("i_duracion", int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_fch_previs_inicio", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_fch_previs_fin", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_usuario_conectado", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_id_tarea", Integer.class, ParameterMode.OUT);
             creaTarea.setParameter("i_id_proceso_ejecutado", tarea.getIdProcesoEjecutado());
             creaTarea.setParameter("i_nombre", tarea.getTarea());
@@ -50,13 +51,14 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             creaTarea.setParameter("i_duracion", 1);
             creaTarea.setParameter("i_fch_previs_inicio", fechaini);
             creaTarea.setParameter("i_fch_previs_fin", fechaTerm);
+            creaTarea.setParameter("i_usuario_conectado", tarea.getRunEjecutor());
 
             creaTarea.execute();
             var id = (Integer) creaTarea.getOutputParameterValue("i_id_tarea");
             tarea.setIdtarea(id);
             
-            responsables.stream().forEach((p)-> crearResponsables(tarea, p) );
-            dependencias.stream().forEach((p)-> crearDependencia(tarea, p));
+            if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(tarea, p) );
+            if(dependencias != null)dependencias.stream().forEach((p)-> crearDependencia(tarea, p));
         } catch (Exception e) {
             return false;
         }

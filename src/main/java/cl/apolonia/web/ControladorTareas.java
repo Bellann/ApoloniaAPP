@@ -120,7 +120,7 @@ public class ControladorTareas {
     }
 
     //Nueva tarea a partir de un proceso seleccionado
-    @PostMapping("/subordinar")
+    @PostMapping("/nuevaTarea")
     public String nuevaTarea(@RequestParam(value = "r") int urlParam,
             @RequestParam(value = "n") String n,
             Model model) {
@@ -154,8 +154,9 @@ public class ControladorTareas {
             Model model) throws ParseException {
         //variables
         var nombre = urlParam;
+        String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
-        TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion);
+        TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
         if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
             return new ModelAndView("redirect:/flujotrabajo");
         } else {
