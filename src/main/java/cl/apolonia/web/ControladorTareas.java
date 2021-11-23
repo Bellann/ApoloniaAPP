@@ -121,9 +121,7 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        String fechaHoy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        if(tareasEjecutadasService.crearTarea(tarea, 0, responsable, null, true))
+        if(tareasEjecutadasService.crearTarea(tarea, 0, responsableSub, null, true))
             return new ModelAndView("redirect:/flujotrabajo");
         else
             return new ModelAndView("/gestionarTarea");

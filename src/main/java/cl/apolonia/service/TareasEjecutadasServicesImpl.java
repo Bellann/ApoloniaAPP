@@ -26,12 +26,23 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias, boolean isDesagregada) {
-
+        
+        String fechaini = "";
+        LocalDate fechaSumar = null;
         //Dar fomato a las fechas Date 
-        String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
-
+        if(isDesagregada)
+        {
+            fechaini = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            fechaSumar = sumaDiasDeDuracion(new Date(System.currentTimeMillis()),duracion);
+            System.out.println(fechaSumar);
+        }
+        else
+        {
+            fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
+            fechaSumar = sumaDiasDeDuracion(tarea.getfPrevInicio(), duracion);
+        }
         //Sumar días de duracion
-        LocalDate fechaSumar = sumaDiasDeDuracion(tarea.getfPrevInicio(), duracion);
+        
         //paso a String fecha final
         String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         try {
