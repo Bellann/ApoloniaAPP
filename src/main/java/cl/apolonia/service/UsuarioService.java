@@ -33,8 +33,10 @@ public class UsuarioService implements UserDetailsService {
 
         var roles = new ArrayList<GrantedAuthority>();
 
-        
         switch (usuario.getNivel()) {
+            case 0:
+                roles.add(new SimpleGrantedAuthority("ROLE_GERENCIA"));
+                break;
             case 1:
                 roles.add(new SimpleGrantedAuthority("ROLE_GERENCIA"));
                 break;
@@ -43,8 +45,8 @@ public class UsuarioService implements UserDetailsService {
                 break;
 
             default:
-                if (usuario.getNivel() >2){
-                roles.add(new SimpleGrantedAuthority("ROLE_FUNCIONARIO"));
+                if (usuario.getNivel() > 2) {
+                    roles.add(new SimpleGrantedAuthority("ROLE_FUNCIONARIO"));
                 }
                 break;
         }
