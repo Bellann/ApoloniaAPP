@@ -111,7 +111,7 @@ public class ControladorTareas {
 
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
       @GetMapping("/subordinar")
-    public String subordinar(@RequestParam(value = "idtarea") Integer urlParam,
+    public ModelAndView subordinar(@RequestParam(value = "idtarea") Integer urlParam,
                              @RequestParam(value = "nombreSub") String nombreSub,
                              @RequestParam(value = "descripcionSub") String descripcionSub,
                              @RequestParam(value = "responsableSub") List<String> responsableSub,
@@ -120,6 +120,7 @@ public class ControladorTareas {
                              TareasEjecutadas tareaEjecutada,
                              Model model) {
         var runUser = funcionariosService.runResponsable();
+
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
         if(tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea()))
@@ -130,8 +131,8 @@ public class ControladorTareas {
     }
     
         //Desde gestionar tarea
-    @PostMapping("/ReportarProblema")
-    public ModelAndView ReportarProblema(@RequestParam(value = "id") Integer urlParam,
+    @PostMapping("/reportarProblema")
+    public ModelAndView reportarProblema(@RequestParam(value = "id") Integer urlParam,
                                          @RequestParam(value = "descripcion") String descripcion,
                                             TareasEjecutadas tareaEjecutada,
                                             Model model) {
@@ -143,7 +144,36 @@ public class ControladorTareas {
 
         return new ModelAndView("redirect:/flujotrabajo");
     }
+
+            //Desde gestionar tarea
+    @PostMapping("/terminarTarea")
+    public ModelAndView terminarTarea(@RequestParam(value = "id") Integer urlParam,
+                                            TareasEjecutadas tareaEjecutada,
+                                            Model model) {
+        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        //run usuario logeado, para registrar el problema
+        var runUser = funcionariosService.runResponsable();
+
+        //Llamar método para registrar problema
+
+        return new ModelAndView("redirect:/flujotrabajo");
+    }
     
+      @PostMapping("/rechazarTarea")
+    public ModelAndView rechazarTarea(@RequestParam(value = "id") Integer urlParam,
+                                         @RequestParam(value = "descRechazo") String descRechazo,
+                                            TareasEjecutadas tareaEjecutada,
+                                            Model model) {
+        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        //run usuario logeado, para registrar el problema
+        var runUser = funcionariosService.runResponsable();
+
+        //Llamar método para registrar problema
+
+        return new ModelAndView("redirect:/flujotrabajo");
+    }
+    
+
     //Nueva tarea a partir de un proceso seleccionado
     @PostMapping("/nuevaTarea")
     public String nuevaTarea(@RequestParam(value = "r") int urlParam,
