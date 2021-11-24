@@ -27,6 +27,7 @@
                 <div class="d-flex p-2 border border-secondary">
                     <span th:text=${tareasEjecutadas.tarea}>a</span>
                 </div>
+<<<<<<< Updated upstream
                 <hr style="height:10px; width:100%; border-width:0; background-color: #FFFFFF">
 
                     <div class="row">
@@ -446,3 +447,182 @@
                                             </body>
 
                                             </html>
+=======
+              </div>
+              <input type="hidden" th:value="${tareasEjecutadas.idProcesoEjecutado}" th:name="idproceso"></label>
+              <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="idtarea"/>
+              Nombre de la tarea
+              <input type="text" class="form-control" id="nombreSub" placeholder="ingrese el nombre de la nueva tarea" th:name="nombreSub">
+            </br> Descripción
+            <textarea class="form-control" id="descripcionSubordinada" rows="3" th:name="descripcionSub"></textarea>
+          </br>
+        </br>
+        <label for="duracion">Duración de la tarea: </label>
+        <input type="number" value="1" min="1" max="365" step="1" th:name="duracionSub"/>&nbsp;días
+        <div class="col-lg-6" th:object="${funcionariosList}">
+          <div th:each="responsable : ${funcionariosList}" th:object="${responsables}">
+            <input type="checkbox" th:value="${responsable.run}" id="checked" th:name="responsableSub">
+            <label class="form-check-label" for="defaultCheck1">
+              <p th:text="${responsable.nombres}+' '+${responsable.apellidop}"></p>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+      <div class="modal-footer">
+        <input type="submit" value="crear tarea"
+        class="btn-flujo" id="btnvalida"/>
+      </form>
+      <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<!-- Modal 5 dar por terminada -->
+<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel5">Atención</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Dará por terminada esta tarea</p>
+        <p>¿Desea continuar?</p>
+      </div>
+      <div class="modal-footer">
+
+        <form method="POST" th:action="@{/terminarTarea(id=${tareasEjecutadas.idtarea})}">
+          <button class="btn-flujo" type="submit">Si</button>
+        </form>
+        <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn-flujo">Si</button>
+<button type="button" class="btn-flujo" data-dismiss="modal">No</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal 6 - reportar problema -->
+<div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel6">Reportar problema</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Reportar problema</p>
+        <form th:action="@{/reportarProblema}">
+          <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="id">
+          <textarea class="form-control" id="descripcionproblema" rows="3" ht:name="descripcion"></textarea>
+        </div>
+        <div class="modal-footer">
+
+          <button class="btn-flujo" type="submit">Enviar rechazo</button>
+        </form>
+        <button type="button" class="btn-flujo" data-dismiss="modal">cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal 8 rechazar -->
+<div class="modal fade" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel8" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel8">Rechazar tarea</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Ingrese la justificacion</p>
+        <form action="action">
+          <textarea class="form-control" id="descripcionproblema" rows="3"></textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn-flujo">Aceptar</button>
+        <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Upload archivos -->
+<div class="flex-fill">
+  <p>Adjunte archivo  &nbsp;&nbsp;&nbsp; <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
+</div>
+</div>
+</div>
+<footer th:replace="layout/plantilla :: footer"></footer>
+<script th:inline="javascript">
+
+    
+
+/*<![CDATA[*/
+
+var estado = 'programada';
+//*]]>*/
+switch (estado) {
+  case 'Programada':
+  document.getElementById("aceptarModalBtn").disabled = false;
+  document.getElementById("inciarModalBtn").disabled = false;
+  document.getElementById("subordinarModalBtn").disabled = false;
+  document.getElementById("reportarModalBtn").disabled = false;
+  document.getElementById("terminarModalBtn").disabled = false;
+  document.getElementById("rechazarModalBtn").disabled = false;
+  break;
+  case 'Aceptada':
+  document.getElementById("aceptarModalBtn").disabled = false;
+  document.getElementById("inciarModalBtn").disabled = true;
+  document.getElementById("subordinarModalBtn").disabled = false;
+  document.getElementById("reportarModalBtn").disabled = true;
+  document.getElementById("terminarModalBtn").disabled = false;
+  document.getElementById("rechazarModalBtn").disabled = true;
+  break;
+  case 'En Desarrollo':
+  document.getElementById("aceptarModalBtn").disabled = false;
+  document.getElementById("inciarModalBtn").disabled = false;
+  document.getElementById("subordinarModalBtn").disabled = true;
+  document.getElementById("reportarModalBtn").disabled = true;
+  document.getElementById("terminarModalBtn").disabled = true;
+  document.getElementById("rechazarModalBtn").disabled = false;
+  break;
+  case 'Rechazada':
+  document.getElementById("aceptarModalBtn").disabled = true;
+  document.getElementById("inciarModalBtn").disabled = false;
+  document.getElementById("subordinarModalBtn").disabled = false;
+  document.getElementById("reportarModalBtn").disabled = false;
+  document.getElementById("terminarModalBtn").disabled = false;
+  document.getElementById("rechazarModalBtn").disabled = false;
+  break;
+  case 'Terminada':
+  break;
+  default:
+  document.getElementById("aceptarModalBtn").disabled = true;
+  document.getElementById("inciarModalBtn").disabled = true;
+  document.getElementById("subordinarModalBtn").disabled = true;
+  document.getElementById("reportarModalBtn").disabled = true;
+  document.getElementById("terminarModalBtn").disabled = true;
+  document.getElementById("rechazarModalBtn").disabled = true;
+  break;
+}
+
+</script>
+<script>
+</script>
+</body>
+
+</html>
+>>>>>>> Stashed changes
