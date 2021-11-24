@@ -58,12 +58,14 @@ public class ControladorProceso {
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         var listaProcesos = procesosTipoService.listarPorUnidad(funcionariosService.rutUnidad());
+        
         //var procesotipo = procesosTipoDao.findByNombre("Prueba Proceso");
         //model.addAttribute("procesotipo", procesotipo);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("procesos", procesos);
         model.addAttribute("listaProcesos", listaProcesos);
+        
 
         return "ejecutarproceso";
     }
@@ -77,6 +79,7 @@ public class ControladorProceso {
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         var funcionarios = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
+        
         model.addAttribute("procesotipo", procesotipo);
         model.addAttribute("nombre", nombre);
         model.addAttribute("idProceso", idProceso);
@@ -84,6 +87,7 @@ public class ControladorProceso {
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("funcionarios", funcionarios);
+        
 
         return "ejecutarproceso";
     }
