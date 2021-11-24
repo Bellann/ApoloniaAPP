@@ -119,17 +119,14 @@ public class ControladorTareas {
                              @RequestParam(value = "duracionSub") int duracion,
                              TareasEjecutadas tareaEjecutada,
                              Model model) {
-        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-
-        //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        if(tareasEjecutadasService.crearTarea(tarea, 0, responsableSub, null, true))
-            return new ModelAndView("redirect:/flujotrabajo");
-        else
-            return new ModelAndView("/gestionarTarea");
-
-        //Llamar método para cambio de estado, despues de conversar 
-
+        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
+        if(tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea()))
+        {
+            return "prueba";
+        }
+        return "prueba";
     }
     
         //Desde gestionar tarea
@@ -185,7 +182,7 @@ public class ControladorTareas {
         String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
-        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia, false)) {
+        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
             return new ModelAndView("redirect:/flujotrabajo");
         } else {
             return new ModelAndView("redirect:/nuevaTarea");

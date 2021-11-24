@@ -8,7 +8,8 @@ import java.util.List;
 public interface TareasEjecutadasServices {
     
     
-    boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String>responsables, List<String> dependencias, boolean isDesagregada);
+    boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String>responsables, List<String> dependencias);
+    boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String>responsables, List<String> dependencias, int idTarea);
     boolean crearDesagregada(int idTarea, int idPadre);
     boolean crearResponsables(int tarea, String responsable);
     boolean crearDependencia(int tarea, String dependencia);
