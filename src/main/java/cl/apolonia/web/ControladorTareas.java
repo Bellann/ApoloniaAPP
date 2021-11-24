@@ -80,7 +80,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
         
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.aceptarTarea(tarea)){
+        if(tareasEjecutadasService.cambiarEstado(tarea,2)){
             return new ModelAndView("redirect:/flujotrabajo");
         }
         else
@@ -100,7 +100,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
-        if(tareasEjecutadasService.iniciarTarea(tarea)){
+        if(tareasEjecutadasService.cambiarEstado(tarea,3)){
             return new ModelAndView("redirect:/flujotrabajo");
         }
         else
@@ -110,31 +110,29 @@ public class ControladorTareas {
     }
 
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
-    @PostMapping("/subordinarTarea")
-    public ModelAndView subordinarTarea(@RequestParam(value = "id") Integer urlParam,
-            @RequestParam(value = "nombreSub") String nombreSub,
-            @RequestParam(value = "descripcionSub") String descripcionSub,
-            @RequestParam(value = "responsableSub") List<String> responsableSub,
-            @RequestParam(value = "idproceso") Integer idproceso,
-            TareasEjecutadas tareaEjecutada,
-            Model model) {
-        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-        //run usuario logeado, para el historico
+      @GetMapping("/subordinar")
+    public ModelAndView subordinar(@RequestParam(value = "idtarea") Integer urlParam,
+                             @RequestParam(value = "nombreSub") String nombreSub,
+                             @RequestParam(value = "descripcionSub") String descripcionSub,
+                             @RequestParam(value = "responsableSub") List<String> responsableSub,
+                             @RequestParam(value = "idproceso") Integer idproceso,
+                             @RequestParam(value = "duracionSub") int duracion,
+                             TareasEjecutadas tareaEjecutada,
+                             Model model) {
         var runUser = funcionariosService.runResponsable();
-        String fechaHoy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-        if(tareasEjecutadasService.crearTarea(tarea, 0, responsable, null, true))
-            return new ModelAndView("redirect:/flujotrabajo");
-        else
-            return new ModelAndView("/gestionarTarea");
-
-        //Llamar método para cambio de estado, despues de conversar 
-
+        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
+        if(tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea()))
+        {
+            return "prueba";
+        }
+        return "prueba";
     }
     
         //Desde gestionar tarea
-    @PostMapping("/ReportarProblema")
-    public ModelAndView ReportarProblema(@RequestParam(value = "id") Integer urlParam,
+    @PostMapping("/reportarProblema")
+    public ModelAndView reportarProblema(@RequestParam(value = "id") Integer urlParam,
                                          @RequestParam(value = "descripcion") String descripcion,
                                             TareasEjecutadas tareaEjecutada,
                                             Model model) {
@@ -146,9 +144,34 @@ public class ControladorTareas {
 
         return new ModelAndView("redirect:/flujotrabajo");
     }
+
+            //Desde gestionar tarea
+    @PostMapping("/terminarTarea")
+    public ModelAndView terminarTarea(@RequestParam(value = "id") Integer urlParam,
+                                            TareasEjecutadas tareaEjecutada,
+                                            Model model) {
+        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        //run usuario logeado, para registrar el problema
+        var runUser = funcionariosService.runResponsable();
+
+        //Llamar método para registrar problema
+
+        return new ModelAndView("redirect:/flujotrabajo");
+    }
     
-    
-    
+      @PostMapping("/rechazarTarea")
+    public ModelAndView rechazarTarea(@RequestParam(value = "id") Integer urlParam,
+                                         @RequestParam(value = "descRechazo") String descRechazo,
+                                            TareasEjecutadas tareaEjecutada,
+                                            Model model) {
+        TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        //run usuario logeado, para registrar el problema
+        var runUser = funcionariosService.runResponsable();
+
+        //Llamar método para registrar problema
+
+        return new ModelAndView("redirect:/flujotrabajo");
+    }
     
 
     //Nueva tarea a partir de un proceso seleccionado
@@ -189,7 +212,7 @@ public class ControladorTareas {
         String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
-        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia, false)) {
+        if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
             return new ModelAndView("redirect:/flujotrabajo");
         } else {
             return new ModelAndView("redirect:/nuevaTarea");

@@ -1,8 +1,6 @@
 package cl.apolonia.domain;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -87,11 +85,25 @@ public class TareasEjecutadas implements Serializable {
     @OneToMany(targetEntity = Responsables.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="ID_TAREA_EJECUTADA")
     private List<Responsables> responsables;
+    
+    @OneToMany(targetEntity = Observaciones.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="ID")
+    private List<Observaciones> observaciones;
     //</editor-fold>
+   
     public TareasEjecutadas() {
     }
 
-    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, int dependencias, int segregada, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, int idProcesoEjecutado, Date fechaAsignacion, String descTarea, List<Responsables> responsables) {
+//Constructor cumtom - Cuidado al cambiar la entidad//
+    public TareasEjecutadas(String tarea, Date fPrevInicio, int idProcesoEjecutado, String descTarea, String runEjecutor) {
+        this.tarea = tarea;
+        this.fPrevInicio = fPrevInicio;
+        this.idProcesoEjecutado = idProcesoEjecutado;
+        this.descTarea = descTarea;
+        this.runEjecutor = runEjecutor;
+    }
+
+    public TareasEjecutadas(Integer idtarea, String tarea, String ejecutor, String runEjecutor, String responsable, String runResponsable, Date fPrevInicio, Date fPrevFin, Date fRealInicio, Date fRealFin, String estado, String unidad, String subunidad, String rutUnidad, int idSubUnidad, String procesoEjecutado, int idProcesoEjecutado, Date fechaAsignacion, String descTarea, List<Responsables> responsables, List<Observaciones> observaciones) {
         this.idtarea = idtarea;
         this.tarea = tarea;
         this.ejecutor = ejecutor;
@@ -112,17 +124,9 @@ public class TareasEjecutadas implements Serializable {
         this.fechaAsignacion = fechaAsignacion;
         this.descTarea = descTarea;
         this.responsables = responsables;
+        this.observaciones = observaciones;
     }
 
-    public TareasEjecutadas(String tarea, Date fPrevInicio, int idProcesoEjecutado, String descTarea, String runEjecutor) {
-        this.tarea = tarea;
-        this.fPrevInicio = fPrevInicio;
-        this.idProcesoEjecutado = idProcesoEjecutado;
-        this.descTarea = descTarea;
-        this.runEjecutor = runEjecutor;
-    }
-    
-    //<editor-fold defaultstate="collapsed" desc="Getter and Setter">
     public Integer getIdtarea() {
         return idtarea;
     }
@@ -246,7 +250,7 @@ public class TareasEjecutadas implements Serializable {
     public String getProcesoEjecutado() {
         return procesoEjecutado;
     }
-   
+
     public void setProcesoEjecutado(String procesoEjecutado) {
         this.procesoEjecutado = procesoEjecutado;
     }
@@ -282,5 +286,15 @@ public class TareasEjecutadas implements Serializable {
     public void setResponsables(List<Responsables> responsables) {
         this.responsables = responsables;
     }
-    //</editor-fold>    
+
+    public List<Observaciones> getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(List<Observaciones> observaciones) {
+        this.observaciones = observaciones;
+    }
+    
+   
+   
 }

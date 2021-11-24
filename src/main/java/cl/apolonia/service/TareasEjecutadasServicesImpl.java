@@ -2,6 +2,7 @@ package cl.apolonia.service;
 
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.domain.TareasEjecutadas;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -25,15 +26,14 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     EntityManager entityManager;
 
     @Override
-    public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias, boolean isDesagregada) {
-
+    public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias) {
+        
         //Dar fomato a las fechas Date 
-        String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
 
-        //Sumar días de duracion
+        String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
         LocalDate fechaSumar = sumaDiasDeDuracion(tarea.getfPrevInicio(), duracion);
-        //paso a String fecha final
         String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        
         try {
             StoredProcedureQuery creaTarea = entityManager
                     .createStoredProcedureQuery("c_tarea_ejecutada_prueba")
@@ -48,7 +48,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             creaTarea.setParameter("i_id_proceso_ejecutado", tarea.getIdProcesoEjecutado());
             creaTarea.setParameter("i_nombre", tarea.getTarea());
             creaTarea.setParameter("i_descripcion", tarea.getDescTarea());
-            creaTarea.setParameter("i_duracion", 1);
+            creaTarea.setParameter("i_duracion", duracion);
             creaTarea.setParameter("i_fch_previs_inicio", fechaini);
             creaTarea.setParameter("i_fch_previs_fin", fechaTerm);
             creaTarea.setParameter("i_usuario_conectado", tarea.getRunEjecutor());
@@ -56,11 +56,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             creaTarea.execute();
             var id = (Integer) creaTarea.getOutputParameterValue("i_id_tarea");
             tarea.setIdtarea(id);
-            
-            if(isDesagregada)
-            {
-                crearDesagregada(id, tarea.getIdtarea());
-            }
             
             if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(id, p) );
             if(dependencias != null)dependencias.stream().forEach((p)-> crearDependencia(id, p));
@@ -170,8 +165,21 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     }
 
     @Override
-    public boolean aceptarTarea(TareasEjecutadas tarea) {
+    public boolean cambiarEstado(TareasEjecutadas tarea, int estado) {
 
+        String fechaInicio = "";
+        String fechaTermino = "";
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        
+        switch(estado) {
+            case 3:
+                fechaInicio = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                break;
+            case 6:
+                fechaInicio = dateFormat.format(tarea.getfRealInicio());
+                fechaTermino = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                break;
+        }
         
         try {
             StoredProcedureQuery cmd = entityManager
@@ -181,9 +189,9 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                     .registerStoredProcedureParameter("i_fch_real_fin", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_id_estado", int.class, ParameterMode.IN);
             cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
-            cmd.setParameter("i_fch_real_inicio", "");
-            cmd.setParameter("i_fch_real_fin", "");
-            cmd.setParameter("i_id_estado", 2);
+            cmd.setParameter("i_fch_real_inicio", fechaInicio);
+            cmd.setParameter("i_fch_real_fin", fechaTermino);
+            cmd.setParameter("i_id_estado", estado);
 
             cmd.execute();
 
@@ -196,36 +204,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     }
 
     @Override
-    public boolean iniciarTarea(TareasEjecutadas tarea) {
-        try {
-            
-            String fecha =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            
-            StoredProcedureQuery cmd = entityManager
-                    .createStoredProcedureQuery("u_tarea_ejec")
-                    .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter("i_fch_real_inicio", String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter("i_fch_real_fin", String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter("i_id_estado", int.class, ParameterMode.IN);
-            cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
-            cmd.setParameter("i_fch_real_inicio", fecha);
-            cmd.setParameter("i_fch_real_fin", "");
-            cmd.setParameter("i_id_estado", 3);
-
-            cmd.execute();
-
-            
-        } catch (Exception e) {
-            return false;
-        }
-        return true;    }
-
-    @Override
     public boolean crearDesagregada(int idTarea, int idPadre) {
         //Dar fomato a las fechas Date 
         try {
             StoredProcedureQuery crearResponsable = entityManager
-                    .createStoredProcedureQuery("c_dependen_tarea_ej")
+                    .createStoredProcedureQuery("c_tarea_desagregada")
                     .registerStoredProcedureParameter("i_id_tarea_padre", int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_id_tarea_desagregada", int.class, ParameterMode.IN);
             crearResponsable.setParameter("i_id_tarea_padre", idPadre);
@@ -236,6 +219,50 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias, int idTarea) {
+            
+        String fechaini = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate fechaSumar = sumaDiasDeDuracion(new Date(System.currentTimeMillis()),duracion);
+        String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        try {
+            StoredProcedureQuery creaTarea = entityManager
+                    .createStoredProcedureQuery("c_tarea_ejecutada_prueba")
+                    .registerStoredProcedureParameter("i_id_proceso_ejecutado", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_nombre", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_descripcion", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_duracion", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fch_previs_inicio", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fch_previs_fin", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_usuario_conectado", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_id_tarea", Integer.class, ParameterMode.OUT);
+            creaTarea.setParameter("i_id_proceso_ejecutado", tarea.getIdProcesoEjecutado());
+            creaTarea.setParameter("i_nombre", tarea.getTarea());
+            creaTarea.setParameter("i_descripcion", tarea.getDescTarea());
+            creaTarea.setParameter("i_duracion", duracion);
+            creaTarea.setParameter("i_fch_previs_inicio", fechaini);
+            creaTarea.setParameter("i_fch_previs_fin", fechaTerm);
+            creaTarea.setParameter("i_usuario_conectado", tarea.getRunEjecutor());
+
+            creaTarea.execute();
+            var id = (Integer) creaTarea.getOutputParameterValue("i_id_tarea");
+            tarea.setIdtarea(id);
+            
+            crearDesagregada(id, idTarea);
+            if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(id, p) );
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean crearObservacion(TareasEjecutadas tarea, String run, String comentario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
