@@ -99,8 +99,6 @@
             </div>
 
 
-
-
             <!-- MODALES DE LOS BOTONES -->
             <!-- Modal aceptar -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -212,8 +210,8 @@
                         </div>
                         <div class="modal-body">
 
-                            <form th:action="@{/reportarProblema}">
-                                <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="id">
+                            <form th:action="@{/reportar}">
+                                <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="id"/>
                                 <textarea class="form-control" id="descripcionRechazo" rows="3" th:name="descripcion"></textarea>
                                 <button class="btn-flujo" type="submit">Reportar problema</button>
                             </form>

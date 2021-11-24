@@ -129,21 +129,23 @@ public class ControladorTareas {
     }
     
         //Desde gestionar tarea
-    @PostMapping("/reportarProblema")
-    public ModelAndView reportarProblema(@RequestParam(value = "id") Integer urlParam,
-                                         @RequestParam(value = "descripcion") String descripcion,
+      @GetMapping("/reportar")
+    public ModelAndView reportar(@RequestParam(value = "id") Integer urlParam,
+                                         @RequestParam(value = "descripcion") String descRechazo,
                                             TareasEjecutadas tareaEjecutada,
                                             Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-        //run usuario logeado, para registrar el problema
+        //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        if(tareasEjecutadasService.crearObservacion(tarea, runUser, descripcion))
-        {
+        
+        //Llamar método para cambio de estado, despues de conversar
+        if(tareasEjecutadasService.cambiarEstado(tarea,5)){
             return new ModelAndView("redirect:/flujotrabajo");
         }
-        //Llamar método para registrar problema
-
-        return new ModelAndView("redirect:/gestionartarea");
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
     }
 
             //Desde gestionar tarea
@@ -165,7 +167,7 @@ public class ControladorTareas {
         }
     }
     
-      @PostMapping("/rechazarTarea")
+      @GetMapping("/rechazarTarea")
     public ModelAndView rechazarTarea(@RequestParam(value = "id") Integer urlParam,
                                          @RequestParam(value = "descRechazo") String descRechazo,
                                             TareasEjecutadas tareaEjecutada,
