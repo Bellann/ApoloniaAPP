@@ -80,7 +80,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
         
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.aceptarTarea(tarea)){
+        if(tareasEjecutadasService.cambiarEstado(tarea,2)){
             return new ModelAndView("redirect:/flujotrabajo");
         }
         else
@@ -100,7 +100,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
-        if(tareasEjecutadasService.iniciarTarea(tarea)){
+        if(tareasEjecutadasService.cambiarEstado(tarea,3)){
             return new ModelAndView("redirect:/flujotrabajo");
         }
         else

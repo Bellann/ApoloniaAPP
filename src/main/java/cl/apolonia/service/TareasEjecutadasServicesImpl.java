@@ -2,6 +2,7 @@ package cl.apolonia.service;
 
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.domain.TareasEjecutadas;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -164,8 +165,21 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     }
 
     @Override
-    public boolean aceptarTarea(TareasEjecutadas tarea) {
+    public boolean cambiarEstado(TareasEjecutadas tarea, int estado) {
 
+        String fechaInicio = "";
+        String fechaTermino = "";
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        
+        switch(estado) {
+            case 3:
+                fechaInicio = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                break;
+            case 6:
+                fechaInicio = dateFormat.format(tarea.getfRealInicio());
+                fechaTermino = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                break;
+        }
         
         try {
             StoredProcedureQuery cmd = entityManager
@@ -175,9 +189,9 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                     .registerStoredProcedureParameter("i_fch_real_fin", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_id_estado", int.class, ParameterMode.IN);
             cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
-            cmd.setParameter("i_fch_real_inicio", "");
-            cmd.setParameter("i_fch_real_fin", "");
-            cmd.setParameter("i_id_estado", 2);
+            cmd.setParameter("i_fch_real_inicio", fechaInicio);
+            cmd.setParameter("i_fch_real_fin", fechaTermino);
+            cmd.setParameter("i_id_estado", estado);
 
             cmd.execute();
 
@@ -188,31 +202,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return true;
 
     }
-
-    @Override
-    public boolean iniciarTarea(TareasEjecutadas tarea) {
-        try {
-            
-            String fecha =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            
-            StoredProcedureQuery cmd = entityManager
-                    .createStoredProcedureQuery("u_tarea_ejec")
-                    .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter("i_fch_real_inicio", String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter("i_fch_real_fin", String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter("i_id_estado", int.class, ParameterMode.IN);
-            cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
-            cmd.setParameter("i_fch_real_inicio", fecha);
-            cmd.setParameter("i_fch_real_fin", "");
-            cmd.setParameter("i_id_estado", 3);
-
-            cmd.execute();
-
-            
-        } catch (Exception e) {
-            return false;
-        }
-        return true;    }
 
     @Override
     public boolean crearDesagregada(int idTarea, int idPadre) {
@@ -269,6 +258,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean crearObservacion(TareasEjecutadas tarea, String run, String comentario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
