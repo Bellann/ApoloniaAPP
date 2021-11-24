@@ -139,10 +139,13 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para registrar el problema
         var runUser = funcionariosService.runResponsable();
-
+        if(tareasEjecutadasService.crearObservacion(tarea, runUser, descripcion))
+        {
+            return new ModelAndView("redirect:/flujotrabajo");
+        }
         //Llamar método para registrar problema
 
-        return new ModelAndView("redirect:/flujotrabajo");
+        return new ModelAndView("redirect:/gestionartarea");
     }
 
             //Desde gestionar tarea
@@ -151,12 +154,17 @@ public class ControladorTareas {
                                             TareasEjecutadas tareaEjecutada,
                                             Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-        //run usuario logeado, para registrar el problema
+        //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-
-        //Llamar método para registrar problema
-
-        return new ModelAndView("redirect:/flujotrabajo");
+        
+        //Llamar método para cambio de estado, despues de conversar
+        if(tareasEjecutadasService.cambiarEstado(tarea,4)){
+            return new ModelAndView("redirect:/flujotrabajo");
+        }
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
     }
     
       @PostMapping("/rechazarTarea")
@@ -165,12 +173,17 @@ public class ControladorTareas {
                                             TareasEjecutadas tareaEjecutada,
                                             Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-        //run usuario logeado, para registrar el problema
+        //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-
-        //Llamar método para registrar problema
-
-        return new ModelAndView("redirect:/flujotrabajo");
+        
+        //Llamar método para cambio de estado, despues de conversar
+        if(tareasEjecutadasService.cambiarEstado(tarea,5)){
+            return new ModelAndView("redirect:/flujotrabajo");
+        }
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
     }
     
 
