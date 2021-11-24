@@ -125,9 +125,9 @@ public class ControladorTareas {
         TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
         if(tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea()))
         {
-            return "prueba";
+            return new ModelAndView("redirect:/flujotrabajo");
         }
-        return "prueba";
+        return new ModelAndView("redirect:/gestionartarea");
     }
     
         //Desde gestionar tarea
