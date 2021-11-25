@@ -5,23 +5,42 @@ import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.TareasEjecutadas;
+import cl.apolonia.service.ArchivoService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+//Descargas
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import org.apache.commons.io.FilenameUtils;
 
 @Controller
 public class ControladorTareas {
@@ -49,7 +68,12 @@ public class ControladorTareas {
 
     @Autowired
     private TareasTipoDao tareasTipoDao;
+    
+    @Autowired
+    private ArchivoService archivoService;
 
+    private final String UPLOAD_DIR = "./uploads/";
+    
     //desde mi flujo de trabajo
     @GetMapping("/gestionartarea")
     public String gestionarTarea(@RequestParam(value = "r") String urlParam,
@@ -80,7 +104,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
         
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.cambiarEstado(tarea,2)){
+        if(tareasEjecutadasService.cambiarEstado(tarea,2)&& tareasEjecutadasService.crearObservacion(tarea, runUser, "Aceptada")){
             return new ModelAndView("redirect:/flujotrabajo");
         }
         else
@@ -100,7 +124,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
-        if(tareasEjecutadasService.cambiarEstado(tarea,3)){
+        if(tareasEjecutadasService.cambiarEstado(tarea,3)&& tareasEjecutadasService.crearObservacion(tarea, runUser, "Iniciada")){
             return new ModelAndView("redirect:/flujotrabajo");
         }
         else
@@ -125,27 +149,29 @@ public class ControladorTareas {
         TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
         if(tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea()))
         {
-            return "prueba";
+            return new ModelAndView("redirect:/flujotrabajo");
         }
-        return "prueba";
+        return new ModelAndView("/gestionarTarea");
     }
     
         //Desde gestionar tarea
-    @PostMapping("/reportarProblema")
-    public ModelAndView reportarProblema(@RequestParam(value = "id") Integer urlParam,
-                                         @RequestParam(value = "descripcion") String descripcion,
+      @GetMapping("/reportar")
+    public ModelAndView reportar(@RequestParam(value = "id") Integer urlParam,
+                                         @RequestParam(value = "descripcion") String descRechazo,
                                             TareasEjecutadas tareaEjecutada,
                                             Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-        //run usuario logeado, para registrar el problema
+        //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        if(tareasEjecutadasService.crearObservacion(tarea, runUser, descripcion))
-        {
+        
+        //Llamar método para cambio de estado, despues de conversar
+        if(tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)){
             return new ModelAndView("redirect:/flujotrabajo");
         }
-        //Llamar método para registrar problema
-
-        return new ModelAndView("redirect:/gestionartarea");
+        else
+        {
+            return new ModelAndView("/gestionarTarea");
+        }
     }
 
             //Desde gestionar tarea
@@ -167,7 +193,7 @@ public class ControladorTareas {
         }
     }
     
-      @PostMapping("/rechazarTarea")
+      @GetMapping("/rechazarTarea")
     public ModelAndView rechazarTarea(@RequestParam(value = "id") Integer urlParam,
                                          @RequestParam(value = "descRechazo") String descRechazo,
                                             TareasEjecutadas tareaEjecutada,
@@ -177,7 +203,7 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
         
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.cambiarEstado(tarea,5)){
+        if(tareasEjecutadasService.cambiarEstado(tarea,5)&& tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)){
             return new ModelAndView("redirect:/flujotrabajo");
         }
         else
@@ -231,5 +257,66 @@ public class ControladorTareas {
             return new ModelAndView("redirect:/nuevaTarea");
         }
     }
+    
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
 
+        if (file.isEmpty()) {
+            attributes.addFlashAttribute("message", "Please select a file to upload.");
+            return "redirect:/";
+        }
+        var runUser = funcionariosService.runResponsable();
+        // normalize the file path
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        FilenameUtils.getExtension(fileName);
+        System.out.println(fileName.lastIndexOf('.'));
+        
+        var id = archivoService.create(fileName, runUser,0 );
+        
+        if(id > 0)
+        {
+        // save the file on the local file system
+        try {
+
+            Path path = Paths.get(UPLOAD_DIR + fileName);
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // return success response
+        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
+        }
+
+        return "redirect:/";
+    }
+
+        private static final String DIRECTORY = "C:/PDF";
+    private static final String DEFAULT_FILE_NAME = "java-tutorial.pdf";
+
+    @Autowired
+    private ServletContext servletContext;
+
+    // http://localhost:8080/download1?fileName=abc.zip
+    // Using ResponseEntity<InputStreamResource>
+    @RequestMapping("/download")
+    public ResponseEntity<InputStreamResource> downloadFile1(
+    ) throws IOException {
+        
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "CASO 5 PTY4613 2019.pdf");
+        System.out.println("fileName: " + "CASO 5 PTY4613 2019.pdf");
+        System.out.println("mediaType: " + mediaType);
+
+        File file = new File(UPLOAD_DIR + "/" + "CASO 5 PTY4613 2019.pdf");
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                // Content-Disposition
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+                // Content-Type
+                .contentType(mediaType)
+                // Contet-Length
+                .contentLength(file.length()) //
+                .body(resource);
+    }
 }
