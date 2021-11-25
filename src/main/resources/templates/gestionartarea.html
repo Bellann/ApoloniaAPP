@@ -95,6 +95,15 @@
             <div class="row">
                 <div class="col-md-12"><!-- subir archivos--> 
                     <p>Adjunte archivo  &nbsp;&nbsp;&nbsp; <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
+                    <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" name="file" class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload File</button>
+                    </form>
+                    <form th:action="@{/download}">
+                        <input type="submit" value="Download" />
+                    </form>
                 </div>      
             </div>
 
