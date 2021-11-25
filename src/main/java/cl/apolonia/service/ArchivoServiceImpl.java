@@ -27,7 +27,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         var id = 0;
         try {
             StoredProcedureQuery creaTarea = entityManager
-                    .createStoredProcedureQuery("c_tarea_ejecutada_prueba")
+                    .createStoredProcedureQuery("c_archivos")
                     .registerStoredProcedureParameter("i_nombre", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_fecha", String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_run", String.class, ParameterMode.IN)
@@ -40,7 +40,7 @@ public class ArchivoServiceImpl implements ArchivoService {
 
 
             creaTarea.execute();
-             id = (Integer) creaTarea.getOutputParameterValue("i_id_tarea");
+             id = (Integer) creaTarea.getOutputParameterValue("o_id");
             
         } catch (Exception e) {
             return 0;
