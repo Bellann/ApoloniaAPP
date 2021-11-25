@@ -4,182 +4,218 @@
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
-            <title>Apolonia</title>
-            <!-- Bootstrap CSS -->
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-                <!-- estilos propios-->
-                <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
-                <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
-                <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
-                <!-- Date Picker -->
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css" integrity="sha512-p4vIrJ1mDmOVghNMM4YsWxm0ELMJ/T0IkdEvrkNHIcgFsSzDi/fV7YxzTzb3mnMvFPawuIyIrHcpxClauEfpQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-                <!-- Data table-->
-                <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
-                <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
-                <!-- Optional JavaScript -->
-                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-                <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-                <!-- Always remember to call the above files first before calling the bootstrap.min.js file -->      
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-                </head>
+        <title>Apolonia</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <!-- estilos propios-->
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" th:href="@{/css/estilo.css}"/>
+        <link rel="shortcut icon" type="image/png" th:href="@{/img/logo56x.png}"/>
+        <!-- Date Picker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css" integrity="sha512-p4vIrJ1mDmOVghNMM4YsWxm0ELMJ/T0IkdEvrkNHIcgFsSzDi/fV7YxzTzb3mnMvFPawuIyIrHcpxClauEfpQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Data table-->
+        <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/datatables.min.css}"/>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <!-- Always remember to call the above files first before calling the bootstrap.min.js file -->      
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    </head>
 
-                <body>
-                    <header th:replace="layout/plantilla :: header"></header>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <!-- Listado de procesos por Unidad / Falta por subunidad  SELECT-OPTION -->
-                            <div class="col-md-6">
-                                <h2>Iniciar un proceso para su empresa</h2>
-                                <form role="form" id="enviarid" th:action=@{/enviarid} method="GET">
-                                    <p>Seleccione de la lista desplegable el proceso, para ver sus tareas asociadas</p>
-                                    <select class="form-control" id="procesosTipoList" name="nombre">
-                                        <option value="">Seleccione el proceso a ver </option>
-                                        <option th:each="listaProcesos : ${listaProcesos}"
-                                                th:value="${listaProcesos.nombre}"
-                                                th:text="${listaProcesos.nombre}"></option>
-                                    </select>
-                                    </br>
-                                    <button class="btn-flujo" type="submit" value="Cargar tareas asociadas" id="b1">Listar tareas asociadas</button>
-                                </form>
-                                <a th:href="@{/ejecutarproceso}"><button class="btn-flujo" id="b2">Refrescar procesos</button></a>
-                                <!-- final de forms para tabla interactiva-->            
-                            </div>
-                            <div class="col-md-6">
-                                
-                            </div>
-                            <!-- Aviso de proceso sin tareas -->
-                            <span th:if="${tareasProceso== null OR tareasProceso.empty}"> 
-                                </br>
-                                <h4>No existen tareas para este proceso o no ha seleccionado un proceso</h4></span>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Listado de procesos por Unidad / Falta por subunidad  SELECT-OPTION -->
+                <div class="col-md-6">
+                    <h2>Iniciar un proceso para su empresa</h2>
+                    <form role="form" id="enviarid" th:action=@{/enviarid} method="GET">
+                        <p>Seleccione de la lista desplegable el proceso, para ver sus tareas asociadas</p>
+                        <select class="form-control" id="procesosTipoList" name="nombre">
+                            <option value="">Seleccione el proceso a ver </option>
+                            <option th:each="listaProcesos : ${listaProcesos}"
+                                    th:value="${listaProcesos.nombre}"
+                                    th:text="${listaProcesos.nombre}"></option>
+                        </select>
+                        </br>
+                        <button class="btn-flujo" type="submit" value="Cargar tareas asociadas" id="b1">Listar tareas asociadas</button>
+                    </form>
+                    <a th:href="@{/ejecutarproceso}"><button class="btn-flujo" id="b2">Refrescar procesos</button></a>
+                    <!-- final de forms para tabla interactiva-->            
+                </div>
+                <div class="col-md-6">
+
+                </div>
+                <!-- Aviso de proceso sin tareas -->
+                <span th:if="${tareasProceso== null OR tareasProceso.empty}"> 
+                    </br>
+                    <h4>No existen tareas para este proceso o no ha seleccionado un proceso</h4></span>
+                </br>
+            </div>
+
+            <div th:if="${tareasProceso!= null AND !tareasProceso.empty}">
+                <form th:action="@{/ejecuta}" th:object="${tarea}"> <!-- INICIO DEL FORM-->
+                    <div class="row">
+                        <div class="col-md-8">
+
+                            <!-- Información de las tareas -->
                             </br>
+                            <h4>Información del proceso seleccionado</h4>
+                            <hr>
+                                <div th:each="procesotipo : ${procesotipo}" > 
+                                    </br>
+                                    <h3>Nombre del Proceso</h3> 
+                                    <p th:text="${procesotipo.nombre}"></p>
+                                    <h3>Descripción:</h3> 
+                                    <p th:text="${procesotipo.descripcion}"></p>
+                                    <!-- DATOS PARA PROCESO EJECUTADO -->
+                                    <input type="hidden" th:value="${procesotipo.idSubunidad}" th:name="idSubunidad"/>
+                                    <input type="hidden" th:value="${procesotipo.nombre}" th:name="nombreProceso"/>
+                                    <input type="hidden" th:value="${procesotipo.descripcion}" th:name="descripcionProceso"/>
+                                    <input type="hidden" th:value="${procesotipo.runDisenador}" th:name="runDisenador"/>
+
+
+
+                                </div>
+
                         </div>
-
-                        <div th:if="${tareasProceso!= null AND !tareasProceso.empty}">
-                            <form th:action="@{/ejecuta}" th:object="${tarea}"> <!-- INICIO DEL FORM-->
-                                <div class="row">
-                                    <div class="col-md-8">
-
-                                        <!-- Información de las tareas -->
-                                        </br>
-                                        <h4>Información del proceso seleccionado</h4>
-                                        <hr>
-                                            <div th:each="procesotipo : ${procesotipo}" > 
-                                                </br>
-                                                <h3>Nombre del Proceso</h3> 
-                                                <p th:text="${procesotipo.nombre}"></p>
-                                                <h3>Descripción:</h3> 
-                                                <p th:text="${procesotipo.descripcion}"></p>
-                                                <!-- DATOS PARA PROCESO EJECUTADO -->
-                                                <input type="hidden" th:value="${procesotipo.idSubunidad}" th:name="idSubunidad"/>
-                                                <input type="hidden" th:value="${procesotipo.nombre}" th:name="nombreProceso"/>
-                                                <input type="hidden" th:value="${procesotipo.descripcion}" th:name="descripcionProceso"/>
-                                                <input type="hidden" th:value="${procesotipo.runDisenador}" th:name="runDisenador"/>
-                                                
-                                                
-                                                
-                                            </div>
-
-                                    </div>
-                                    <div class="col-md-4">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="inicio"> <h2>Seleccione la fecha a iniciar el proceso</h2></label>
-                                        <div class="input-group date">
-                                            <input type="text" class="form-control" id="fInicial" autocomplete="off" th:name="fechaInicioProceso" />
-                                            <div class="input-group-append">
-                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                    </div>
-                                    <div class="col-md-12">
-                                        </br>
-                                        <h3>Lista de tareas en este proceso , paso 1 de 2</h3>
-                                        <p>*Recuerde seleccionar la fecha de inicio, los cálculos de las fechas serán automáticos</p>
-                                        <p>*Si lo desea, puede asignar la tarea a otra persona, eso lo podrá realizar en paso siguiente</p>
-                                        <!-- Tabla que itera los datos de las tareas segun el proceso -->
-                                        <div th:if="${tareasProceso != null and !tareasProceso.empty}" class="contenedor-data">
-                                            <table id="tareasProceso" class="table" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nombre Tarea</th>
-                                                        <th>Descripcion de la tarea</th>
-                                                        <th>Duracion</th>
-                                                        <th>Fecha de inicio</th>  
-                                                        <th>Responsable por defecto</th>
-                                                        <th>área</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    <tr th:each="tareasProceso  : ${tareasProceso}">
-                                                        <td name="nombreTarea"><input class="form-control no-border" type="text" th:value="${tareasProceso.nombre}" th:name="nombreTarea"/></td>
-                                                        <td name="descripcion"><input input class="form-control no-border" type="text" th:value="${tareasProceso.descripcionTarea}" th:name="descripcionTarea"/> </td>
-                                                        <td name="duracion"><input class="form-control no-border" type="text" th:value="${tareasProceso.duracion}" th:name="duracionTarea"/> días</td>
-                                                        <td><input class="form-control no-border" type="text" name="fechaTareaInicio" th:name="fechaInicioTarea" value="no implementado" th:value="${noimplementado}"/></td>
-                                                        <td name="responsable"> 
-                                                            <p th:text="${tareasProceso.nombres}+' '+${tareasProceso.apellidop}"></p>
-                                                            <input  class="form-control no-border" type="text" th:value="${tareasProceso.runFuncionario}" th:name="responsableTarea"/></td>
-                                                        <td th:text="${tareasProceso.subunidad}"></td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Nombre Tarea</th>
-                                                        <th>Descripcion de la tarea</th>
-                                                        <th>Duracion</th>
-                                                        <th>Fecha de inicio</th>
-                                                        <th>Responsable por defecto</th>
-                                                        <th>área</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <p th:text="${responsable}"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                       
-                                    </div>
-                                    <div class="col-md-4">
-                                       
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                       
-                                    </div>
-                                    <div class="col-md-6">
-                                       
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input class="btn-flujo" type="submit" value="Siguiente"/> 
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="col-md-4">
                         </div>
                     </div>
-                    <footer th:replace="layout/plantilla :: footer"></footer>
-                    <!-- Data Picker -->
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-                    <script>
-                        $('.input-group.date').datepicker({
-                            autoclose: true,
-                            todayHighlight: true,
-                            format: 'yyyy/mm/dd',
-                        });
-                    </script>
-                    <script th:src="@{/js/procesosData.js}"></script>
-                </body>
-                </html>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="inicio"> <h2>Seleccione la fecha a iniciar el proceso</h2></label>
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="fInicial" autocomplete="off" th:name="fechaInicioProceso" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-12">
+                            </br>
+                            <h3>Lista de tareas en este proceso , paso 1 de 2</h3>
+                            <p>*Recuerde seleccionar la fecha de inicio, los cálculos de las fechas serán automáticos</p>
+                            <p>*Si lo desea, puede asignar la tarea a otra persona, eso lo podrá realizar en paso siguiente</p>
+                            <!-- Tabla que itera los datos de las tareas segun el proceso -->
+                            <div th:if="${tareasProceso != null and !tareasProceso.empty}" class="contenedor-data">
+                                <table id="tareasProceso" class="table" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre Tarea</th>
+                                            <th>Descripcion de la tarea</th>
+                                            <th>Duracion / Dias</th>
+                                            <th>Fecha de inicio</th>  
+                                            <th>Responsable por defecto</th>
+                                            <th>área</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr name='tarea' th:each="tareasProceso  : ${tareasProceso}">
+                                            <td name="nombreTarea"><input class="form-control no-border" type="text" th:value="${tareasProceso.nombre}" th:name="nombreTarea"/></td>
+                                            <td name="descripcion"><input input class="form-control no-border" type="text" th:value="${tareasProceso.descripcionTarea}" th:name="descripcionTarea"/> </td>
+                                            <td name="duracion"><input class="form-control no-border" type="text" th:value="${tareasProceso.duracion}" th:name="duracionTarea"/></td>
+                                            <td name="fechaTareaInicio"><input class="form-control no-border" type="text"  th:name="fechaInicioTarea" value=""/></td>
+                                            <td name="responsable"> 
+                                                <p th:text="${tareasProceso.nombres}+' '+${tareasProceso.apellidop}"></p>
+                                                <input  class="form-control no-border" type="text" th:value="${tareasProceso.runFuncionario}" th:name="responsableTarea"/></td>
+                                            <td th:text="${tareasProceso.subunidad}"></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nombre Tarea</th>
+                                            <th>Descripcion de la tarea</th>
+                                            <th>Duracion</th>
+                                            <th>Fecha de inicio</th>
+                                            <th>Responsable por defecto</th>
+                                            <th>área</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p th:text="${responsable}"></p>
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-2">
+                            <input class="btn-flujo" type="submit" value="Siguiente"/> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer th:replace="layout/plantilla :: footer"></footer>
+        <!-- Data Picker -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+            $('.input-group.date').datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                format: 'yyyy/mm/dd',
+            });
+        </script>
+        <script>
+            
+            const weekday = new Array(7);
+            weekday[0] = "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+            
+            $('#fInicial').change(function(){
+                var fecha = new Date($(this).val())
+                console.log(fecha)
+                console.log(fecha.getDay())
+                $('tr[name="tarea"]').each(function(){
+                    var duracion = parseInt($(this).children('td[name="duracion"]').children('input').val())
+                    
+                    var dd = String(fecha.getDate()).padStart(2, '0');
+                    var mm = String(fecha.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = fecha.getFullYear();
+                    $(this).children('td[name="fechaTareaInicio"]').children('input').val(dd + '/' + mm + '/' + yyyy);
+                    
+                    var count = 0;
+                    while(count < duracion)
+                    {
+                        fecha.setDate(fecha.getDate()+ duracion);
+                        if(weekday[fecha.getDay()]!= "Saturday" && weekday[fecha.getDay()]!= "Sunday")
+                        {
+                            count += 1;
+                        }
+                        
+                    }
+                });
+            });
+        </script>
+        <script th:src="@{/js/procesosData.js}"></script>
+    </body>
+    </html>
