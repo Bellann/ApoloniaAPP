@@ -265,6 +265,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public List<TareasEjecutadas> listarXProceso(Integer id_proceso) {
+        return tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
+    }
+
 
 
 

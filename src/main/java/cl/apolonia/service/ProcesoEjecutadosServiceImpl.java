@@ -21,6 +21,11 @@ public class ProcesoEjecutadosServiceImpl implements ProcesoEjecutadosService {
         return (List<ProcesoEjecutados>) procesoEjecutadosDao.findAll();
     }
 
+    @Override
+    public ProcesoEjecutados encontrarproceso(int id) {
+        return procesoEjecutadosDao.findById(id).orElse(null);
+    }
+
 
 
 

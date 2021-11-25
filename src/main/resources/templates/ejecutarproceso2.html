@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="layout/plantilla :: head"></head><!-- Menu y saludo -->
+    <header th:replace="layout/plantilla :: header"></header><!-- Menu y saludo -->
+
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12"> <!-- Nombre del proceso-->
+                    <h3>Proceso en marcha</h3> <span th:text="${proceso.nombre}"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><!--listado de tareas-->
+                    <table id="tareasProceso" class="table" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nombre Tarea</th>
+                                <th>Responsable</th>
+                                <th>Fecha de inicio</th>
+                                <th>Fecha de término</th>
+                                <th>Gestionar</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr th:each="tareas  : ${tarea}">
+                                <td><img src="../static/img/gestionar.png" th:src="@{img/gestionar.png}" alt="gestionar"></td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Nombre Tarea</th>
+                                <th>Descripcion de la tarea</th>
+                                <th>Duracion</th>
+                                <th>Fecha de inicio</th>
+                                <th>Responsable por defecto</th>
+                                <th>área</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </body>
+</html>
