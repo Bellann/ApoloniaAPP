@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="RESP_TAREA_EJECUTADAS")
+@Table(name="TAREA_EJEC_OBSERVACIONES")
 public class Observaciones implements Serializable{
    
     @Id

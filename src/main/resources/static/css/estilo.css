@@ -148,3 +148,8 @@ form-control-inline{
 display:inline-block;
 
 }
+
+.no-border {
+    border: 0;
+    box-shadow: none;
+}

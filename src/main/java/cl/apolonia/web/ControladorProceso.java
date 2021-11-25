@@ -5,6 +5,7 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.TareasTipo;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -71,7 +73,7 @@ public class ControladorProceso {
     }
 
     @GetMapping(value = {"/enviarid"})
-    public String tareasporproceso(@RequestParam(value = "nombre") String urlParam, Model model) {
+    public String tareasporproceso(@RequestParam(value = "nombre") String urlParam, Model model, TareasTipo tareaTipo) {
         var nombre = urlParam;
         var procesotipo = procesosTipoDao.findByNombre(nombre);
         var idProceso = procesosTipoService.getId(nombre);
@@ -89,6 +91,13 @@ public class ControladorProceso {
         model.addAttribute("funcionarios", funcionarios);
         
 
+        return "ejecutarproceso";
+    }
+
+     @GetMapping(value = {"/responsableTarea"})
+    public String responsableTarea(TareasTipo tareasTipo) {
+        
+        
         return "ejecutarproceso";
     }
 
