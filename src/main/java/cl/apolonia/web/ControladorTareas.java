@@ -40,7 +40,6 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import org.apache.commons.io.FilenameUtils;
 
 @Controller
 public class ControladorTareas {
@@ -268,17 +267,16 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
         // normalize the file path
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        FilenameUtils.getExtension(fileName);
         System.out.println(fileName.lastIndexOf('.'));
         
-        var id = archivoService.create(fileName, runUser,0 );
-        
+        int id = archivoService.create(fileName, runUser,1 );
+
         if(id > 0)
         {
         // save the file on the local file system
         try {
 
-            Path path = Paths.get(UPLOAD_DIR + fileName);
+            Path path = Paths.get(UPLOAD_DIR + String.valueOf(id));
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
@@ -300,19 +298,20 @@ public class ControladorTareas {
     // http://localhost:8080/download1?fileName=abc.zip
     // Using ResponseEntity<InputStreamResource>
     @RequestMapping("/download")
+    // Hay que traerse el id del archivo y el nombre
     public ResponseEntity<InputStreamResource> downloadFile1(
     ) throws IOException {
         
-        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "CASO 5 PTY4613 2019.pdf");
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "4");
         System.out.println("fileName: " + "CASO 5 PTY4613 2019.pdf");
         System.out.println("mediaType: " + mediaType);
 
-        File file = new File(UPLOAD_DIR + "/" + "CASO 5 PTY4613 2019.pdf");
+        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/"4");
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
                 // Content-Disposition
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + /*Aca va el nombre del archivo que le entregaremos al usuario*/"CASO 5 PTY4613 2019.pdf")
                 // Content-Type
                 .contentType(mediaType)
                 // Contet-Length
