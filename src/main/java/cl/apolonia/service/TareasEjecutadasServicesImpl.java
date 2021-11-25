@@ -169,11 +169,19 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
         String fechaInicio = "";
         String fechaTermino = "";
+        String comentario ="";
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         
         switch(estado) {
+            case 2:
+                comentario = "Aceptada";
+                break;
             case 3:
+                comentario = "En Desarrollo";
                 fechaInicio = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                break;
+            case 4:
+                comentario = "En Revision";
                 break;
             case 6:
                 fechaInicio = dateFormat.format(tarea.getfRealInicio());
@@ -194,7 +202,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             cmd.setParameter("i_id_estado", estado);
 
             cmd.execute();
-
             
         } catch (Exception e) {
             return false;
@@ -262,7 +269,28 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public boolean crearObservacion(TareasEjecutadas tarea, String run, String comentario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        String fechaini = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        
+        try {
+            StoredProcedureQuery cmd = entityManager
+                    .createStoredProcedureQuery("c_observaciones")
+                    .registerStoredProcedureParameter("i_id_tarea", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_fecha", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_run", String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_comentario", String.class, ParameterMode.IN);
+
+            cmd.setParameter("i_id_tarea", tarea.getIdtarea());
+            cmd.setParameter("i_fecha", fechaini);
+            cmd.setParameter("i_run", run);
+            cmd.setParameter("i_comentario", comentario);
+
+
+            cmd.execute();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
