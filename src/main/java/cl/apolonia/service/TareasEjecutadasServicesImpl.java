@@ -293,6 +293,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return true;
     }
 
+    @Override
+    public List<TareasEjecutadas> listarXProceso(Integer id_proceso) {
+        return tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
+    }
+
 
 
 

@@ -158,12 +158,88 @@
                     <div class="row">
                         <div class="col-md-4">
 
-                        </div>
-                        <div class="col-md-6">
 
-                        </div>
-                        <div class="col-md-2">
-                            <input class="btn-flujo" type="submit" value="Siguiente"/> 
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="inicio"> <h2>Seleccione la fecha a iniciar el proceso</h2></label>
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control" id="fInicial" autocomplete="off" th:name="fechaInicioProceso" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                    </div>
+                                    <div class="col-md-12">
+                                        </br>
+                                        <h3>Lista de tareas en este proceso , paso 1 de 2</h3>
+                                        <p>*Recuerde seleccionar la fecha de inicio, los cálculos de las fechas serán automáticos</p>
+                                        <p>*Si lo desea, puede asignar la tarea a otra persona, eso lo podrá realizar en paso siguiente</p>
+                                        <!-- Tabla que itera los datos de las tareas segun el proceso -->
+                                        <div th:if="${tareasProceso != null and !tareasProceso.empty}" class="contenedor-data">
+                                            <table id="tareasProceso" class="table" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre Tarea</th>
+                                                        <th>Descripcion de la tarea</th>
+                                                        <th>Duracion</th>
+                                                        <th>Fecha de inicio</th>  
+                                                        <th>Responsable por defecto</th>
+                                                        <th>área</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr th:each="tareasProceso  : ${tareasProceso}">
+                                                        <td name="nombreTarea"><input class="form-control no-border" type="text" th:value="${tareasProceso.nombre}" th:name="nombreTarea"/></td>
+                                                        <td name="descripcion"><input input class="form-control no-border" type="text" th:value="${tareasProceso.descripcionTarea}" th:name="descripcionTarea"/> </td>
+                                                        <td name="duracion"><input class="form-control no-border" type="text" th:value="${tareasProceso.duracion}" th:name="duracionTarea"/> días</td>
+                                                        <td><input class="form-control no-border" type="text" name="fechaTareaInicio" th:name="fechaInicioTarea" value="no implementado 2"/></td>
+                                                        <td name="responsable"> 
+                                                            <p th:text="${tareasProceso.nombres}+' '+${tareasProceso.apellidop}"></p>
+                                                            <input  class="form-control no-border" type="text" th:value="${tareasProceso.runFuncionario}" th:name="responsableTarea"/></td>
+                                                        <td th:text="${tareasProceso.subunidad}"></td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Nombre Tarea</th>
+                                                        <th>Descripcion de la tarea</th>
+                                                        <th>Duracion</th>
+                                                        <th>Fecha de inicio</th>
+                                                        <th>Responsable por defecto</th>
+                                                        <th>área</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p th:text="${responsable}"></p>
+                                    </div>
+                                    <div class="col-md-4">
+                                       
+                                    </div>
+                                    <div class="col-md-4">
+                                       
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                       
+                                    </div>
+                                    <div class="col-md-6">
+                                       
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="btn-flujo" type="submit" value="Siguiente"/> 
+                                    </div>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                 </form>

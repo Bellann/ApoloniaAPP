@@ -100,45 +100,47 @@ public class ControladorProceso {
 
     @GetMapping(value = {"/ejecuta"})
     public ModelAndView ejecutar(@RequestParam(value = "idSubunidad") Integer urlParam,
-                            @RequestParam(value = "nombreProceso") String nombreProceso,
-                            @RequestParam(value = "descripcionProceso") String descipcionroceso,
-                            @RequestParam(value = "fechaInicioProceso") String fechaInicioProceso,
-                            @RequestParam(value = "runDisenador") String runDisenador, //hasta aqui son parametros para el proceso ejecutado
-                            @RequestParam(value = "nombreTarea") List<String> nombreTarea, //desde aqui parametros para tarea ejecutada
-                            @RequestParam(value = "descripcionTarea") List<String> descripcionTarea,
-                            @RequestParam(value = "duracionTarea") List<Integer> duracionTarea,
-                            @RequestParam(value = "fechaInicioTarea") List<String> fechaInicioTarea,
-                            @RequestParam(value = "responsableTarea") List<String> responsableTarea,
-                            Model model, 
-                            TareasEjecutadas tarea) {
-        
-    //RUN DEL USUARIO CONECTADO, para proceso ejecutado y para tarea ejecutada
-    var runUser = funcionariosService.runResponsable();
-    
-    //crear Proceso ejecutado
-    
-    //si lo crea, crear tareas ejecutadas
-    
-    
-    
-    //Colocar ID del proceso, resultante del procedimiento esto deberia ser cuando es correcto
-    var idProcesoEjecutado = 12;
- 
+            @RequestParam(value = "nombreProceso") String nombreProceso,
+            @RequestParam(value = "descripcionProceso") String descipcionroceso,
+            @RequestParam(value = "fechaInicioProceso") String fechaInicioProceso,
+            @RequestParam(value = "runDisenador") String runDisenador, //hasta aqui son parametros para el proceso ejecutado
+            @RequestParam(value = "nombreTarea") List<String> nombreTarea, //desde aqui parametros para tarea ejecutada
+            @RequestParam(value = "descripcionTarea") List<String> descripcionTarea,
+            @RequestParam(value = "duracionTarea") List<Integer> duracionTarea,
+            @RequestParam(value = "fechaInicioTarea") List<String> fechaInicioTarea,
+            @RequestParam(value = "responsableTarea") List<String> responsableTarea,
+            Model model,
+            TareasEjecutadas tarea) {
+
+        //RUN DEL USUARIO CONECTADO, para proceso ejecutado y para tarea ejecutada
+        var runUser = funcionariosService.runResponsable();
+
+        //crear Proceso ejecutado
+        //si lo crea, crear tareas ejecutadas
+        //Colocar ID del proceso, resultante del procedimiento esto deberia ser cuando es correcto
+        var idProcesoEjecutado = 12;
+
         return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + idProcesoEjecutado);
     }
-   
-    
-    
-    
-    //Ventana para administrar las tareas antes de confirmar
-        @GetMapping(value = {"/ejecuta2"})
-    public ModelAndView ejecutar(@RequestParam(value = "idProcesoEjecutado") Integer urlParam,
-                            Model model, 
-                            TareasEjecutadas tarea) {
-        
 
- 
-        return new ModelAndView("prueba");
+    //Ventana para administrar las tareas antes de confirmar
+    @GetMapping(value = {"/ejecuta2"})
+    public ModelAndView ejecutar(@RequestParam(value = "idProcesoEjecutado") Integer urlParam,
+            Model model) {
+        //Variables para saludo superior
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+
+        //proceso que emerge en la venta + lista de sus tareas
+        var proceso = procesoEjecutadosService.encontrarproceso(urlParam);
+        var tarea = tareasEjecutadasService.listarXProceso(urlParam);
+        
+        model.addAttribute("proceso", proceso);
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+
+        return new ModelAndView("ejecutarproceso2");
     }
-    
+
 }
