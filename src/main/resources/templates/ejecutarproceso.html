@@ -201,7 +201,9 @@
                         weekday[6] = "Saturday";
 
                         $('#fInicial').change(function () {
-                            var fecha = new Date($(this).val())
+                            var fechaS = $(this).val();
+                            var parts = fechaS.split("/");
+                            var fecha = new Date(+parts[2], parts[1]-1, +parts[0]);
                             console.log(fecha)
                             console.log(fecha.getDay())
                             $('tr[name="tarea"]').each(function () {
