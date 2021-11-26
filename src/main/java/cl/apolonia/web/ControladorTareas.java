@@ -10,7 +10,6 @@ import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

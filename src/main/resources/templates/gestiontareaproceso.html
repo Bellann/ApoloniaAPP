@@ -2,47 +2,129 @@
     <head th:replace="layout/plantilla :: head"></head>
     <body>
         <header th:replace="layout/plantilla :: header"></header>
-        <footer th:replace="layout/plantilla :: footer"></footer>
         <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
         <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-7">
+                        <h1>Tarea a gestionar: <span th:text="${tarea.tarea}"></span></h1>
+                        </br>
+
+                        <h4>Fecha de inicio prevista</h4><p th:text="${tarea.fPrevInicio}"></p> 
+                        </br>
+
+                        <h4>Fecha de finalizacion prevista</h4><p th:text="${tarea.fPrevFin}"></p>
+                        </br>
+
+                        <h4>Estado de la tarea</h4><p th:text="${tarea.estado}"></p> 
+                        </br>
+
+                        <h4>Nombre del departamento</h4><p th:text="${tarea.subunidad}"></p>
+                        </br>
+
+                        <h4>Proceso ejecutado a la que pertenece</h4><p th:text="${tarea.procesoEjecutado}"></p>
+                        </br>
+
+                        <h4>Observaciones de la tarea</h4>
+                        <div th:if="${tarea.observaciones != null OR !tarea.observaciones.empty}" class="contenedor-data">
+                            <span th:each="observacion : ${tarea.observaciones}">
+                                <ul>
+                                    <li><p th:text="${observacion.comentario}+' '+${observacion.fecha}"></p></li>
+                                </ul>
+                            </span>
+                        </div>
+                        <div th:if="${tarea.observaciones == null OR tarea.observaciones.empty}" class="contenedor-data"> Esta tarea no tiene observaciones</div>
                     </div>
                     <div class="col-md-5">
+                        <img src="../static/img/tarea2.jpg" th:src="@{img/tarea2.jpg}" width="400px">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
+                        </br>
+                        <h4>Responsable(s) actual(es) de la tarea</h4>
+                        <span th:each="responsable : ${tarea.responsables}">
+                            <ul>
+                                <li><p th:text="${responsable.nombre}"></p></li>
+                            </ul>
+                        </span>
                     </div>
                     <div class="col-md-6">
+                        </br>
+                        <h4>Descripcion actual de la tarea</h4>
+                        <p th:text="${tarea.descTarea}"></p>
                     </div>
+                </div>                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                    </div>
-                    <div class="col-md-6">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-6">
+                <form th:action="@{/updatetarea}">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            </br>
+                            <h4> Nuevo(s) Responsable(s)</h4>
+                            <div class="leyenda">
+                                <p>Puede seleccionar la(s) personas de su departamento para ejecutar esta tarea</p>
                             </div>
-                            <div class="col-md-6">
+                            <div th:if="${funcionarios != null and !funcionarios.empty}" class="contenedor-data">
+                                <table id="gestionaResponsables" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>N</th>
+                                            <th>Nombre</th>
+                                            <th>Seleccionar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr name="row" th:each="responsable, iter : ${funcionarios}">
+                                            <td th:text="${iter.index}+1"></td>
+                                            <td><p th:text="${responsable.nombres}+' '+${responsable.apellidop}"></p></td>
+                                            <td><input type="checkbox" th:value="${responsable.run}" id="checked" th:name="responsable"></td>
+                                        </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>N</th>
+                                            <th>Nombre</th>
+                                            <th>Seleccionar</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                                <div th:if="${funcionarios == null or funcionarios.empty}">
+                                    Este departamento no cuenta con funcionarios
+                                </div>
                             </div>
+                        </div>              
+                        <div class="col-md-6">
+                            </br>
+                            <h4>Nueva descripcion</h4>
+                            <div class="leyenda">
+                                <p>Puede ingresar una nueva descripción a la tarea (opcional)</p>
+                            </div>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" th:name="descripcion" rows="5"></textarea>
                         </div>
+                        <!-- DATOS PARA UPDATE -->
+                        <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea">
+                        <input type="hidden" th:value="${tarea.idProcesoEjecutado}" th:name="idProcesoEjecutado">
+                        <input type="submit"/> 
+
                     </div>
-                </div>
+                </form>
+
                 <div class="row">
                     <div class="col-md-12">
                     </div>
                 </div>
-            </div>
+            </div><!--fin contenedor-->
         </div><!--fin de autorizacion de contenido-->
+        <footer th:replace="layout/plantilla :: footer"></footer>
+        <script th:src="@{/js/datatables.min.js}"></script>
+        <script th:src="@{/js/procesosData.js}"></script>
     </body>
 </html>
