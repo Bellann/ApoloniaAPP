@@ -5,6 +5,7 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.ProcesoEjecutados;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
@@ -12,7 +13,11 @@ import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -108,17 +113,35 @@ public class ControladorProceso {
             @RequestParam(value = "fechaInicioTarea") List<String> fechaInicioTarea,
             @RequestParam(value = "responsableTarea") List<String> responsableTarea,
             Model model,
-            TareasEjecutadas tarea) {
+            TareasEjecutadas tarea) throws ParseException {
 
         //RUN DEL USUARIO CONECTADO, para proceso ejecutado y para tarea ejecutada
         var runUser = funcionariosService.runResponsable();
-
+        
+        ProcesoEjecutados proc = new ProcesoEjecutados(nombreProceso, descipcionroceso,runUser,(int)urlParam);
+        int duracion = duracionTarea.stream().collect(Collectors.summingInt(Integer::intValue));
+        
+        if(procesoEjecutadosService.crearProceso(proc, fechaInicioProceso, runDisenador, duracion))
+        {
+            int id = 0;
+            for(int i = 0; i< nombreTarea.size(); i++)
+            {
+                System.out.println(fechaInicioTarea.get(i));
+                Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicioTarea.get(i));
+                TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso_ejecutado(),descripcionTarea.get(i),runUser);
+                tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));
+                id = t.getIdtarea();
+                if(i == 0)
+                    tareasEjecutadasService.crearDependencia(id, t.getIdtarea().toString());
+            }
+        }
+        
         //crear Proceso ejecutado
         //si lo crea, crear tareas ejecutadas
         //Colocar ID del proceso, resultante del procedimiento esto deberia ser cuando es correcto
         var idProcesoEjecutado = 12;
 
-        return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + idProcesoEjecutado);
+        return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + proc.getId_proceso_ejecutado());
     }
 
     //Ventana para administrar las tareas antes de confirmar

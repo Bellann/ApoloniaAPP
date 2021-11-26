@@ -5,11 +5,11 @@
     <header th:replace="layout/plantilla :: header"></header><!-- Menu y saludo -->
 
     <body>
+
         <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
         <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
             <div class="container-fluid">
                 <div class="row">
-
                     <div class="col-md-8"> <!-- Nombre del proceso-->
                         <h3>Gestionar proceso en marcha</h3> <span th:text="${proceso.proceso}"></span>
                         </br>
