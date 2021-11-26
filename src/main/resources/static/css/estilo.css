@@ -144,11 +144,6 @@ form-control-inline{
 
 }
 
-#b1 , #b2 {
-    display:inline-block;
-
-}
-
 .no-border {
     border: 0;
     box-shadow: none;
