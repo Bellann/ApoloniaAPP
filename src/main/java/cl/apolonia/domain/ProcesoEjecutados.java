@@ -19,7 +19,7 @@ public class ProcesoEjecutados implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
-    private int id_proceso;
+    private Integer id_proceso;
     
     @Column(name="NOMBRE")
     private String nombre;

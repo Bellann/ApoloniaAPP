@@ -6,7 +6,7 @@ import java.util.List;
 public interface ProcesosSerivce {
     public List<Procesos> listarProcesos();
     
-    public Integer encontrarProceso (String proceso,Integer idSubunidad);
+    public Procesos encontrarproceso(Integer idproceso);
 
 
     

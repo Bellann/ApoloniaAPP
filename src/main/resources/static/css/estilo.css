@@ -157,4 +157,9 @@ form-control-inline{
 .leyenda{
     background-color: #d9edf7;
     color: #002a80;
+    margin-left: 30px;
+}
+
+.abajo{
+    padding-top: 150px;
 }

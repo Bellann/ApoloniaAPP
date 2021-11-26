@@ -3,7 +3,6 @@ package cl.apolonia.domain;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import org.hibernate.annotations.NamedNativeQuery;
 
 @Entity
 @Table(name="PROCESO_WEB")

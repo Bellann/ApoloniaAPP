@@ -132,7 +132,7 @@ public class ControladorProceso {
         var rolSaludo = funcionariosService.rolSaludo();
 
         //proceso que emerge en la venta + lista de sus tareas
-        var proceso = procesoEjecutadosService.encontrarproceso(urlParam);
+        var proceso = procesosService.encontrarproceso(urlParam);
         var tarea = tareasEjecutadasService.listarXProceso(urlParam);
 
         model.addAttribute("proceso", proceso);
@@ -144,12 +144,5 @@ public class ControladorProceso {
     }
 
 
-
-    @GetMapping(value = {"/sacaid"})
-     public ModelAndView sacaid (@RequestParam(value="nombre")String urlParam,
-                                 @RequestParam(value="idsubunidad") Integer idsubunidad ){
-         Integer idProcesoEjecutado = procesosService.encontrarProceso(urlParam, idsubunidad);
-         return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + idProcesoEjecutado);
-}
      
 }
