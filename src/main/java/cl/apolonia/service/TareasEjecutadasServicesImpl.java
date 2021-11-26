@@ -1,6 +1,7 @@
 package cl.apolonia.service;
 
 import cl.apolonia.dao.TareasEjecutadasDao;
+import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -297,6 +298,8 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     public List<TareasEjecutadas> listarXProceso(Integer id_proceso) {
         return tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
     }
+
+
 
 
 

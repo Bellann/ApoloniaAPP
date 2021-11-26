@@ -18,13 +18,16 @@ public class ProcesoEjecutadosServiceImpl implements ProcesoEjecutadosService {
 
     @Override
     public List<ProcesoEjecutados> listarProcesosEjec() {
-        return (List<ProcesoEjecutados>) procesoEjecutadosDao.findAll();
+         List<ProcesoEjecutados> procesos = procesoEjecutadosDao.findAll();
+         return procesos;
     }
 
     @Override
-    public ProcesoEjecutados encontrarproceso(int id) {
-        return procesoEjecutadosDao.findById(id).orElse(null);
+    public ProcesoEjecutados encontrarproceso(Integer idproceso) {
+        return procesoEjecutadosDao.findById(idproceso).orElse(null);
     }
+
+
 
 
 

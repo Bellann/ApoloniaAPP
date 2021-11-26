@@ -45,16 +45,18 @@
 
                                 </div>
                             </div>
-
+                            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
                             <!-- Data Table Listado por unidad para GERENTE -->
-
+                              
                             <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
+                                <h1>Procesos de su empresa</h1>
                                 <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
                                     <table id="procesosUni" class="table table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th></th>
+                                                <th>N</th>
                                                 <th>Proceso</th>
                                                 <th>Creador</th>
                                                 <th>SubUnidad</th>
@@ -65,8 +67,9 @@
                                         </thead>
                                         <tbody>
 
-                                            <tr name="row" th:each="procesosUni : ${procesosUni}">
-                                                <td>ESTADO</td>
+                                            <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
+                                                <td>ESTADO circulo</td>
+                                                <td th:text="${iter.index}+1"></td>
                                                 <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
                                                 <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
                                                 <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
@@ -79,6 +82,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th></th>
+                                                <th>N</th>
                                                 <th>Proceso</th>
                                                 <th>Creador</th>
                                                 <th>SubUnidad</th>
@@ -97,43 +101,55 @@
 
                             <!-- Data Table para sub Unidad , para supervisores -->
 
-                            <div sec:authorize="hasRole('ROLE_SUPERVISOR')">
-
+                            <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
+                                <h1>Procesos de su departamento</h1>
                                 <div th:if="${procesosSub != null and !procesosSub.empty}" class="contenedor-data">
                                     <table id="procesosSub" class="table table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th></th>
+                                                <th>N</th>
                                                 <th>Proceso</th>
                                                 <th>Creador</th>
                                                 <th>SubUnidad</th>
                                                 <th>Fecha límite</th>
                                                 <th>Control</th>
                                                 <th>Estado</th>
+                                                <th>Gestionar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            <tr name="row" th:each="procesosUni : ${procesosUni}">
-                                                <td>ESTADO</td>
+                                            <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
+                                                <td>ESTADO circulo</td>
+                                                <td th:text="${iter.index}+1"></td>
                                                 <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
                                                 <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
                                                 <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
                                                 <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
                                                 <td name="control"></td>
                                                 <td th:text="${procesosUni.estado}">Mostrar estado</td>
+                                                <td>
+                                                    <form th:action="@{/ejecuta2}">
+                                                        <input type="hidden" th:value="${procesosUni.id_proceso}" th:name="idProcesoEjecutado">
+                                                         <input class="btn-table" type="submit" value="Gestionar"/> 
+                                                    </form>
+                                                       
+                                                </td>
                                             </tr>
 
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th></th>
+                                                <th>N</th>
                                                 <th>Proceso</th>
                                                 <th>Creador</th>
                                                 <th>SubUnidad</th>
                                                 <th>Fecha límite</th>
                                                 <th>Control</th>
                                                 <th>Estado</th>
+                                                <th>Gestionar</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -266,6 +282,9 @@
 
                                     <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
                                 </div>   
+                                
+                                <input type="hidden" th:value="${tareasUnidad}" />
+                                <input type="hidden" th:value="${tareasSubUni}" />
                                 <footer th:replace="layout/plantilla :: footer"></footer>
 
                                 <script th:src="@{js/jquery-3.6.0.min.js}"></script>

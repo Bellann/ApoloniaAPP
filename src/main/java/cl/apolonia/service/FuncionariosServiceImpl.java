@@ -6,6 +6,7 @@ import cl.apolonia.domain.Funcionarios;
 import cl.apolonia.domain.Usuario;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -121,6 +122,15 @@ public class FuncionariosServiceImpl implements FuncionariosService {
         String currentPrincipalName = authentication.getName();
         
         return currentPrincipalName;
+    }
+
+    @Override
+    public String nombreResponsable(String run) {
+        Funcionarios funcionario = funcionariosDao.findById(run).orElse(null);
+        String nombre = funcionario.getNombres();
+        String apellido = funcionario.getApellidop();
+        String nombreResponsable = nombre+apellido;
+        return nombreResponsable;
     }
 
 

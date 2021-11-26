@@ -125,7 +125,7 @@ public class ControladorProceso {
 
     //Ventana para administrar las tareas antes de confirmar
     @GetMapping(value = {"/ejecuta2"})
-    public ModelAndView ejecutar(@RequestParam(value = "idProcesoEjecutado") Integer urlParam,
+    public ModelAndView ejecutar(@RequestParam(value = "idProcesoEjecutado", required = false) Integer urlParam,
             Model model) {
         //Variables para saludo superior
         var nombreCompleto = funcionariosService.nombreCompleto();
@@ -134,7 +134,7 @@ public class ControladorProceso {
         //proceso que emerge en la venta + lista de sus tareas
         var proceso = procesoEjecutadosService.encontrarproceso(urlParam);
         var tarea = tareasEjecutadasService.listarXProceso(urlParam);
-        
+
         model.addAttribute("proceso", proceso);
         model.addAttribute("tarea", tarea);
         model.addAttribute("nusuario", nombreCompleto);
@@ -143,4 +143,13 @@ public class ControladorProceso {
         return new ModelAndView("ejecutarproceso2");
     }
 
+
+
+    @GetMapping(value = {"/sacaid"})
+     public ModelAndView sacaid (@RequestParam(value="nombre")String urlParam,
+                                 @RequestParam(value="idsubunidad") Integer idsubunidad ){
+         Integer idProcesoEjecutado = procesosService.encontrarProceso(urlParam, idsubunidad);
+         return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + idProcesoEjecutado);
+}
+     
 }

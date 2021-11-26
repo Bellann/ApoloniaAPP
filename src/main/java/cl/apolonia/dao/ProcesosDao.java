@@ -9,5 +9,6 @@ public interface ProcesosDao extends JpaRepository<Procesos, String>{
 
     List<Procesos> findByRutUnidad(String rutUnidad);
     List<Procesos> findByIdSubunidad(Integer idSubunidad);
+    Procesos findByProcesoAndIdSubunidad (String proceso,Integer idSubunidad);
     
 }

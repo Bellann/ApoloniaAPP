@@ -145,11 +145,16 @@ form-control-inline{
 }
 
 #b1 , #b2 {
-display:inline-block;
+    display:inline-block;
 
 }
 
 .no-border {
     border: 0;
     box-shadow: none;
+}
+
+.leyenda{
+    background-color: #d9edf7;
+    color: #002a80;
 }

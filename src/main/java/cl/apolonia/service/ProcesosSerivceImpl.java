@@ -25,6 +25,12 @@ public class ProcesosSerivceImpl implements ProcesosSerivce {
         return (List<Procesos>)procesosDao.findAll();
     }
 
+    @Override
+    public Integer encontrarProceso(String proceso, Integer idSubunidad) {
+         return procesosDao.findByProcesoAndIdSubunidad(proceso, idSubunidad).getId_proceso();
+         
+    }
+
 
 
 
