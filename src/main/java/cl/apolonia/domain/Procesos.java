@@ -61,6 +61,13 @@ public class Procesos implements Serializable{
         this.descripcion = descripcion;
     }
 
+    public Procesos(String proceso, String descripcion, String runEjecutor, Integer idSubunidad) {
+        this.proceso = proceso;
+        this.idSubunidad = idSubunidad;
+        this.runEjecutor = runEjecutor;
+        this.descripcion = descripcion;
+    }
+
     public Integer getId_proceso() {
         return idproceso;
     }

@@ -27,6 +27,7 @@
 
                 <body>
                     <header th:replace="layout/plantilla :: header"></header>
+
                     <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
                     <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
                         <div class="container-fluid">
@@ -167,12 +168,16 @@
                                         <div class="col-md-2">
                                             <input class="btn-flujo" type="submit" value="Siguiente"/> 
                                         </div>
+
+                   
+
                                     </div>
                                 </form>
 
                             </div>
                         </div>
                     </div>
+
                     <footer th:replace="layout/plantilla :: footer"></footer>
                     <!-- Data Picker -->
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -221,6 +226,8 @@
                         });
                     </script>
                     <script th:src="@{/js/procesosData.js}"></script>
+
                     <script th:src="@{/js/datatables.min.js}"></script>
                 </body>
                 </html>
+
