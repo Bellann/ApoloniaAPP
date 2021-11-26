@@ -6,7 +6,6 @@ import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.TareasEjecutadas;
-import cl.apolonia.domain.TareasTipo;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -143,6 +141,27 @@ public class ControladorProceso {
         return new ModelAndView("ejecutarproceso2");
     }
 
+    //Vista de la pagina gestionartareaproceso
+    @GetMapping(value = {"/gestionatarea"})
+    public ModelAndView gestionatarea(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+        //Variables para saludo superior
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+
+        //Tarea a ser listada para modificar
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+
+ 
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+
+        return new ModelAndView("gestiontareaproceso");
+    }
+    
+    //Controller para update de tarea, cambio de responsables y de descripcion
+    
 
      
 }
