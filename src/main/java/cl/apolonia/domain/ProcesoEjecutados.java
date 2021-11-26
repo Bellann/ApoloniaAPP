@@ -75,9 +75,17 @@ public class ProcesoEjecutados implements Serializable {
     private Date fecha_estado;
     
     @Column(name="RUN_FUNCIONARIO", table ="PROCESO_EJECT_ESTADOS")
-    private int run_funcionario;
+    private String run_funcionario;
     
-    @Column(name="ID_ESTADO_PROCESO", table ="PROCESO_EJECT_ESTADOS")
+    @Column(name="ID_ESTADO")
     private int id_estado_proceso;
+
+    public ProcesoEjecutados(String nombre, String descripcion, String run_ejecutor, int id_subunidad) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.run_ejecutor = run_ejecutor;
+        this.id_subunidad = id_subunidad;
+
+    }
     
 }
