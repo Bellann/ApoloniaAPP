@@ -9,7 +9,7 @@ public interface ProcesoEjecutadosService {
 
     public List<ProcesoEjecutados> listarProcesosEjec();
     
-    public ProcesoEjecutados encontrarproceso(int id);
+    public ProcesoEjecutados encontrarproceso(Integer idproceso);
     
     boolean crearProceso (ProcesoEjecutados proc, String fechaInicio, String runD, int duracion);
     

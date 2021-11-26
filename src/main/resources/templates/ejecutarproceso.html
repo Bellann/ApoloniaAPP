@@ -27,100 +27,156 @@
 
                 <body>
                     <header th:replace="layout/plantilla :: header"></header>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <!-- Listado de procesos por Unidad / Falta por subunidad  SELECT-OPTION -->
-                            <div class="col-md-6">
-                                <h2>Iniciar un proceso para su empresa</h2>
-                                <form role="form" id="enviarid" th:action=@{/enviarid} method="GET">
-                                    <p>Seleccione de la lista desplegable el proceso, para ver sus tareas asociadas</p>
-                                    <select class="form-control" id="procesosTipoList" name="nombre">
-                                        <option value="">Seleccione el proceso a ver </option>
-                                        <option th:each="listaProcesos : ${listaProcesos}"
-                                                th:value="${listaProcesos.nombre}"
-                                                th:text="${listaProcesos.nombre}"></option>
-                                    </select>
-                                    </br>
-                                    <button class="btn-flujo" type="submit" value="Cargar tareas asociadas" id="b1">Listar tareas asociadas</button>
-                                </form>
-                                <a th:href="@{/ejecutarproceso}"><button class="btn-flujo" id="b2">Refrescar procesos</button></a>
-                                <!-- final de forms para tabla interactiva-->            
-                            </div>
-                            <div class="col-md-6">
 
-                            </div>
-                            <!-- Aviso de proceso sin tareas -->
-                            <span th:if="${tareasProceso== null OR tareasProceso.empty}"> 
-                                </br>
-                                <h4>No existen tareas para este proceso o no ha seleccionado un proceso</h4></span>
-                            </br>
-                        </div>
-
-                        <div th:if="${tareasProceso!= null AND !tareasProceso.empty}">
-                            <form th:action="@{/ejecuta}" th:object="${tarea}"> <!-- INICIO DEL FORM-->
-                                <div class="row">
-                                    <div class="col-md-8">
-
-                                        <!-- Información de las tareas -->
+                    <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
+                    <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <!-- Listado de procesos por Unidad / Falta por subunidad  SELECT-OPTION -->
+                                <div class="col-md-6">
+                                    <h2>Iniciar un proceso para su empresa</h2>
+                                    <form role="form" id="enviarid" th:action=@{/enviarid} method="GET">
+                                        <p>Seleccione de la lista desplegable el proceso, para ver sus tareas asociadas</p>
+                                        <a th:href="@{/ejecutarproceso}"><img src="../static/img/refresh.png" th:src="@{img/refresh.png}" width="24px">Refrescar procesos</a>
+                                        <select class="form-control" id="procesosTipoList" name="nombre">
+                                            <option value="">Seleccione el proceso a ver </option>
+                                            <option th:each="listaProcesos : ${listaProcesos}"
+                                                    th:value="${listaProcesos.nombre}"
+                                                    th:text="${listaProcesos.nombre}"></option>
+                                        </select>
                                         </br>
-                                        <h4>Información del proceso seleccionado</h4>
-                                        <hr>
-                                            <div th:each="procesotipo : ${procesotipo}" > 
-                                                </br>
-                                                <h3>Nombre del Proceso</h3> 
-                                                <p th:text="${procesotipo.nombre}"></p>
-                                                <h3>Descripción:</h3> 
-                                                <p th:text="${procesotipo.descripcion}"></p>
-                                                <!-- DATOS PARA PROCESO EJECUTADO -->
-                                                <input type="hidden" th:value="${procesotipo.idSubunidad}" th:name="idSubunidad"/>
-                                                <input type="hidden" th:value="${procesotipo.nombre}" th:name="nombreProceso"/>
-                                                <input type="hidden" th:value="${procesotipo.descripcion}" th:name="descripcionProceso"/>
-                                                <input type="hidden" th:value="${procesotipo.runDisenador}" th:name="runDisenador"/>
-                                            </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                    </div>
+                                        <button class="btn-flujo" type="submit" value="Cargar tareas asociadas" id="b1">Listar tareas asociadas</button>
+                                    </form>
+
+                                    <!-- final de forms para tabla interactiva-->            
                                 </div>
+                                <div class="col-md-6">
+                                    <img src="../static/img/proceso1.jpg" th:src="@{img/proceso1.jpg}" width="600px">
+                                </div>
+                                <!-- Aviso de proceso sin tareas -->
+                                <span th:if="${tareasProceso== null OR tareasProceso.empty}"> 
+                                    </br>
+                                    <h4>No existen tareas para este proceso o no ha seleccionado un proceso</h4></span>
+                                </br>
+                            </div>
+
+                            <div th:if="${tareasProceso!= null AND !tareasProceso.empty}">
+                                <form th:action="@{/ejecuta}" th:object="${tarea}"> <!-- INICIO DEL FORM-->
+                                    <div class="row">
+                                        <div class="col-md-8">
+
+                                            <!-- Información de las tareas -->
+                                            </br>
+                                            <h4>Información del proceso seleccionado</h4>
+                                            <hr>
+                                                <div th:each="procesotipo : ${procesotipo}" > 
+                                                    </br>
+                                                    <h3>Nombre del Proceso</h3> 
+                                                    <p th:text="${procesotipo.nombre}"></p>
+                                                    <h3>Descripción:</h3> 
+                                                    <p th:text="${procesotipo.descripcion}"></p>
+                                                    <!-- DATOS PARA PROCESO EJECUTADO -->
+                                                    <input type="hidden" th:value="${procesotipo.idSubunidad}" th:name="idSubunidad"/>
+                                                    <input type="hidden" th:value="${procesotipo.nombre}" th:name="nombreProceso"/>
+                                                    <input type="hidden" th:value="${procesotipo.descripcion}" th:name="descripcionProceso"/>
+                                                    <input type="hidden" th:value="${procesotipo.runDisenador}" th:name="runDisenador"/>
 
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="inicio"> <h2>Seleccione la fecha a iniciar el proceso</h2></label>
-                                        <div class="input-group date">
-                                            
-                                            <div class="input-group-append">
-                                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+
+                                                </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="inicio"> <h2>Seleccione la fecha a iniciar el proceso</h2></label>
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" id="fInicial" autocomplete="off" th:name="fechaInicioProceso" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                        </div>
+                                        <div class="col-md-12">
+                                            </br>
+                                            <h3>Lista de tareas en este proceso , paso 1 de 2</h3>
+                                            <p>*Recuerde seleccionar la fecha de inicio, los cálculos de las fechas serán automáticos</p>
+                                            <p>*Si lo desea, puede asignar la tarea a otra persona, eso lo podrá realizar en paso siguiente</p>
+                                            <!-- Tabla que itera los datos de las tareas segun el proceso -->
+                                            <div th:if="${tareasProceso != null and !tareasProceso.empty}" class="contenedor-data">
+                                                <table id="tareaProceso2" class="table" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nombre Tarea</th>
+                                                            <th>Descripcion de la tarea</th>
+                                                            <th>Duracion / Dias</th>
+                                                            <th>Fecha de inicio</th>  
+                                                            <th>Responsable por defecto</th>
+                                                            <th>área</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr name='tarea' th:each="tareasProceso  : ${tareasProceso}">
+                                                            <td name="nombreTarea"><input class="form-control no-border" type="text" th:value="${tareasProceso.nombre}" th:name="nombreTarea"/></td>
+                                                            <td name="descripcion"><input input class="form-control no-border" type="text" th:value="${tareasProceso.descripcionTarea}" th:name="descripcionTarea"/> </td>
+                                                            <td name="duracion"><input class="form-control no-border" type="text" th:value="${tareasProceso.duracion}" th:name="duracionTarea"/></td>
+                                                            <td name="fechaTareaInicio"><input class="form-control no-border" type="text"  th:name="fechaInicioTarea" value=""/></td>
+                                                            <td name="responsable"> 
+                                                                <p th:text="${tareasProceso.nombres}+' '+${tareasProceso.apellidop}"></p>
+                                                                <input  class="form-control no-border" type="text" th:value="${tareasProceso.runFuncionario}" th:name="responsableTarea"/></td>
+                                                            <td th:text="${tareasProceso.subunidad}"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Nombre Tarea</th>
+                                                            <th>Descripcion de la tarea</th>
+                                                            <th>Duracion</th>
+                                                            <th>Fecha de inicio</th>
+                                                            <th>Responsable por defecto</th>
+                                                            <th>área</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-4">
+
+                                        </div>
+                                        <div class="col-md-4">
+
+                                        </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        </br>
-                                        <h3>Lista de tareas en este proceso , paso 1 de 2</h3>
-                                        <p>*Recuerde seleccionar la fecha de inicio, los cálculos de las fechas serán automáticos</p>
-                                        <p>*Si lo desea, puede asignar la tarea a otra persona, eso lo podrá realizar en paso siguiente</p>
-                                        <!-- Tabla que itera los datos de las tareas segun el proceso -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="btn-flujo" type="submit" value="Siguiente"/> 
+                                        </div>
+
+                   
 
                                     </div>
-                                </div>
+                                </form>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-
-                                    </div>
-                                    <div class="col-md-6">
-
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input class="btn-flujo" type="submit" value="Siguiente"/> 
-                                    </div>
-                                </div>
-                            </form>
-
+                            </div>
                         </div>
                     </div>
-
 
                     <footer th:replace="layout/plantilla :: footer"></footer>
                     <!-- Data Picker -->
@@ -170,6 +226,8 @@
                         });
                     </script>
                     <script th:src="@{/js/procesosData.js}"></script>
+
+                    <script th:src="@{/js/datatables.min.js}"></script>
                 </body>
                 </html>
 

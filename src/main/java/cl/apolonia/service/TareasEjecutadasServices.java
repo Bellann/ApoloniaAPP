@@ -1,5 +1,6 @@
 package cl.apolonia.service;
 
+import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
 import java.time.LocalDate;
 import java.util.Date;
@@ -21,6 +22,8 @@ public interface TareasEjecutadasServices {
    LocalDate sumaDiasDeDuracion(Date fechaInicial, int days);
    TareasEjecutadas encontrarTarea (Integer id);
    List<TareasEjecutadas> listarXProceso(Integer id_proceso);
+   
+   
     
     
 }

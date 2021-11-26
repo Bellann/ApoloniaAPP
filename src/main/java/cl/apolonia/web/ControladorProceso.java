@@ -6,8 +6,8 @@ import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.ProcesoEjecutados;
+import cl.apolonia.domain.Procesos;
 import cl.apolonia.domain.TareasEjecutadas;
-import cl.apolonia.domain.TareasTipo;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -120,17 +119,17 @@ public class ControladorProceso {
         //RUN DEL USUARIO CONECTADO, para proceso ejecutado y para tarea ejecutada
         var runUser = funcionariosService.runResponsable();
         
-        ProcesoEjecutados proc = new ProcesoEjecutados(nombreProceso, descipcionroceso,runUser,(int)urlParam);
+        Procesos proc = new Procesos(nombreProceso, descipcionroceso,runUser,(int)urlParam);
         int duracion = duracionTarea.stream().collect(Collectors.summingInt(Integer::intValue));
         
-        if(procesoEjecutadosService.crearProceso(proc, fechaInicioProceso, runDisenador, duracion))
+        if(procesosService.crearProceso(proc, fechaInicioProceso, runDisenador, duracion))
         {
             int id = 0;
             for(int i = 0; i< nombreTarea.size(); i++)
             {
                 System.out.println(fechaInicioTarea.get(i));
                 Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicioTarea.get(i));
-                TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso_ejecutado(),descripcionTarea.get(i),runUser);
+                TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso(),descripcionTarea.get(i),runUser);
                 tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));
                 id = t.getIdtarea();
                 if(i == 0)
@@ -143,21 +142,21 @@ public class ControladorProceso {
         //Colocar ID del proceso, resultante del procedimiento esto deberia ser cuando es correcto
         var idProcesoEjecutado = 12;
 
-        return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + proc.getId_proceso_ejecutado());
+        return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + proc.getId_proceso());
     }
 
     //Ventana para administrar las tareas antes de confirmar
     @GetMapping(value = {"/ejecuta2"})
-    public ModelAndView ejecutar(@RequestParam(value = "idProcesoEjecutado") Integer urlParam,
+    public ModelAndView ejecutar(@RequestParam(value = "idProcesoEjecutado", required = false) Integer urlParam,
             Model model) {
         //Variables para saludo superior
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
 
         //proceso que emerge en la venta + lista de sus tareas
-        var proceso = procesoEjecutadosService.encontrarproceso(urlParam);
+        var proceso = procesosService.encontrarproceso(urlParam);
         var tarea = tareasEjecutadasService.listarXProceso(urlParam);
-        
+
         model.addAttribute("proceso", proceso);
         model.addAttribute("tarea", tarea);
         model.addAttribute("nusuario", nombreCompleto);
@@ -166,4 +165,27 @@ public class ControladorProceso {
         return new ModelAndView("ejecutarproceso2");
     }
 
+    //Vista de la pagina gestionartareaproceso
+    @GetMapping(value = {"/gestionatarea"})
+    public ModelAndView gestionatarea(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+        //Variables para saludo superior
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+
+        //Tarea a ser listada para modificar
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+
+ 
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+
+        return new ModelAndView("gestiontareaproceso");
+    }
+    
+    //Controller para update de tarea, cambio de responsables y de descripcion
+    
+
+     
 }

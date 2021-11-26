@@ -3,14 +3,8 @@ package cl.apolonia.domain;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import org.hibernate.annotations.NamedNativeQuery;
 
 @Entity
-@NamedNativeQuery(
-        name = "r_proc_eject_all",
-        callable= true,
-        query = "(? = call r_proc_eject_all())",
-        resultClass = Procesos.class)
 @Table(name="PROCESO_WEB")
 
 public class Procesos implements Serializable{
@@ -20,7 +14,7 @@ public class Procesos implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID_PROCESO", insertable = false, updatable = false)
-    private Integer id_proceso;
+    private Integer idproceso;
     
     @Column(name="PROCESO")
     private String proceso;
@@ -32,7 +26,7 @@ public class Procesos implements Serializable{
     private String subunidad;
     
     @Column(name="FECHA_LIMITE")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date fechaLimite;
     
     @Column(name="ESTADO")
@@ -57,7 +51,7 @@ public class Procesos implements Serializable{
     }
 
     public Procesos(Integer id_proceso, String proceso, String ejecutor, String subunidad, Date fechaLimite, String estado, Integer idSubunidad, String runEjecutor, String unidad, String rutUnidad, String descripcion) {
-        this.id_proceso = id_proceso;
+        this.idproceso = id_proceso;
         this.proceso = proceso;
         this.ejecutor = ejecutor;
         this.subunidad = subunidad;
@@ -70,12 +64,19 @@ public class Procesos implements Serializable{
         this.descripcion = descripcion;
     }
 
+    public Procesos(String proceso, String descripcion, String runEjecutor, Integer idSubunidad) {
+        this.proceso = proceso;
+        this.idSubunidad = idSubunidad;
+        this.runEjecutor = runEjecutor;
+        this.descripcion = descripcion;
+    }
+
     public Integer getId_proceso() {
-        return id_proceso;
+        return idproceso;
     }
 
     public void setId_proceso(Integer id_proceso) {
-        this.id_proceso = id_proceso;
+        this.idproceso = id_proceso;
     }
 
     public String getProceso() {
