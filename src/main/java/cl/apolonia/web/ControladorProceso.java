@@ -1,9 +1,7 @@
 package cl.apolonia.web;
 
 import cl.apolonia.dao.FuncionariosDao;
-import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
-import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
@@ -32,11 +30,6 @@ public class ControladorProceso {
     @Autowired
     private ProcesosSerivce procesosService;
 
-    @Autowired
-    private ProcesosDao procesosDao;
-
-    @Autowired
-    private TareasEjecutadasDao tareasEjecutadasDao;
 
     @Autowired
     private TareasEjecutadasServices tareasEjecutadasService;
@@ -151,17 +144,32 @@ public class ControladorProceso {
 
         //Tarea a ser listada para modificar
         var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
 
  
         model.addAttribute("tarea", tarea);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("funcionarios", funcionariosList);
 
         return new ModelAndView("gestiontareaproceso");
     }
     
-    //Controller para update de tarea, cambio de responsables y de descripcion
     
+    //Controller para update de tarea, cambio de responsables y de descripcion
+        @GetMapping(value = {"/updatetarea"})
+    public ModelAndView updatetarea(@RequestParam(value = "idtarea") Integer urlParam,
+                                    @RequestParam(value= "idProcesoEjecutado") Integer idProcesoEjecutado,
+                                    @RequestParam(value="responsable", required = false) List<String> responsable,
+                                    @RequestParam(value="descripcion", required = false) String descripcion,
+                                    Model model) {
+
+        //Solo hacer update si viene o responsable y/o descripcion con algo, de lo contrario se redirecciona
+        
+        
+        return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + idProcesoEjecutado);
+ 
+    }
 
      
 }

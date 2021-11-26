@@ -19,7 +19,7 @@ public class Observaciones implements Serializable{
     @Column(name="ID", insertable = false, updatable = false)
     private Integer id;
     
-    @Column(name="IDTAREA")
+    @Column(name="ID_TAREA_EJECUTADA")
     private Integer idtarea;
     
     @Column(name="FECHA")
@@ -27,9 +27,6 @@ public class Observaciones implements Serializable{
     
     @Column(name="RUN")
     private String run;
-    
-    @Column(name="NOMBRE")
-    private String nombre;
     
     @Column(name="COMENTARIO")
     private String comentario;
@@ -42,7 +39,6 @@ public class Observaciones implements Serializable{
         this.idtarea = idtarea;
         this.fecha = fecha;
         this.run = run;
-        this.nombre = nombre;
         this.comentario = comentario;
     }
 
@@ -78,13 +74,6 @@ public class Observaciones implements Serializable{
         this.run = run;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public String getComentario() {
         return comentario;
