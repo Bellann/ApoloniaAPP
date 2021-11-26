@@ -18,4 +18,7 @@ public interface FuncionariosService {
     public Integer idSubunidad();
     
     public String runResponsable();
+    
+    public String nombreResponsable(String run);
+    
 }

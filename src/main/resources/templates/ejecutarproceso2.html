@@ -5,70 +5,92 @@
     <header th:replace="layout/plantilla :: header"></header><!-- Menu y saludo -->
 
     <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12"> <!-- Nombre del proceso-->
-                    <h3>Proceso en marcha</h3> <span th:text="${proceso.nombre}"></span>
-                    <div>
-                        <p>Aquí podrá administrar sus tareas si lo desea, cambiando:</p>
-                        <li>
-                            <ul>Responsable de la tarea: podrá asignar a más de una persona la tarea seleccionada a gestionar</ul>
-                            <ul>Descripción de la tarea: podrá cambiar la descripción según su necesidad</ul>
-                        </li>
+
+        <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
+        <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8"> <!-- Nombre del proceso-->
+                        <h3>Gestionar proceso en marcha</h3> <span th:text="${proceso.proceso}"></span>
+                        </br>
+                        </br>
+
+                        <div class="leyenda">
+                            <p>Aquí podrá administrar sus tareas si lo desea, cambiando:</p>
+                            <ul>
+                                <li>Responsable de la tarea: podrá asignar a más de una persona la tarea seleccionada a gestionar</li>
+                                <li>Descripción de la tarea: podrá cambiar la descripción según su necesidad</li>
+                            </ul>
+                        </div>
+                        </br>
+                        </br>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="../static/img/tarea.jpg" th:src="@{img/tarea.jpg}" width="400px">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><!--listado de tareas-->
+                        <table id="tareaProceso2" class="table" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>N</th>
+                                    <th>Nombre Tarea</th>
+                                    <th>Responsable</th>
+                                    <th>Fecha de inicio</th>
+                                    <th>Fecha de término</th>
+                                    <th>Gestionar</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr th:each="tareas,iter  : ${tarea}">
+                                    <td th:text="${iter.index}+1"></td>
+                                    <td th:text="${tareas.tarea}"></td>
+                                    <td>
+                                        <span th:each="responsable : ${tareas.responsables}">
+                                            <p th:text="${responsable.nombre}" />                                     
+                                        </span>
+                                    </td>
+                                    <td th:text="${tareas.fPrevInicio}"></td>
+                                    <td th:text="${tareas.fPrevFin}"></td>
+                                    <td>
+                                        <form th:action="@{/gestionatarea}">
+                                            <input type="hidden" th:value="${tareas.idtarea}" th:name="idtarea"/>
+                                            <input class="btn-table" type="submit" value="Gestionar"/>
+                                        </form>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>N</th>
+                                    <th>Nombre Tarea</th>
+                                    <th>Responsable</th>
+                                    <th>Fecha de inicio</th>
+                                    <th>Fecha de término</th>
+                                    <th>Gestionar</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12"><!--listado de tareas-->
-                    <table id="tareasProceso" class="table" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Nombre Tarea</th>
-                                <th>Responsable</th>
-                                <th>Fecha de inicio</th>
-                                <th>Fecha de término</th>
-                                <th>Gestionar</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr th:each="tareas  : ${tarea}">
-                                <td><img src="../static/img/gestionar.png" th:src="@{img/gestionar.png}" alt="gestionar"></td>
-
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Nombre Tarea</th>
-                                <th>Descripcion de la tarea</th>
-                                <th>Duracion</th>
-                                <th>Fecha de inicio</th>
-                                <th>Responsable por defecto</th>
-                                <th>área</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-4">
-                </div>
-            </div>
         </div>
-
-
-
-
-
-
-
-
-
+        <script th:src="@{/js/datatables.min.js}"></script>
+        <script th:src="@{/js/procesosData.js}"></script>
     </body>
 </html>
