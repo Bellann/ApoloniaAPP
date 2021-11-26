@@ -6,6 +6,7 @@ import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.ProcesoEjecutados;
+import cl.apolonia.domain.Procesos;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
@@ -118,17 +119,17 @@ public class ControladorProceso {
         //RUN DEL USUARIO CONECTADO, para proceso ejecutado y para tarea ejecutada
         var runUser = funcionariosService.runResponsable();
         
-        ProcesoEjecutados proc = new ProcesoEjecutados(nombreProceso, descipcionroceso,runUser,(int)urlParam);
+        Procesos proc = new Procesos(nombreProceso, descipcionroceso,runUser,(int)urlParam);
         int duracion = duracionTarea.stream().collect(Collectors.summingInt(Integer::intValue));
         
-        if(procesoEjecutadosService.crearProceso(proc, fechaInicioProceso, runDisenador, duracion))
+        if(procesosService.crearProceso(proc, fechaInicioProceso, runDisenador, duracion))
         {
             int id = 0;
             for(int i = 0; i< nombreTarea.size(); i++)
             {
                 System.out.println(fechaInicioTarea.get(i));
                 Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicioTarea.get(i));
-                TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso_ejecutado(),descripcionTarea.get(i),runUser);
+                TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso(),descripcionTarea.get(i),runUser);
                 tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));
                 id = t.getIdtarea();
                 if(i == 0)
@@ -141,7 +142,7 @@ public class ControladorProceso {
         //Colocar ID del proceso, resultante del procedimiento esto deberia ser cuando es correcto
         var idProcesoEjecutado = 12;
 
-        return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + proc.getId_proceso_ejecutado());
+        return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + proc.getId_proceso());
     }
 
     //Ventana para administrar las tareas antes de confirmar
