@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         registro.addViewController("/login");
         registro.addViewController("/prueba");
         registro.addViewController("/flujotrabajo");
+        registro.addViewController("/layout/plantilla");
         registro.addViewController("/ejecutarproceso");
         registro.addViewController("/funcionarios");
         registro.addViewController("/gestionartarea/**");

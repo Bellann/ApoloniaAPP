@@ -5,16 +5,19 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ControladorInicio {
@@ -119,6 +122,12 @@ public class ControladorInicio {
 
     }
 
+    @GetMapping(value="/modal")
+    public String modal (Model model){
+        var hola="holis";
+        model.addAttribute("hola", hola);
+        return "layout/plantilla :: modal";
+    }
     
     
 }
