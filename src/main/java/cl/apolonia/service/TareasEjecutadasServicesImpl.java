@@ -336,6 +336,42 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     public List<TareasEjecutadas> listarXProceso(Integer id_proceso) {
         return tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
     }
+
+    @Override
+    public boolean actualizarTarea(TareasEjecutadas tarea) {
+        try {
+            
+        StoredProcedureQuery cmd = entityManager
+                    .createStoredProcedureQuery("u_tarea_ejec_gestion")
+                    .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_descripcion", String.class, ParameterMode.IN);
+
+            cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
+            cmd.setParameter("i_descripcion", tarea.getDescTarea());
+            
+            cmd.execute();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean eliminarResponsable(int id) {
+        try {
+            
+        StoredProcedureQuery cmd = entityManager
+                    .createStoredProcedureQuery("d_responsable_te_by_id")
+                    .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN);
+
+            cmd.setParameter("i_id_tarea_ejec", id);
+
+            cmd.execute();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
     
 
 
