@@ -62,27 +62,27 @@
                 <div class="col-md-3"> <!-- botones-->
                     <!-- BOTONES MENU TAREA ---->
                     <p><!-- boton aceptar -->
-                        <button name="acciones" id="aceptar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal">
+                        <button name="acciones" id="aceptar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal">
                             Aceptar tarea
                         </button></p>
                     <!-- Boton iniciar -->
-                    <p> <button name="acciones" id="iniciar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal2">
+                    <p> <button name="acciones" id="iniciar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal2">
                             Iniciar tarea
                         </button></p>
                     <!-- Boton subordinar tarea -->
-                    <p><button name="acciones" id="subordinar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal3">
+                    <p><button name="acciones" id="subordinar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal3">
                             Subordinar tarea
                         </button><p>
                         <!-- Button reportar problema -->
-                    <p><button name="acciones" id="reportar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal6">
+                    <p><button name="acciones" id="reportar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal6">
                             Reportar problema
                         </button><p>
                         <!-- Button dar por terminada -->
-                    <p><button name="acciones" id="terminar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal5">
+                    <p><button name="acciones" id="terminar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal5">
                             Dar por terminada
                         </button></p>
                     <!-- Button trigger modal -->
-                    <p><button name="acciones" id="rechazar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal7">
+                    <p><button name="acciones" id="rechazar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal7">
                             Rechazar tarea
                         </button></p>
                     <!-- Boton salir - vuelve a la pantalla anterior -->
@@ -309,27 +309,36 @@
     </body>
 </html>
 <script type="text/javascript">
-  $(document).ready(function(){
-    var estado = $('#estadoTarea').html();
-    $('button[name="acciones"]').each(function(){
+
+    function activar (elemento)
+    {
+      elemento.prop('disabled',false);
+      elemento.removeClass('btn-disable');
+      elemento.addClass('btn-flujo');
+    }
+
+
+    $(document).ready(function(){
+      var estado = $('#estadoTarea').html();
+      $('button[name="acciones"]').each(function(){
         console.log('si entra');
       $(this).prop('disabled',true);
     });
     switch(estado){
       case 'Programada':
-        $('#aceptar').prop('disabled',false);
-        $('#rechazar').prod('disabled',false);
+        activar($('#aceptar'));
+        activar($('#rechazar'));
         break;
 
       case 'Aceptada':
-        $('#iniciar').prop('disabled',false);
-        $('#subordinar').prop('disabled',false);
+        activar($('#iniciar'));
+        activar($('#subordinar'));
         break;
 
       case 'En Desarrollo':
-        $('#subordinar').prop('disabled',false);
-        $('#reportar').prop('disabled',false);
-        $('#terminar').prop('disabled',false);
+        activar($('#subordinar'));
+        activar($('#reportar'));
+        activar($('#terminar'));
         break;
     }
   });
