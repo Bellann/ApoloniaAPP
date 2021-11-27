@@ -5,6 +5,8 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.service.DashboardFuncionarioService;
+import cl.apolonia.service.DashboardService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
@@ -52,6 +54,9 @@ public class ControladorInicio {
     @Autowired
     private TareasTipoDao tareasTipoDao;
 
+    @Autowired
+    private DashboardService dashboard;
+    
     @GetMapping("/")
     public String inicio(Model model) {
 
@@ -90,6 +95,7 @@ public class ControladorInicio {
         model.addAttribute("tareasRun", tareasRun);
         model.addAttribute("misProcesos", misProcesos);
 
+        
         return "flujotrabajo";
 
     }

@@ -4,23 +4,23 @@
     <body>
         <header th:replace="layout/plantilla :: header"></header>
         <div class="container-fluid" th:each="tareasEjecutadas  : ${tareasEjecutadas}">
-            <!-- iterar datos--> 
+            <!-- iterar datos-->
             <div class="row">
-                <div class="col-md-12"> 
+                <div class="col-md-12">
                     <h2 th:text=${tareasEjecutadas.tarea}></h2>
                     <hr style="height:10px; width:100%; border-width:0; background-color: #f3c17a">
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-9"><!-- descripciones--> 
+                <div class="col-md-9"><!-- descripciones-->
                     <p> Asignado por: <span th:text="${tareasEjecutadas.ejecutor}"></span> </p>
                     <p> Descripción:  <span th:text="${tareasEjecutadas.descTarea}"></span></p>
                 </div>
-                <div class="col-md-3"><!-- Fechas y otros datos--> 
+                <div class="col-md-3"><!-- Fechas y otros datos-->
                     <p>Fecha de asignación: <span th:text="${tareasEjecutadas.fechaAsignacion}"></span></p>
                     <p>Fecha de de inicio <span th:text="${tareasEjecutadas.fPrevInicio}">fecha de inicio prevista</span></p>
                     <p>Fecha de de término prevista <span th:text="${tareasEjecutadas.fPrevFin}">fecha de término prevista</span></p>
-                    <p>Estado <span th:text="${tareasEjecutadas.estado}">Esstado</span></p>
+                    <p>Estado <span id="estadoTarea" th:text="${tareasEjecutadas.estado}"></span></p>
                     <p>Fecha de asignación:</p>
                     <ul>
                         <li>Fecha real de incio: <span th:text="${tareasEjecutadas.fRealInicio}">fecha de inicio prevista</span></li>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6"><!-- documentos--> 
+                <div class="col-md-6"><!-- documentos-->
                     <p>Documentos de la tarea</p>
                     <table class="table table-striped">
                         <thead>
@@ -57,32 +57,32 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <!-- espacio en blanco--> 
+                    <!-- espacio en blanco-->
                 </div>
-                <div class="col-md-3"> <!-- botones--> 
+                <div class="col-md-3"> <!-- botones-->
                     <!-- BOTONES MENU TAREA ---->
                     <p><!-- boton aceptar -->
-                        <button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal">
+                        <button name="acciones" id="aceptar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal">
                             Aceptar tarea
                         </button></p>
                     <!-- Boton iniciar -->
-                    <p> <button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal2">
+                    <p> <button name="acciones" id="iniciar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal2">
                             Iniciar tarea
                         </button></p>
                     <!-- Boton subordinar tarea -->
-                    <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal3">
+                    <p><button name="acciones" id="subordinar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal3">
                             Subordinar tarea
                         </button><p>
                         <!-- Button reportar problema -->
-                    <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal6">
+                    <p><button name="acciones" id="reportar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal6">
                             Reportar problema
                         </button><p>
                         <!-- Button dar por terminada -->
-                    <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal5">
+                    <p><button name="acciones" id="terminar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal5">
                             Dar por terminada
                         </button></p>
                     <!-- Button trigger modal -->
-                    <p><button type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal7">
+                    <p><button name="acciones" id="rechazar" type="button" class="btn-flujo" data-toggle="modal" data-target="#exampleModal7">
                             Rechazar tarea
                         </button></p>
                     <!-- Boton salir - vuelve a la pantalla anterior -->
@@ -93,7 +93,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-12"><!-- subir archivos--> 
+                <div class="col-md-12"><!-- subir archivos-->
                     <p>Adjunte archivo  &nbsp;&nbsp;&nbsp; <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
                     <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
                         <div class="form-group">
@@ -102,9 +102,9 @@
                         <button type="submit" class="btn btn-primary">Upload File</button>
                     </form>
                     <form th:action="@{/download}">
-                        <input type="submit" value="Download" />
+                        <button type="submit" ><img src="img/archivo.png" alt="archivo ico"></button>
                     </form>
-                </div>      
+                </div>
             </div>
 
 
@@ -308,3 +308,29 @@
         <footer th:replace="layout/plantilla :: footer"></footer>
     </body>
 </html>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var estado = $('#estadoTarea').html();
+    $('button[name="acciones"]').each(function(){
+        console.log('si entra');
+      $(this).prop('disabled',true);
+    });
+    switch(estado){
+      case 'Programada':
+        $('#aceptar').prop('disabled',false);
+        $('#rechazar').prod('disabled',false);
+        break;
+
+      case 'Aceptada':
+        $('#iniciar').prop('disabled',false);
+        $('#subordinar').prop('disabled',false);
+        break;
+
+      case 'En Desarrollo':
+        $('#subordinar').prop('disabled',false);
+        $('#reportar').prop('disabled',false);
+        $('#terminar').prop('disabled',false);
+        break;
+    }
+  });
+</script>
