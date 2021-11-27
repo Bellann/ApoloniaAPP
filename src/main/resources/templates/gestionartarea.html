@@ -310,6 +310,14 @@
 </html>
 <script type="text/javascript">
 
+    function activar (elemento)
+    {
+      elemento.prop('disabled',false);
+      elemento.removeClass('btn-disable');
+      elemento.addClass('btn-flujo');
+    }
+
+
     $(document).ready(function(){
       var estado = $('#estadoTarea').html();
       $('button[name="acciones"]').each(function(){
@@ -318,38 +326,19 @@
     });
     switch(estado){
       case 'Programada':
-        $('#aceptar').prop('disabled',false);
-        $('#aceptar').removeClass('btn-disable');
-        $('#aceptar').addClass('btn-flujo');
-
-        $('#rechazar').prop('disabled',false);
-        $('#rechazar').removeClass('btn-disable');
-        $('#rechazar').addClass('btn-flujo');
-
+        activar($('#aceptar'));
+        activar($('#rechazar'));
         break;
 
       case 'Aceptada':
-        $('#iniciar').prop('disabled',false);
-        $('#iniciar').removeClass('btn-disable');
-        $('#iniciar').addClass('btn-flujo');
-
-        $('#subordinar').prop('disabled',false);
-        $('#subordinar').removeClass('btn-disable');
-        $('#subordinar').addClass('btn-flujo');
+        activar($('#iniciar'));
+        activar($('#subordinar'));
         break;
 
       case 'En Desarrollo':
-        $('#subordinar').prop('disabled',false);
-        $('#subordinar').removeClass('btn-disable');
-        $('#subordinar').addClass('btn-flujo');
-
-        $('#reportar').prop('disabled',false);
-        $('#reportar').removeClass('btn-disable');
-        $('#reportar').addClass('btn-flujo');
-
-        $('#terminar').prop('disabled',false);
-        $('#terminar').removeClass('btn-disable');
-        $('#terminar').addClass('btn-flujo');
+        activar($('#subordinar'));
+        activar($('#reportar'));
+        activar($('#terminar'));
         break;
     }
   });
