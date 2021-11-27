@@ -166,14 +166,10 @@
 
                                         </div>
                                         <div class="col-md-2">
-                                            <input class="btn-flujo" type="submit" value="Siguiente"/> 
+                                            <input id="btnvalida" class="btn-flujo" type="submit" value="Siguiente"/> 
                                         </div>
-
-                   
-
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -186,11 +182,15 @@
                         $('.input-group.date').datepicker({
                             autoclose: true,
                             todayHighlight: true,
-                            format: 'yyyy/mm/dd',
+                            format: 'dd/mm/yyyy',
+                            weekStart: 1,
+                            daysOfWeekDisabled: [0,6]
                         });
                     </script>
                     <script>
-
+                        
+                        $('#btnvalida').prop('disabled',true);
+                        
                         const weekday = new Array(7);
                         weekday[0] = "Sunday";
                         weekday[1] = "Monday";
@@ -201,6 +201,8 @@
                         weekday[6] = "Saturday";
 
                         $('#fInicial').change(function () {
+                        
+                            $('#btnvalida').prop('disabled',false);
                             var fechaS = $(this).val();
                             var parts = fechaS.split("/");
                             var fecha = new Date(+parts[2], parts[1]-1, +parts[0]);

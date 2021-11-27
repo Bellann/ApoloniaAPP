@@ -288,9 +288,6 @@ public class ControladorTareas {
         return "redirect:/";
     }
 
-        private static final String DIRECTORY = "C:/PDF";
-    private static final String DEFAULT_FILE_NAME = "java-tutorial.pdf";
-
     @Autowired
     private ServletContext servletContext;
 
@@ -301,11 +298,11 @@ public class ControladorTareas {
     public ResponseEntity<InputStreamResource> downloadFile1(
     ) throws IOException {
         
-        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "4");
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, /*Id archivo*/"5");
         System.out.println("fileName: " + "CASO 5 PTY4613 2019.pdf");
         System.out.println("mediaType: " + mediaType);
 
-        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/"4");
+        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/"5");
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
