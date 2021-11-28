@@ -188,6 +188,19 @@ public class ControladorProceso {
                                     Model model) {
 
         //Solo hacer update si viene o responsable y/o descripcion con algo, de lo contrario se redirecciona
+        TareasEjecutadas tarea = new TareasEjecutadas(urlParam, descripcion);
+        if(!descripcion.isEmpty() && descripcion != null && !descripcion.isBlank())
+        {
+            tareasEjecutadasService.actualizarTarea(tarea);
+        }
+        
+        if( responsable != null &&  !responsable.isEmpty())
+        {
+            tareasEjecutadasService.eliminarResponsable(tarea.getIdtarea());
+            
+            responsable.stream().forEach(p -> tareasEjecutadasService.crearResponsables(tarea.getIdtarea(), p));
+            
+        }
         
         
         return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + idProcesoEjecutado);

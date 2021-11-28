@@ -6,12 +6,16 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.TareasEjecutadas;
+import cl.apolonia.service.DashboardFuncionarioService;
+import cl.apolonia.service.DashboardService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +58,9 @@ public class ControladorInicio {
     @Autowired
     private TareasTipoDao tareasTipoDao;
 
+
+    @Autowired
+    private DashboardService dashboard;
     
     @GetMapping("/")
     public String inicio(Model model) {
@@ -139,4 +146,3 @@ public class ControladorInicio {
     }
 
 }
-

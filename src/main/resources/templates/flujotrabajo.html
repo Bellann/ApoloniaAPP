@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -33,6 +32,7 @@
                         <div class="me-auto p-2">
 
                             <h1>Procesos en los que participo</h1>
+
                             <div class="leyenda"> 
                                 En esta tabla podrá ver todos los procesos en donde tiene una tarea asignada, con la lupa podrá ver las tareas que contiene y además podrá generar nuevas tareas si su negocio así lo requiere
                             </div>
@@ -40,6 +40,7 @@
                         </div>
                         <div class="p-2">   
                             <img src="../static/img/proceso.jpg" th:src="@{img/proceso.jpg}" width="400px">
+
                         </div>
                         <div class="p-2">
 
@@ -68,10 +69,12 @@
                                 <tr name="row" th:each="misProcesos,iterationStatus  : ${misProcesos}">
                                     <td th:text="${misProcesos.nombreProceso}"></td>
                                     <td align="left">
+
                                         <!-- formulario para ver tareas de un proceso -->
                                         <form th:action="@{/tareaxproceso}">
                                             <input type="hidden" th:value="${misProcesos.idProceso}" th:name="idproceso">
                                             <input type="image" src="../static/img/ver.png" th:src="@{img/ver.png}" alt="Submit Form" />
+
                                         </form>  
                                     </td>                      
                                     <td name="end" th:text="${#dates.format(misProcesos.fechaPrevistaFin,'yyyy-MM-dd')}"></td>
@@ -99,107 +102,101 @@
                             </tfoot>
                         </table>
                     </div>
-                    <div class="modal-footer">
 
 
+                    <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
-                        <button type="button" class="btn-flujo"  data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <div class="d-flex mb-3 align-text-bottom">
+                            <div class="me-auto p-2">
 
-        <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+                                <h1>Mis Tareas</h1>
 
-            <div class="d-flex mb-3 align-text-bottom">
-                <div class="me-auto p-2">
+                            </div>
+                            <div class="p-2">   
 
-                    <h1>Mis Tareas</h1>
-
-                </div>
-                <div class="p-2">   
-
-                </div>
-                <div class="p-2">
+                            </div>
+                            <div class="p-2">
 
 
-                </div>
-            </div>
-            <!-- Data Table Listado de tareas por RUN -->
-            <span th:if="${tareasRun == null or tareasRun.empty}"> Usted no tiene tareas asignadas</span>
+                            </div>
+                        </div>
+                        <!-- Data Table Listado de tareas por RUN -->
+                        <span th:if="${tareasRun == null or tareasRun.empty}"> Usted no tiene tareas asignadas</span>
 
 
-            <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
-                <table id="tareasRun" class="table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>N°</th>
-                            <th>Tarea</th>
-                            <th>Asignada por</th>
-                            <th>Fecha límite</th>
-                            <th>Control</th>
-                            <th>Estado</th>
-                            <th>Gestionar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        <div th:if="${tareasRun != null and !tareasRun.empty}" class="contenedor-data">
+                            <table id="tareasRun" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Tarea</th>
+                                        <th>Asignada por</th>
+                                        <th>Fecha límite</th>
+                                        <th>Control</th>
+                                        <th>Estado</th>
+                                        <th>Gestionar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                        <tr name="row" th:each="tareasRun,iterationStatus  : ${tareasRun}">
-                            <td th:text="${iterationStatus.count}">1</td>
-                            <td th:text="${tareasRun.tarea}">Mostrar Tarea</td>
-                            <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
-                            <td name="end" th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
-                            <td name="control"></td>
-                            <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
-                            <td><a th:href="@{/gestionartarea(r=${tareasRun.runResponsable} , i=${tareasRun.idtarea})}"> <img src="../static/img/gestionar.png" th:src="@{img/gestionar.png}" alt="gestionar"></a></td>
-                        </tr>
+                                    <tr name="row" th:each="tareasRun,iterationStatus  : ${tareasRun}">
+                                        <td th:text="${iterationStatus.count}">1</td>
+                                        <td th:text="${tareasRun.tarea}">Mostrar Tarea</td>
+                                        <td th:text="${tareasRun.ejecutor}">Mostrar Asignado por</td>
+                                        <td name="end" th:text="${tareasRun.fPrevFin}">Mostrar fecha fin</td>
+                                        <td name="control"></td>
+                                        <td th:text="${tareasRun.estado}">Mostrar fecha fin</td>
+                                        <td><a th:href="@{/gestionartarea(r=${tareasRun.runResponsable} , i=${tareasRun.idtarea})}"> <img src="../static/img/gestionar.png" th:src="@{img/gestionar.png}" alt="gestionar"></a></td>
+                                    </tr>
 
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>N°</th>
-                            <th>Tarea</th>
-                            <th>Asignada por</th>
-                            <th>Fecha límite</th>
-                            <th>Control</th>
-                            <th>Estado</th>
-                            <th>Gestionar</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Tarea</th>
+                                        <th>Asignada por</th>
+                                        <th>Fecha límite</th>
+                                        <th>Control</th>
+                                        <th>Estado</th>
+                                        <th>Gestionar</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
 
 
-            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+                        <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
 
 
 
 
 
-                <footer th:replace="layout/plantilla :: footer"></footer>
+                            <footer th:replace="layout/plantilla :: footer"></footer>
 
-                <script th:src="@{/js/datatables.min.js}"></script>
-                <script th:src="@{/js/main.js}"></script>
-                <script>
-                        $("tr[name='row']").each(function(){
+                            <script th:src="@{/js/datatables.min.js}"></script>
+                            <script th:src="@{/js/main.js}"></script>
+                            <script>
+                                $("tr[name='row']").each(function () {
 
-                            var date = new Date($(this).children("td[name='end']").html());
-                            var today = new Date();
-                            var timeLeft = (date.getTime()-today.getTime())/(1000*60*60*24);
-                            console.log(timeLeft);
-                            
-                            if(timeLeft > 7)
-                            {
-                                $(this).children("td[name='control']").addClass("bg-success");
-                            } else if (timeLeft > 0)
-                            {
-                                $(this).children("td[name='control']").addClass("bg-warning");
-                            } else
-                            {
-                                $(this).children("td[name='control']").addClass("bg-danger");
-                            }
-                        });
-                    </script>
-                </body>
-                </html>
+                                    var date = new Date($(this).children("td[name='end']").html());
+                                    var today = new Date();
+                                    var timeLeft = (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+                                    console.log(timeLeft);
+
+                                    if (timeLeft > 7)
+                                    {
+                                        $(this).children("td[name='control']").addClass("bg-success");
+                                    } else if (timeLeft > 0)
+                                    {
+                                        $(this).children("td[name='control']").addClass("bg-warning");
+                                    } else
+                                    {
+                                        $(this).children("td[name='control']").addClass("bg-danger");
+                                    }
+                                });
+                            </script>
+
+
+                            </body>
+                            </html>

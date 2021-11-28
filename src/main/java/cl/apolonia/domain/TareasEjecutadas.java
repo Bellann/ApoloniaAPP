@@ -127,6 +127,11 @@ public class TareasEjecutadas implements Serializable {
         this.observaciones = observaciones;
     }
 
+    public TareasEjecutadas(Integer idtarea, String descTarea) {
+        this.idtarea = idtarea;
+        this.descTarea = descTarea;
+    }
+
     public Integer getIdtarea() {
         return idtarea;
     }

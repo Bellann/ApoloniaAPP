@@ -286,13 +286,14 @@ public class ControladorTareas {
     // Using ResponseEntity<InputStreamResource>
     @RequestMapping("/download")
     // Hay que traerse el id del archivo y el nombre
-    public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
-
-        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, /*Id archivo*/ "5");
+    public ResponseEntity<InputStreamResource> downloadFile1(
+    ) throws IOException {
+        
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, /*Id archivo*/"5");
         System.out.println("fileName: " + "CASO 5 PTY4613 2019.pdf");
         System.out.println("mediaType: " + mediaType);
 
-        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/ "5");
+        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/"5");
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
