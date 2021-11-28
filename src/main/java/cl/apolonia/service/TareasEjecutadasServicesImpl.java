@@ -338,6 +338,10 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     }
 
     @Override
+
+    public List<TareasEjecutadas> listarXEstadoXIdSubunidad(String estado, Integer idSubUnidad) {
+        return tareasEjecutadasDao.findByEstadoAndIdSubUnidad(estado, idSubUnidad);
+    }
     public boolean actualizarTarea(TareasEjecutadas tarea) {
         try {
             
@@ -371,6 +375,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             return false;
         }
         return true;
+
     }
     
 

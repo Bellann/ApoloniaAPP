@@ -21,4 +21,6 @@ public interface FuncionariosService {
     
     public String nombreResponsable(String run);
     
+    public List<Funcionarios> ListarXSubunidad(Integer idSubunidad);
+    
 }

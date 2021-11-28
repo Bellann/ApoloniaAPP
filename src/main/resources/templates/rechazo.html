@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head"></head>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-8">
+                    <center><h2>Gestión de rechazo de la tarea <span th:text="${tarea.tarea}"/></h2></center>
+                    </br>
+                    <div class="leyenda"><center><p>Si acepta el rechazo de esta tarea, deberá asignar al menos 1 responsable de ella</p></center></div>
+                    </br>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <!-- Data Table Observaciones de la tarea -->
+                    <span th:if="${observaciones == null or observaciones.empty}"> Esta tarea no tiene registrada las observaciones</span>
+
+
+                    <div th:if="${observaciones != null and !observaciones.empty}" class="contenedor-data">
+                        <table id="tareasRun" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Fecha</th>
+                                    <th>Quien lo realiza</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr name="row" th:each="comentario,iterationStatus  : ${observaciones}">
+                                    <td th:text="${iterationStatus.count}">1</td>
+                                    <td th:text="${comentario.fecha}"></td>
+                                    <td th:text="${comentario.nombre}"></td>
+                                    <td th:text="${comentario.comentario}"></td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Fecha</th>
+                                    <th>Quien lo realiza</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <center>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal1">
+                            Rechazar solicitud
+                        </button>
+                        <input class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal" value="Aceptar solicitud"> 
+                    </center>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Rechazar solicitud</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/denegarechazo}">
+                                <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/>
+                                Ingrese el motivo por el cual deniega esta solicitud de rechazo:
+                                <textarea class="form-control" th:name="motivo" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </br>
+                                <input type="submit" class="btn btn-success" value="Rechazar solicitud"/>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Volver atrás</button>
+                            </form>
+
+
+
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MODAL DE RESPONSABLES -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Seleccione una persona de su departamento</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- lista de funcionarios por subunidad-->
+                            <form th:action="@{/aceptarechazo}">
+
+                                <div th:if="${funcionarios != null and !funcionarios.empty}" class="contenedor-data">
+                                    <table id="gestionaResponsables" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>N</th>
+                                                <th>Nombre</th>
+                                                <th>Seleccionar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr name="row" th:each="responsable, iter : ${funcionarios}">
+                                                <td th:text="${iter.index}+1"></td>
+                                                <td><p th:text="${responsable.nombres}+' '+${responsable.apellidop}"></p></td>
+                                                <td><input type="checkbox" th:value="${responsable.run}" id="checked" th:name="responsable"></td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>N</th>
+                                                <th>Nombre</th>
+                                                <th>Seleccionar</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                    <div th:if="${funcionarios == null or funcionarios.empty}">
+                                        Este departamento no cuenta con funcionarios
+                                    </div>
+                                    <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/> 
+                                    <input type="submit" class="btn btn-success" value="Acepta el rechazo"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="button" class="btn btn-danger" data-dismiss="modal" value="Atrás"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
+        <script th:src="@{/js/datatables.min.js}"></script>
+        <script th:src="@{/js/solicitudes.js}"></script>
+    </body>
+</html>

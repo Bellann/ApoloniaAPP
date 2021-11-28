@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head"></head>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
+        <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Tarea: <span th:text="${tarea.tarea}"></span></h2>
+                    </br>
+                    <h3>Datos de la tarea</h3>
+                    <p>Responsable(s):</p>
+                    <p>Fecha de Inicio esperada:</p>
+                    <p>Fecha de Inicio real</p>
+                    <p>Fecha de de término esperada:</p>
+                    <p>Fecha de término real</p>
+                    <p>Descripcion</p>
+                    <p>Observaciones / Comentarios</p>
+                </div>
+                <div class="col-md-6">
+                    Archivos
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="d-flex justify-content-end">
+                        <!-- informacion al controller--> 
+                        <form th:action="@{/rechazo}">
+                            <input type="hidden"  th:name="idtarea"/> 
+                            <input class="btn btn-success" type="submit" value="Aprobar"/> 
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="leyenda">
+                        <p> Al aceptar la tarea, la dará por terminada</p>
+                        <p> Al rechazar la tarea, ésta volverá a encontrarse en desarrollo</p>
+                    </div>
+                    <div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="d-flex justify-content-start">
+                        <!-- informacion al controller--> 
+                        <form th:action="@{/rechazo}">
+                            <input type="hidden"  th:name="idtarea"/> 
+                            <input class="btn btn-danger" type="submit" value="Rechazar"/> 
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
+    </body>
+</html>
