@@ -89,6 +89,7 @@ public class ControladorTareas {
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
+        var archivo = archivoService.ListarXTarea(i);
         model.addAttribute("run", urlParam);
         model.addAttribute("id", i);
         model.addAttribute("tareasEjecutadas", tareasEjecutadas);
@@ -97,6 +98,7 @@ public class ControladorTareas {
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("funcionariosList", funcionariosList);
         model.addAttribute("observaciones", observaciones);
+        model.addAttribute("archivo", archivo);
 
         return "gestionartarea";
     }
@@ -160,7 +162,7 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
         if (tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea())) {
-              return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
+            return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
         } else {
             return new ModelAndView("error");
         }
@@ -175,11 +177,11 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-       var r = funcionariosService.runResponsable();
+        var r = funcionariosService.runResponsable();
         var i = urlParam;
         //Llamar método para cambio de estado, despues de conversar
         if (tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)) {
-             return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
+            return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
         } else {
             return new ModelAndView("error");
         }
@@ -193,11 +195,11 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-       var r = funcionariosService.runResponsable();
+        var r = funcionariosService.runResponsable();
         var i = urlParam;
         //Llamar método para cambio de estado, despues de conversar
         if (tareasEjecutadasService.cambiarEstado(tarea, 4)) {
-             return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
+            return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
         } else {
             return new ModelAndView("error");
         }
@@ -211,11 +213,11 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-       var r = funcionariosService.runResponsable();
+        var r = funcionariosService.runResponsable();
         var i = urlParam;
         //Llamar método para cambio de estado, despues de conversar
         if (tareasEjecutadasService.cambiarEstado(tarea, 5) && tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)) {
-              return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
+            return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
         } else {
             return new ModelAndView("error");
         }
@@ -357,13 +359,13 @@ public class ControladorTareas {
     public ModelAndView aceptarechazo(@RequestParam(value = "idtarea") Integer urlParam,
             @RequestParam(value = "responsable", required = false) List<String> responsable,
             Model model) {
-        
+
         var tarea = tareasEjecutadasDao.getById(urlParam);
         //Update a tarea con el id y los nuevos responsables
         //Update a estado a programada
         tareasEjecutadasService.cambiarEstado(tarea, 1);
         responsable.stream().forEach(p -> tareasEjecutadasService.crearResponsables(urlParam, p));
-        
+
         return new ModelAndView("redirect:/solicitudes");
     }
 
@@ -426,9 +428,8 @@ public class ControladorTareas {
     public ModelAndView apruebarevision(@RequestParam(value = "idtarea") Integer urlParam,
             Model model) {
 
-        
         var tarea = tareasEjecutadasDao.getById(urlParam);
-        
+
         tareasEjecutadasService.cambiarEstado(tarea, 6);
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
@@ -438,7 +439,7 @@ public class ControladorTareas {
     public ModelAndView rechazarevision(@RequestParam(value = "idtarea") Integer urlParam,
             @RequestParam(value = "motivo") String motivo,
             Model model) {
-        
+
         var tarea = tareasEjecutadasDao.getById(urlParam);
         var runUser = funcionariosService.runResponsable();
         tareasEjecutadasService.cambiarEstado(tarea, 3);
@@ -446,10 +447,10 @@ public class ControladorTareas {
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
     }
-    
-        @GetMapping(value = "/vertarea")
+
+    @GetMapping(value = "/vertarea")
     public ModelAndView vertarea(@RequestParam(value = "i") Integer urlParam,
-                                 Model model) {
+            Model model) {
         var observaciones = observacionesService.ListarXIdtarea(urlParam);
         var tareasEjecutadas = tareasEjecutadasService.encontrarTarea(urlParam);
         var funcionarios = funcionariosService.listarFuncionarios();
@@ -464,6 +465,38 @@ public class ControladorTareas {
         model.addAttribute("funcionariosList", funcionariosList);
         model.addAttribute("observaciones", observaciones);
         return new ModelAndView("redirect:/vertarea");
+    }
+
+    @PostMapping("/cargar")
+    public String cargar(@RequestParam("file") MultipartFile file, RedirectAttributes attributes,
+                         @RequestParam(value="idtarea") Integer idtarea) {
+
+        if (file.isEmpty()) {
+            attributes.addFlashAttribute("message", "Please select a file to upload.");
+            return "redirect:/";
+        }
+        var runUser = funcionariosService.runResponsable();
+        // normalize the file path
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        System.out.println(fileName.lastIndexOf('.'));
+
+        int id = archivoService.create(fileName, runUser, idtarea);
+
+        if (id > 0) {
+            // save the file on the local file system
+            try {
+
+                Path path = Paths.get(UPLOAD_DIR + String.valueOf(id));
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // return success response
+            attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
+        }
+
+        return "redirect:/";
     }
 
 }

@@ -29,23 +29,63 @@
             </div>
             <div class="row">
                 <div class="col-md-6"><!-- documentos-->
-                    <p>Documentos de la tarea</p>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Archivo</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Descargar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="col">No implementado</th>
-                                <th scope="col">No implementado</th>
-                                <th scope="col"><img src="../static/img/archivo.png" th:src="@{img/archivo.png}" alt="archivo ico"></th>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h3>Subir un documento a esta tarea</h3>
+                    <div class="row" th:if="${tareasEjecutadas.estado != 'En Revisión'}">
+                        <div class="col-md-12"><!-- subir archivos-->
+                            <p>Adjunte archivo <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
+                            <form method="post" th:action="@{/cargar}" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input type="file" name="file" class="form-control-file">
+                                    <input type="hidden" th:name="idtarea" th:value="${tareasEjecutadas.idtarea}"/>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                            </form>
+
+                            <div class="leyenda"> Los archivos a subir deben tener un peso máximo de 1MB</div>
+                        </div>
+                    </div>
+                    <!-- ARCHIVOS -->
+                    </br>
+                    <h3>Listado de documentos asociados a la tarea</h3>
+                    <span th:if="${archivo == null or archivo.empty}"> Esta tarea no posee archivos asociados</span>
+
+
+                    <div th:if="${archivo != null and !archivo.empty}" class="contenedor-data">
+                        <table id="tareasRun" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Nombre</th>
+                                    <th>Descargar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr name="row" th:each="archivo,iterationStatus  : ${archivo}">
+                                    <td th:text="${iterationStatus.count}">1</td>
+                                    <td th:text="${archivo.nombre}">1</td>
+                                    <td th:text="${archivo.fecha}">1</td>
+                                    <td>
+                                        <form th:action="@{/descargar}">
+                                            <input type="hidden" th:value="${archivo.id}"  th:name="idArchivo" />
+                                            <input type="hidden" th:value="${archivo.nombre}"  th:name="nombreArchivo" />
+                                            <button type="submit" class="no-border" ><img src="img/archivo.png" alt="archivo ico"></button>
+
+                                        </form>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Nombre</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                     <!-- Observaciones-->
                     </br>
                     <p><b>Observaciones:</b></p>
@@ -119,23 +159,6 @@
                             </button></a></p>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12"><!-- subir archivos-->
-                    <p>Adjunte archivo  &nbsp;&nbsp;&nbsp; <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
-                    <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <input type="file" name="file" class="form-control-file">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload File</button>
-                    </form>
-                    <form th:action="@{/download}">
-                        <button type="submit" ><img src="img/archivo.png" alt="archivo ico"></button>
-                    </form>
-                </div>
-            </div>
-
-
             <!-- MODALES DE LOS BOTONES -->
             <!-- Modal aceptar -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
