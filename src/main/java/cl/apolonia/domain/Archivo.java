@@ -21,19 +21,16 @@ public class Archivo
     
     @Column(name="NOMBRE")
     private String nombre;
-    
-    @Column(name="TIPO")
-    private String tipo;
-    
+      
     @Column(name="FECHA_SUBIDA")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
     
     @Column(name="RUN_FUNCIONARIO")
-    private String run_funcionario;
+    private String runFuncionario;
     
     @Column(name="ID_TAREA_EJECUTADA")
-    private Integer id_tarea;
+    private Integer idTarea;
 
     public Archivo() {
     }
@@ -41,10 +38,9 @@ public class Archivo
     public Archivo(Integer id, String nombre, String tipo, Date fecha, String run_funcionario, Integer id_tarea) {
         this.id = id;
         this.nombre = nombre;
-        this.tipo = tipo;
         this.fecha = fecha;
-        this.run_funcionario = run_funcionario;
-        this.id_tarea = id_tarea;
+        this.runFuncionario = run_funcionario;
+        this.idTarea = id_tarea;
     }
     
     public Integer getId() {
@@ -63,13 +59,6 @@ public class Archivo
         this.nombre = nombre;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 
     public Date getFecha() {
         return fecha;
@@ -80,19 +69,19 @@ public class Archivo
     }
 
     public String getRun_funcionario() {
-        return run_funcionario;
+        return runFuncionario;
     }
 
     public void setRun_funcionario(String run_funcionario) {
-        this.run_funcionario = run_funcionario;
+        this.runFuncionario = run_funcionario;
     }
 
     public Integer getId_tarea() {
-        return id_tarea;
+        return idTarea;
     }
 
     public void setId_tarea(Integer id_tarea) {
-        this.id_tarea = id_tarea;
+        this.idTarea = id_tarea;
     }
     
     

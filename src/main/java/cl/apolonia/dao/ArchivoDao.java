@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ArchivoDao extends JpaRepository<Archivo, Integer> {
     
+    List<Archivo> findByIdTarea(Integer idTarea);
     
 
     

@@ -1,9 +1,11 @@
 package cl.apolonia.service;
 
 import cl.apolonia.dao.ArchivoDao;
+import cl.apolonia.domain.Archivo;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
@@ -46,6 +48,11 @@ public class ArchivoServiceImpl implements ArchivoService {
             return 0;
         }
         return id;
+    }
+
+    @Override
+    public List<Archivo> ListarXTarea(Integer idTarea) {
+        return archivoDao.findByIdTarea(idTarea);
     }
     
 }
