@@ -58,7 +58,6 @@
                                         <table id="procesosUni" class="table table-striped" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th></th>
                                                     <th>N</th>
                                                     <th>Proceso</th>
                                                     <th>Creador</th>
@@ -71,7 +70,6 @@
                                             <tbody>
 
                                                 <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
-                                                    <td>ESTADO circulo</td>
                                                     <td th:text="${iter.index}+1"></td>
                                                     <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
                                                     <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
@@ -84,7 +82,6 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th></th>
                                                     <th>N</th>
                                                     <th>Proceso</th>
                                                     <th>Creador</th>
@@ -110,7 +107,6 @@
                                         <table id="procesosSub" class="table table-striped" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th></th>
                                                     <th>N</th>
                                                     <th>Proceso</th>
                                                     <th>Creador</th>
@@ -124,7 +120,6 @@
                                             <tbody>
 
                                                 <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
-                                                    <td>ESTADO circulo</td>
                                                     <td th:text="${iter.index}+1"></td>
                                                     <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
                                                     <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
@@ -144,7 +139,6 @@
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th></th>
                                                     <th>N</th>
                                                     <th>Proceso</th>
                                                     <th>Creador</th>
@@ -190,6 +184,7 @@
                                         <table id="tareasUnidad" class="table table-striped" style="width:100%">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th>Tarea</th>
                                                     <th>Asignada por</th>
                                                     <th>Sub unidad</th>
@@ -202,18 +197,20 @@
                                             <tbody>
 
                                                 <tr name="row" th:each="tareasUnidad : ${tareasRun}">
+                                                    <td name='alert' class='d-flex justify-content-center'></td>
                                                     <td th:text="${tareasUnidad.tarea}">Mostrar Tarea</td>
                                                     <td th:text="${tareasUnidad.ejecutor}">Mostrar Asignado por</td>
                                                     <td th:text="${tareasUnidad.subunidad}">Mostrar subunidad</td>
                                                     <td name="end" th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
                                                     <td name="control"></td>
-                                                    <td th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
+                                                    <td name='estado' th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
                                                     <td><button>Ver</button></td>
                                                 </tr>
 
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                    <th></th>
                                                     <th>Tarea</th>
                                                     <th>Asignada por</th>
                                                     <th>Sub unidad</th>
@@ -251,6 +248,7 @@
                                                 <table id="tareasSubunidad" class="table table-striped" style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th></th>
                                                             <th>Tarea</th>
                                                             <th>Asignada por</th>
                                                             <th>Fecha límite</th>
@@ -262,17 +260,19 @@
                                                     <tbody>
 
                                                         <tr name="row" th:each="tareasSubUni : ${tareasRun}">
+                                                            <td name='alert'></td>
                                                             <td th:text="${tareasSubUni.tarea}">Mostrar Tarea</td>
                                                             <td th:text="${tareasSubUni.ejecutor}">Mostrar Asignado por</td>
                                                             <td name="end" th:text="${tareasSubUni.fPrevFin}">Mostrar fecha fin</td>
                                                             <td name="control"></td>
-                                                            <td th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
+                                                            <td name='estado' th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
                                                             <td><button>Ver</button></td>
                                                         </tr>
 
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
+                                                            <th></th>
                                                             <th>Tarea</th>
                                                             <th>Asignada por</th>
                                                             <th>Fecha límite</th>
@@ -289,6 +289,7 @@
                                             <input type="hidden" th:value="${tareasUnidad}" />
                                             <input type="hidden" th:value="${tareasSubUni}" />
                                             <footer th:replace="layout/plantilla :: footer"></footer>
+
                                             <script th:src="@{/js/datatables.min.js}"></script>
                                             <script th:src="@{/js/flujodata.js}"></script>
                                             <script>
@@ -309,6 +310,9 @@
                                                     {
                                                         $(this).children("td[name='control']").addClass("bg-danger");
                                                     }
+                                                    var estado = $(this).children('td[name="estado"]').html()
+                                                    if(estado == "Rechazada" || estado == "En Revisión" )
+                                                        $(this).children("td[name='alert']").html('<i class="fas fa-circle"></i>');
                                                 });
                                             </script>
                                             </body>
