@@ -21,7 +21,6 @@
                     <p>Fecha de de inicio <span th:text="${tareasEjecutadas.fPrevInicio}">fecha de inicio prevista</span></p>
                     <p>Fecha de de término prevista <span th:text="${tareasEjecutadas.fPrevFin}">fecha de término prevista</span></p>
                     <p>Estado <span id="estadoTarea" th:text="${tareasEjecutadas.estado}"></span></p>
-                    <p>Fecha de asignación:</p>
                     <ul>
                         <li>Fecha real de incio: <span th:text="${tareasEjecutadas.fRealInicio}">fecha de inicio prevista</span></li>
                         <li>Fecha real de término: <span th:text="${tareasEjecutadas.fRealFin}">fecha de inicio prevista</span></li>
@@ -50,10 +49,39 @@
                     <!-- Observaciones-->
                     </br>
                     <p><b>Observaciones:</b></p>
-                    <!-- Prueba RESPONSABLES -- BORRAR DESPUES -->
-                    RESPONSABLES
-                    <div th:each=" responsable : ${tareasEjecutadas.responsables}">
-                        <p th:text="${responsable.runFuncionario }"></p>
+                    <!-- Data Table Observaciones de la tarea -->
+                    <span th:if="${observaciones == null or observaciones.empty}"> Esta tarea no tiene registrada las observaciones</span>
+
+
+                    <div th:if="${observaciones != null and !observaciones.empty}" class="contenedor-data">
+                        <table id="tareasRun" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Fecha</th>
+                                    <th>Quien lo realiza</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr name="row" th:each="comentario,iterationStatus  : ${observaciones}">
+                                    <td th:text="${iterationStatus.count}">1</td>
+                                    <td th:text="${comentario.fecha}"></td>
+                                    <td th:text="${comentario.nombre}"></td>
+                                    <td th:text="${comentario.comentario}"></td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Fecha</th>
+                                    <th>Quien lo realiza</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -79,7 +107,7 @@
                         </button><p>
                         <!-- Button dar por terminada -->
                     <p><button name="acciones" id="terminar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal5">
-                            Dar por terminada
+                            Enviar a revisión
                         </button></p>
                     <!-- Button trigger modal -->
                     <p><button name="acciones" id="rechazar" type="button" class="btn-disable" data-toggle="modal" data-target="#exampleModal7">
@@ -310,36 +338,36 @@
 </html>
 <script type="text/javascript">
 
-    function activar (elemento)
+    function activar(elemento)
     {
-      elemento.prop('disabled',false);
-      elemento.removeClass('btn-disable');
-      elemento.addClass('btn-flujo');
+        elemento.prop('disabled', false);
+        elemento.removeClass('btn-disable');
+        elemento.addClass('btn-flujo');
     }
 
 
-    $(document).ready(function(){
-      var estado = $('#estadoTarea').html();
-      $('button[name="acciones"]').each(function(){
-        console.log('si entra');
-      $(this).prop('disabled',true);
+    $(document).ready(function () {
+        var estado = $('#estadoTarea').html();
+        $('button[name="acciones"]').each(function () {
+            console.log('si entra');
+            $(this).prop('disabled', true);
+        });
+        switch (estado) {
+            case 'Programada':
+                activar($('#aceptar'));
+                activar($('#rechazar'));
+                break;
+
+            case 'Aceptada':
+                activar($('#iniciar'));
+                activar($('#subordinar'));
+                break;
+
+            case 'En Desarrollo':
+                activar($('#subordinar'));
+                activar($('#reportar'));
+                activar($('#terminar'));
+                break;
+        }
     });
-    switch(estado){
-      case 'Programada':
-        activar($('#aceptar'));
-        activar($('#rechazar'));
-        break;
-
-      case 'Aceptada':
-        activar($('#iniciar'));
-        activar($('#subordinar'));
-        break;
-
-      case 'En Desarrollo':
-        activar($('#subordinar'));
-        activar($('#reportar'));
-        activar($('#terminar'));
-        break;
-    }
-  });
 </script>
