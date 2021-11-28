@@ -89,7 +89,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                         <!-- informacion al controller rechazo--> 
                                         <form th:action="@{/rechazo}">
                                             <input type="hidden" th:value="${rechazadas.idtarea}" th:name="idtarea"/> 
-                                            <input type="submit"/> 
+                                            <input type="submit" class="btn-table"/> 
                                         </form>
                                     </td>
                                 </tr> <!-- fin de iteracion de datos-->
@@ -114,26 +114,63 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <!-- 3. Tareas en revisión:-->
 
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <h3>3. Tareas en revisión:</h3>
+                    <!-- Data Table tareas en REVISION por SUBUNIDAD -->
+                    <span th:if="${revision == null or revision.empty}"> Su departamento no tiene tareas rechazadas... ¡enhorabuena!</span>
 
+
+
+                    <div th:if="${revision != null and !revision.empty}" class="contenedor-data">
+                        <table id="rechazo" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Tarea</th>
+                                    <th>Responsable</th>
+                                    <th>Fecha límite</th>
+                                    <th>Gestionar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr name="row" th:each="tarea,iterationStatus  : ${revision}">
+                                    <td th:text="${iterationStatus.count}">1</td>
+                                    <td th:text="${tarea.tarea}">1</td>
+                                    <td>
+                                        <span th:each="responsable : ${tarea.responsables}">
+                                            <p th:text="${responsable.nombre}" />                                     
+                                        </span>
+                                    </td>
+                                    <td th:text="${tarea.fPrevFin}"></td>
+                                    <td> 
+                                        <!-- informacion al controller--> 
+                                        <form th:action="@{/revision}">
+                                            <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/> 
+                                            <input type="submit" class="btn-table"/> 
+                                        </form>
+
+                                    </td>
+                                </tr> <!-- fin de iteracion de datos-->
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Tarea</th>
+                                    <th>Responsable</th>
+                                    <th>Fecha límite</th>
+                                    <th>Gestionar</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                </div>           
+
             </div>
             <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #e5dede">
 
-            <!-- 4. Gestionar tarea: -->
 
-            <div class="row">
-                <div class="col-md-8">
-                    <h3>4. Gestionar tarea: :</h3>
-
-                </div>
-                <div class="col-md-4">
-                </div>           
-            </div>
-            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
             <!--boton volver-->
             <div class="row">
                 <div class="col-md-2">
