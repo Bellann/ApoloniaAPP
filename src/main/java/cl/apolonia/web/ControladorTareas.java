@@ -342,9 +342,13 @@ public class ControladorTareas {
     public ModelAndView aceptarechazo(@RequestParam(value = "idtarea") Integer urlParam,
             @RequestParam(value = "responsable", required = false) List<String> responsable,
             Model model) {
+        
+        var tarea = tareasEjecutadasDao.getById(urlParam);
         //Update a tarea con el id y los nuevos responsables
         //Update a estado a programada
-
+        tareasEjecutadasService.cambiarEstado(tarea, 1);
+        responsable.stream().forEach(p -> tareasEjecutadasService.crearResponsables(urlParam, p));
+        
         return new ModelAndView("redirect:/solicitudes");
     }
 
@@ -353,6 +357,10 @@ public class ControladorTareas {
             @RequestParam(value = "motivo") String motivo,
             Model model) {
 
+        var runUser = funcionariosService.runResponsable();
+        TareasEjecutadas tarea = tareasEjecutadasDao.getById(urlParam);
+        tareasEjecutadasService.cambiarEstado(tarea, 2);
+        tareasEjecutadasService.crearObservacion(tarea, runUser, motivo);
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
     }
@@ -404,6 +412,10 @@ public class ControladorTareas {
     public ModelAndView apruebarevision(@RequestParam(value = "idtarea") Integer urlParam,
                                         Model model) {
 
+        
+        var tarea = tareasEjecutadasDao.getById(urlParam);
+        
+        tareasEjecutadasService.cambiarEstado(tarea, 6);
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
     }
@@ -412,9 +424,12 @@ public class ControladorTareas {
     public ModelAndView rechazarevision(@RequestParam(value = "idtarea") Integer urlParam,
             @RequestParam(value = "motivo") String motivo,
             Model model) {
-
+        
+        var tarea = tareasEjecutadasDao.getById(urlParam);
+        var runUser = funcionariosService.runResponsable();
+        tareasEjecutadasService.cambiarEstado(tarea, 3);
+        tareasEjecutadasService.crearObservacion(tarea, runUser, motivo);
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
-    }
-    
+    }    
 }
