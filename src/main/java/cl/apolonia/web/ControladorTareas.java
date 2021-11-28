@@ -46,9 +46,6 @@ public class ControladorTareas {
 
     @Autowired
     private FuncionariosService funcionariosService;
-    
-    @Autowired
-    private ObservacionesService observacionesService;
 
     @Autowired
     private TareasEjecutadasDao tareasEjecutadasDao;
@@ -73,6 +70,9 @@ public class ControladorTareas {
 
     @Autowired
     private ArchivoService archivoService;
+    
+    @Autowired
+    private ObservacionesService observacionesService;
 
     private final String UPLOAD_DIR = "./uploads/";
 
@@ -194,7 +194,6 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        System.out.println(descRechazo);
 
         //Llamar método para cambio de estado, despues de conversar
         if (tareasEjecutadasService.cambiarEstado(tarea, 5) && tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)) {
@@ -280,9 +279,6 @@ public class ControladorTareas {
         return "redirect:/";
     }
 
-        private static final String DIRECTORY = "C:/PDF";
-    private static final String DEFAULT_FILE_NAME = "java-tutorial.pdf";
-
     @Autowired
     private ServletContext servletContext;
 
@@ -290,16 +286,6 @@ public class ControladorTareas {
     // Using ResponseEntity<InputStreamResource>
     @RequestMapping("/download")
     // Hay que traerse el id del archivo y el nombre
-<<<<<<< Updated upstream
-    public ResponseEntity<InputStreamResource> downloadFile1(
-    ) throws IOException {
-        
-        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "4");
-        System.out.println("fileName: " + "CASO 5 PTY4613 2019.pdf");
-        System.out.println("mediaType: " + mediaType);
-
-        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/"4");
-=======
     public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
 
         MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, /*Id archivo*/ "5");
@@ -307,7 +293,6 @@ public class ControladorTareas {
         System.out.println("mediaType: " + mediaType);
 
         File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/ "5");
->>>>>>> Stashed changes
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
@@ -324,18 +309,20 @@ public class ControladorTareas {
     public String tareaxproceso(Model model) {
         var idsubunidad = funcionariosService.idSubunidad();
         var rechazadas = tareasEjecutadasService.listarXEstadoXIdSubunidad("Rechazada", idsubunidad);
+        var revision = tareasEjecutadasService.listarXEstadoXIdSubunidad("En Revisión", idsubunidad);
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("rechazadas", rechazadas);
+        model.addAttribute("revision", revision);
 
         return "solicitudes";
     }
 
     @GetMapping(value = "/rechazo")
-    public String rechazo(@RequestParam (value = "idtarea") Integer urlParam,  
-                           Model model) {
+    public String rechazo(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
         var idsubunidad = funcionariosService.idSubunidad();
         var funcionarios = funcionariosService.ListarXSubunidad(idsubunidad);
         var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
@@ -344,30 +331,49 @@ public class ControladorTareas {
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         model.addAttribute("nusuario", nombreCompleto);
-        model.addAttribute("rolsaludo", rolSaludo);
-        
         model.addAttribute("tarea", tarea);
         model.addAttribute("observaciones", observaciones);
         model.addAttribute("funcionarios", funcionarios);
 
         return "rechazo";
     }
-    
-        @GetMapping(value = "/aceptarechazo")
-    public ModelAndView aceptarechazo(@RequestParam (value = "idtarea") Integer urlParam,
-                                @RequestParam (value = "responsable", required = false) List<String> responsable,
-                           Model model) {
+
+    @GetMapping(value = "/aceptarechazo")
+    public ModelAndView aceptarechazo(@RequestParam(value = "idtarea") Integer urlParam,
+            @RequestParam(value = "responsable", required = false) List<String> responsable,
+            Model model) {
         //Update a tarea con el id y los nuevos responsables
         //Update a estado a programada
-        
+
+        return new ModelAndView("redirect:/solicitudes");
+    }
+
+    @GetMapping(value = "/denegarechazo")
+    public ModelAndView denegarechazo(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+
+        //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
     }
     
-            @GetMapping(value = "/denegarechazo")
-    public ModelAndView denegarechazo(@RequestParam (value = "idtarea") Integer urlParam,
-                           Model model) {
-        //Update estado a aceptada
-        System.out.println(urlParam);
-        return new ModelAndView("redirect:/solicitudes");
+        @GetMapping(value = "/revision")
+    public ModelAndView revision(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+                var idsubunidad = funcionariosService.idSubunidad();
+        var funcionarios = funcionariosService.ListarXSubunidad(idsubunidad);
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        var observaciones = observacionesService.ListarXIdtarea(urlParam);
+        //variables para saludo superior
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("observaciones", observaciones);
+        model.addAttribute("funcionarios", funcionarios);
+        //Cambiar estado al estado final
+        
+        return new ModelAndView("redirect:/revision");
     }
+    
+    
 }
