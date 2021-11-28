@@ -25,7 +25,7 @@ public class DashboardServiceImpl implements DashboardService {
         
         for (int i = 0; i < lista.size(); i++) {
             
-                switch (lista.get(0).getEstadoTarea())
+                switch (lista.get(i).getEstadoTarea())
                 {
                     case "Aceptada":
                         aceptada ++;
@@ -62,7 +62,7 @@ public class DashboardServiceImpl implements DashboardService {
         
         for (int i = 0; i < lista.size(); i++) {
             
-                switch (lista.get(0).getEstadoTarea())
+                switch (lista.get(i).getEstadoTarea())
                 {
                     case "Aceptada":
                         aceptada ++;
@@ -97,7 +97,7 @@ public class DashboardServiceImpl implements DashboardService {
         
         for (int i = 0; i < lista.size(); i++) {
             
-                switch (lista.get(0).getEstadoTarea())
+                switch (lista.get(i).getEstadoTarea())
                 {
                     case "Aceptada":
                         aceptada ++;
