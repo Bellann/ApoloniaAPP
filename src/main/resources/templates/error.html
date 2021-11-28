@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head"></head>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
+        <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
+	</div>
+
+
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
+    </body>
+</html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head"></head>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
+        <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
+	</div>
+
+
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
+    </body>
+</html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head"></head>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
+        <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
+	</div>
+        <h2>Disculpa pero no pudimos procesar tu solicitud, por favor intenta más tarde</h2>
+        <img src="../static/img/proceso1.jpg" th:src="@{img/error.png}" width="400px">
+
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
+    </body>
+</html>

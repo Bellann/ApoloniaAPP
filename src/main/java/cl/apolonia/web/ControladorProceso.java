@@ -6,6 +6,7 @@ import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.Procesos;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
+import cl.apolonia.service.ObservacionesService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
@@ -53,6 +54,9 @@ public class ControladorProceso {
 
     @Autowired
     private TareasTipoDao tareasTipoDao;
+    
+    @Autowired
+    private ObservacionesService observacionesService;
 
     @GetMapping("/ejecutarproceso")
     public String ejecutarproceso(Model model) {
@@ -168,14 +172,25 @@ public class ControladorProceso {
         //Tarea a ser listada para modificar
         var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
-
+        var observaciones = observacionesService.ListarXIdtarea(urlParam);
  
         model.addAttribute("tarea", tarea);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("funcionarios", funcionariosList);
+        model.addAttribute("observaciones", observaciones);
 
         return new ModelAndView("gestiontareaproceso");
+    }
+    
+        @GetMapping(value = {"/volverProceso"})
+    public ModelAndView volverProceso(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+
+      //Tarea a ser listada para modificar
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        var idProcesoEjecutado = tarea.getProcesoEjecutado();
+        return new ModelAndView("/ejecuta2?idProcesoEjecutado=" + idProcesoEjecutado );
     }
     
     
