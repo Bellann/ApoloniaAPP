@@ -26,10 +26,8 @@
                     <p>Observaciones / Comentarios:</p>
                     <!-- Data Table Observaciones de la tarea -->
                     <span th:if="${observaciones == null or observaciones.empty}"> Esta tarea no tiene registrada las observaciones</span>
-
-
                     <div th:if="${observaciones != null and !observaciones.empty}" class="contenedor-data">
-                        <table id="tareasRun" class="table table-striped" style="width:100%">
+                        <table id="revision1" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>N°</th>
@@ -60,17 +58,57 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    Archivos
+                    <!-- ARCHIVOS -->
+                    <h3>Listado de archivos asociados a la tarea</h3>
+                    <span th:if="${archivo == null or archivo.empty}"> Esta tarea no posee archivos asociados</span>
+
+
+                    <div th:if="${archivo != null and !archivo.empty}" class="contenedor-data">
+                        <table id="tareasRun" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Nombre</th>
+                                    <th>Descargar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr name="row" th:each="archivo,iterationStatus  : ${archivo}">
+                                    <td th:text="${iterationStatus.count}">1</td>
+                                    <td th:text="${archivo.nombre}">1</td>
+                                    <td th:text="${archivo.fecha}">1</td>
+                                    <td>
+                                        <form th:action="@{/descargar}">
+                                            <input type="hidden" th:value="${archivo.id}"  th:name="idArchivo" />
+                                            <input type="hidden" th:value="${archivo.nombre}"  th:name="nombreArchivo" />
+                                            <input class="no-border" type="submit" ><img src="img/archivo.png" alt="archivo ico"></input>
+                                        </form>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Nombre</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
+                <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df"></br>
             </div>
 
             <div class="row">
                 <div class="col-md-5">
                     <div class="d-flex justify-content-end">
                         <!-- informacion al controller--> 
-                        <form th:action="@{/rechazo}">
-                            <input type="hidden"  th:name="idtarea"/> 
-                            <input class="btn btn-success" type="submit" value="Aprobar"/> 
+                        <form th:action="@{/apruebarevision}">
+                            <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/> 
+                            <input type="submit" class="btn btn-success" value="Aceptar revision"/> 
                         </form>
                     </div>
                 </div>
@@ -82,15 +120,45 @@
                 </div>
                 <div class="col-md-5">
                     <div class="d-flex justify-content-start">
-                        <!-- informacion al controller--> 
-                        <form th:action="@{/rechazo}">
-                            <input type="hidden"  th:name="idtarea"/> 
-                            <input class="btn btn-danger" type="submit" value="Rechazar"/> 
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal1">
+                            Rechazar solicitud
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel1">Rechazar solicitud</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{/rechazarevision}">
+                                            <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/>
+                                            Ingrese el motivo por el cual considera que esta tarea no debe ser dada por terminada:
+                                            <textarea class="form-control" th:name="motivo" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                            </br>
+                                            <input type="submit" class="btn btn-success" value="Rechazar solicitud"/>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Volver atrás</button>
+                                        </form>
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    </form>
+
                 </div>
             </div>
         </div>
         <footer th:replace="layout/plantilla :: footer"></footer>
+        <script th:src="@{/js/datatables.min.js}"></script>
+        <script th:src="@{/js/revision.js}"></script>
     </body>
 </html>
