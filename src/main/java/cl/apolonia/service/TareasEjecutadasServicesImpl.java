@@ -336,6 +336,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     public List<TareasEjecutadas> listarXProceso(Integer id_proceso) {
         return tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
     }
+
+    @Override
+    public List<TareasEjecutadas> listarXEstadoXIdSubunidad(String estado, Integer idSubUnidad) {
+        return tareasEjecutadasDao.findByEstadoAndIdSubUnidad(estado, idSubUnidad);
+    }
     
 
 

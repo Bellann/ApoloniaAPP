@@ -5,16 +5,19 @@ import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ControladorInicio {
@@ -52,6 +55,7 @@ public class ControladorInicio {
     @Autowired
     private TareasTipoDao tareasTipoDao;
 
+    
     @GetMapping("/")
     public String inicio(Model model) {
 
@@ -90,6 +94,7 @@ public class ControladorInicio {
         model.addAttribute("tareasRun", tareasRun);
         model.addAttribute("misProcesos", misProcesos);
 
+        
         return "flujotrabajo";
 
     }
@@ -119,6 +124,19 @@ public class ControladorInicio {
 
     }
 
-    
-    
+
+    @GetMapping(value = "/tareaxproceso")
+    public String tareaxproceso(@RequestParam(value = "idproceso") Integer urlParam,
+            Model model) {
+        var proceso = procesosService.encontrarproceso(urlParam);
+        var tareas = tareasEjecutadasService.listarXProceso(urlParam);
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("tareas", tareas);
+        model.addAttribute("proceso", proceso);
+        return "tareaxproceso";
+    }
+
 }
