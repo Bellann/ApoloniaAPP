@@ -46,6 +46,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" th:href="@{/flujotrabajo}">Mi flujo de trabajo</a>
                                 <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" th:href="@{/flujoempresa}">Mi flujo de empresa</a>
+                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" th:href="@{/solicitudes}">Solicitudes</a>
                             </div>
                         </li>
 

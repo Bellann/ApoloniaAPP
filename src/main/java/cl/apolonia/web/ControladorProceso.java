@@ -3,7 +3,6 @@ package cl.apolonia.web;
 import cl.apolonia.dao.FuncionariosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasTipoDao;
-import cl.apolonia.domain.ProcesoEjecutados;
 import cl.apolonia.domain.Procesos;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.FuncionariosService;

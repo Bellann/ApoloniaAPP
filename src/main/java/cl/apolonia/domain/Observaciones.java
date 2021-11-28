@@ -8,10 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 
 @Entity
-@Table(name="TAREA_EJEC_OBSERVACIONES")
+@Table(name="OBSERVACIONES")
 public class Observaciones implements Serializable{
    
     @Id
@@ -23,6 +24,7 @@ public class Observaciones implements Serializable{
     private Integer idtarea;
     
     @Column(name="FECHA")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
     
     @Column(name="RUN")
@@ -30,16 +32,20 @@ public class Observaciones implements Serializable{
     
     @Column(name="COMENTARIO")
     private String comentario;
+    
+    @Column(name="NOMBRE")
+    private String nombre;
 
     public Observaciones() {
     }
 
-    public Observaciones(Integer id, Integer idtarea, Date fecha, String run, String nombre, String comentario) {
+    public Observaciones(Integer id, Integer idtarea, Date fecha, String run, String comentario, String nombre) {
         this.id = id;
         this.idtarea = idtarea;
         this.fecha = fecha;
         this.run = run;
         this.comentario = comentario;
+        this.nombre = nombre;
     }
 
     public Integer getId() {
@@ -74,7 +80,6 @@ public class Observaciones implements Serializable{
         this.run = run;
     }
 
-
     public String getComentario() {
         return comentario;
     }
@@ -82,8 +87,13 @@ public class Observaciones implements Serializable{
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
-    
-    
-    
-    
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
 }

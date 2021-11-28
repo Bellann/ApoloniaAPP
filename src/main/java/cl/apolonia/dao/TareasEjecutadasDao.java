@@ -21,6 +21,8 @@ public interface TareasEjecutadasDao extends JpaRepository<TareasEjecutadas, Int
     
     Optional<TareasEjecutadas> findFirstByIdtarea(Integer id); 
     
+    List<TareasEjecutadas> findByEstadoAndIdSubUnidad(String estado, Integer idSubUnidad);
+    
 
    
     
