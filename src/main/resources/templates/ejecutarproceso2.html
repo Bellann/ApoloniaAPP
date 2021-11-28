@@ -50,9 +50,9 @@
                                     <td th:text="${iter.index}+1"></td>
                                     <td th:text="${tareas.tarea}"></td>
                                     <td>
-                                        <span th:each="responsable : ${tareas.responsables}">
-                                            <p th:text="${responsable.nombre}" />                                     
-                                        </span>
+                                        <p th:each="responsable : ${tareas.responsables}">
+                                           <span th:text="${responsable.nombre}">Nombre</span>                                                                               
+                                        </p>
                                     </td>
                                     <td th:text="${tareas.fPrevInicio}"></td>
                                     <td th:text="${tareas.fPrevFin}"></td>

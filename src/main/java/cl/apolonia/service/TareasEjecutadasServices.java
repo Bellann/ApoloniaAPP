@@ -29,6 +29,7 @@ public interface TareasEjecutadasServices {
    LocalDate sumaDiasDeDuracion(Date fechaInicial, int days);
    TareasEjecutadas encontrarTarea (Integer id);
    List<TareasEjecutadas> listarXProceso(Integer id_proceso);
+   List<TareasEjecutadas> listarXEstadoXIdSubunidad(String estado, Integer idSubUnidad);
    
    
     

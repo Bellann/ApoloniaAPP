@@ -133,5 +133,10 @@ public class FuncionariosServiceImpl implements FuncionariosService {
         return nombreResponsable;
     }
 
+    @Override
+    public List<Funcionarios> ListarXSubunidad(Integer idSubunidad) {
+        return funcionariosDao.findByIdSubunidad(idSubunidad);
+    }
+
 
 }

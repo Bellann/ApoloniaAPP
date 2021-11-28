@@ -1,3 +1,4 @@
+
 package cl.apolonia.web;
 
 import cl.apolonia.dao.FuncionariosDao;
@@ -56,6 +57,7 @@ public class ControladorInicio {
 
     @Autowired
     private TareasTipoDao tareasTipoDao;
+
 
     @Autowired
     private DashboardService dashboard;
@@ -128,12 +130,19 @@ public class ControladorInicio {
 
     }
 
-    @GetMapping(value="/modal")
-    public String modal (Model model){
-        var hola="holis";
-        model.addAttribute("hola", hola);
-        return "layout/plantilla :: modal";
+
+    @GetMapping(value = "/tareaxproceso")
+    public String tareaxproceso(@RequestParam(value = "idproceso") Integer urlParam,
+            Model model) {
+        var proceso = procesosService.encontrarproceso(urlParam);
+        var tareas = tareasEjecutadasService.listarXProceso(urlParam);
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("tareas", tareas);
+        model.addAttribute("proceso", proceso);
+        return "tareaxproceso";
     }
-    
-    
+
 }

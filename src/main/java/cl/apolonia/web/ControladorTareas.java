@@ -7,6 +7,7 @@ import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.ArchivoService;
 import cl.apolonia.service.FuncionariosService;
+import cl.apolonia.service.ObservacionesService;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
@@ -66,12 +67,15 @@ public class ControladorTareas {
 
     @Autowired
     private TareasTipoDao tareasTipoDao;
-    
+
     @Autowired
     private ArchivoService archivoService;
+    
+    @Autowired
+    private ObservacionesService observacionesService;
 
     private final String UPLOAD_DIR = "./uploads/";
-    
+
     //desde mi flujo de trabajo
     @GetMapping("/gestionartarea")
     public String gestionarTarea(@RequestParam(value = "r") String urlParam,
@@ -100,13 +104,11 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        
+
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.cambiarEstado(tarea,2)&& tareasEjecutadasService.crearObservacion(tarea, runUser, "Aceptada")){
+        if (tareasEjecutadasService.cambiarEstado(tarea, 2) && tareasEjecutadasService.crearObservacion(tarea, runUser, "Aceptada")) {
             return new ModelAndView("redirect:/flujotrabajo");
-        }
-        else
-        {
+        } else {
             return new ModelAndView("/gestionarTarea");
         }
 
@@ -122,94 +124,84 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
-        if(tareasEjecutadasService.cambiarEstado(tarea,3)&& tareasEjecutadasService.crearObservacion(tarea, runUser, "Iniciada")){
+        if (tareasEjecutadasService.cambiarEstado(tarea, 3) && tareasEjecutadasService.crearObservacion(tarea, runUser, "Iniciada")) {
             return new ModelAndView("redirect:/flujotrabajo");
-        }
-        else
-        {
+        } else {
             return new ModelAndView("/gestionarTarea");
         }
     }
 
     //Desde gestionar tarea CREAR TAREA EJECUTADA + CREAR TAREA EJECUTADA SUBORDINADA
-      @GetMapping("/subordinar")
+    @GetMapping("/subordinar")
     public ModelAndView subordinar(@RequestParam(value = "idtarea") Integer urlParam,
-                             @RequestParam(value = "nombreSub") String nombreSub,
-                             @RequestParam(value = "descripcionSub") String descripcionSub,
-                             @RequestParam(value = "responsableSub") List<String> responsableSub,
-                             @RequestParam(value = "idproceso") Integer idproceso,
-                             @RequestParam(value = "duracionSub") int duracion,
-                             TareasEjecutadas tareaEjecutada,
-                             Model model) {
+            @RequestParam(value = "nombreSub") String nombreSub,
+            @RequestParam(value = "descripcionSub") String descripcionSub,
+            @RequestParam(value = "responsableSub") List<String> responsableSub,
+            @RequestParam(value = "idproceso") Integer idproceso,
+            @RequestParam(value = "duracionSub") int duracion,
+            TareasEjecutadas tareaEjecutada,
+            Model model) {
         var runUser = funcionariosService.runResponsable();
 
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
-        if(tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea()))
-        {
+        if (tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea())) {
             return new ModelAndView("redirect:/flujotrabajo");
         }
         return new ModelAndView("/gestionarTarea");
     }
-    
-        //Desde gestionar tarea
-      @GetMapping("/reportar")
+
+    //Desde gestionar tarea
+    @GetMapping("/reportar")
     public ModelAndView reportar(@RequestParam(value = "id") Integer urlParam,
-                                         @RequestParam(value = "descripcion") String descRechazo,
-                                            TareasEjecutadas tareaEjecutada,
-                                            Model model) {
+            @RequestParam(value = "descripcion") String descRechazo,
+            TareasEjecutadas tareaEjecutada,
+            Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        
+
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)){
+        if (tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)) {
             return new ModelAndView("redirect:/flujotrabajo");
-        }
-        else
-        {
+        } else {
             return new ModelAndView("/gestionarTarea");
         }
     }
 
-            //Desde gestionar tarea
+    //Desde gestionar tarea
     @PostMapping("/terminarTarea")
     public ModelAndView terminarTarea(@RequestParam(value = "id") Integer urlParam,
-                                            TareasEjecutadas tareaEjecutada,
-                                            Model model) {
+            TareasEjecutadas tareaEjecutada,
+            Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        
+
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.cambiarEstado(tarea,4)){
+        if (tareasEjecutadasService.cambiarEstado(tarea, 4)) {
             return new ModelAndView("redirect:/flujotrabajo");
-        }
-        else
-        {
+        } else {
             return new ModelAndView("/gestionarTarea");
         }
     }
-    
-      @GetMapping("/rechazarTarea")
+
+    @GetMapping("/rechazarTarea")
     public ModelAndView rechazarTarea(@RequestParam(value = "id") Integer urlParam,
-                                         @RequestParam(value = "descRechazo") String descRechazo,
-                                            TareasEjecutadas tareaEjecutada,
-                                            Model model) {
+            @RequestParam(value = "descRechazo") String descRechazo,
+            TareasEjecutadas tareaEjecutada,
+            Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
-        
+
         //Llamar método para cambio de estado, despues de conversar
-        if(tareasEjecutadasService.cambiarEstado(tarea,5)&& tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)){
+        if (tareasEjecutadasService.cambiarEstado(tarea, 5) && tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)) {
             return new ModelAndView("redirect:/flujotrabajo");
-        }
-        else
-        {
+        } else {
             return new ModelAndView("/gestionarTarea");
         }
     }
-    
 
     //Nueva tarea a partir de un proceso seleccionado
     @PostMapping("/nuevaTarea")
@@ -255,7 +247,7 @@ public class ControladorTareas {
             return new ModelAndView("redirect:/nuevaTarea");
         }
     }
-    
+
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
 
@@ -267,22 +259,21 @@ public class ControladorTareas {
         // normalize the file path
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         System.out.println(fileName.lastIndexOf('.'));
-        
-        int id = archivoService.create(fileName, runUser,1 );
 
-        if(id > 0)
-        {
-        // save the file on the local file system
-        try {
+        int id = archivoService.create(fileName, runUser, 1);
 
-            Path path = Paths.get(UPLOAD_DIR + String.valueOf(id));
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (id > 0) {
+            // save the file on the local file system
+            try {
 
-        // return success response
-        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
+                Path path = Paths.get(UPLOAD_DIR + String.valueOf(id));
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // return success response
+            attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
         }
 
         return "redirect:/";
@@ -307,11 +298,84 @@ public class ControladorTareas {
 
         return ResponseEntity.ok()
                 // Content-Disposition
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + /*Aca va el nombre del archivo que le entregaremos al usuario*/"CASO 5 PTY4613 2019.pdf")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + /*Aca va el nombre del archivo que le entregaremos al usuario*/ "CASO 5 PTY4613 2019.pdf")
                 // Content-Type
                 .contentType(mediaType)
                 // Contet-Length
                 .contentLength(file.length()) //
                 .body(resource);
     }
+
+    @GetMapping(value = "/solicitudes")
+    public String tareaxproceso(Model model) {
+        var idsubunidad = funcionariosService.idSubunidad();
+        var rechazadas = tareasEjecutadasService.listarXEstadoXIdSubunidad("Rechazada", idsubunidad);
+        var revision = tareasEjecutadasService.listarXEstadoXIdSubunidad("En Revisión", idsubunidad);
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("rechazadas", rechazadas);
+        model.addAttribute("revision", revision);
+
+        return "solicitudes";
+    }
+
+    @GetMapping(value = "/rechazo")
+    public String rechazo(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+        var idsubunidad = funcionariosService.idSubunidad();
+        var funcionarios = funcionariosService.ListarXSubunidad(idsubunidad);
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        var observaciones = observacionesService.ListarXIdtarea(urlParam);
+        //variables para saludo superior
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("observaciones", observaciones);
+        model.addAttribute("funcionarios", funcionarios);
+
+        return "rechazo";
+    }
+
+    @GetMapping(value = "/aceptarechazo")
+    public ModelAndView aceptarechazo(@RequestParam(value = "idtarea") Integer urlParam,
+            @RequestParam(value = "responsable", required = false) List<String> responsable,
+            Model model) {
+        //Update a tarea con el id y los nuevos responsables
+        //Update a estado a programada
+
+        return new ModelAndView("redirect:/solicitudes");
+    }
+
+    @GetMapping(value = "/denegarechazo")
+    public ModelAndView denegarechazo(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+
+        //Update estado a aceptada
+        return new ModelAndView("redirect:/solicitudes");
+    }
+    
+        @GetMapping(value = "/revision")
+    public ModelAndView revision(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+                var idsubunidad = funcionariosService.idSubunidad();
+        var funcionarios = funcionariosService.ListarXSubunidad(idsubunidad);
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        var observaciones = observacionesService.ListarXIdtarea(urlParam);
+        //variables para saludo superior
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("observaciones", observaciones);
+        model.addAttribute("funcionarios", funcionarios);
+        //Cambiar estado al estado final
+        
+        return new ModelAndView("redirect:/revision");
+    }
+    
+    
 }
+
