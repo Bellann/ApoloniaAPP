@@ -73,6 +73,9 @@ public class ControladorTareas {
 
     @Autowired
     private ObservacionesService observacionesService;
+    
+    @Autowired
+    private ServletContext servletContext;
 
     private final String UPLOAD_DIR = "./uploads/";
 
@@ -279,21 +282,17 @@ public class ControladorTareas {
         return "redirect:/";
     }
 
-    @Autowired
-    private ServletContext servletContext;
-
     // http://localhost:8080/download1?fileName=abc.zip
     // Using ResponseEntity<InputStreamResource>
     @RequestMapping("/download")
     // Hay que traerse el id del archivo y el nombre
-    public ResponseEntity<InputStreamResource> downloadFile1(
-    ) throws IOException {
-        
-        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, /*Id archivo*/"5");
+    public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
+
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, /*Id archivo*/ "5");
         System.out.println("fileName: " + "CASO 5 PTY4613 2019.pdf");
         System.out.println("mediaType: " + mediaType);
 
-        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/"5");
+        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/ "5");
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
@@ -351,8 +350,8 @@ public class ControladorTareas {
 
     @GetMapping(value = "/denegarechazo")
     public ModelAndView denegarechazo(@RequestParam(value = "idtarea") Integer urlParam,
-                                      @RequestParam(value = "motivo") String motivo,
-                                        Model model) {
+            @RequestParam(value = "motivo") String motivo,
+            Model model) {
 
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
@@ -363,16 +362,59 @@ public class ControladorTareas {
             Model model) {
         var observaciones = observacionesService.ListarXIdtarea(urlParam);
         var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
-        
+        var archivo = archivoService.ListarXTarea(urlParam);
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("tarea", tarea);
         model.addAttribute("observaciones", observaciones);
-
+        model.addAttribute("archivo", archivo);
 
         return "revision";
     }
 
+       // http://localhost:8080/download1?fileName=abc.zip
+    // Using ResponseEntity<InputStreamResource>
+    @RequestMapping("/descargar")
+    // Hay que traerse el id del archivo y el nombre
+    public ResponseEntity<InputStreamResource> descargar(@RequestParam(value="idArchivo") Integer urlParam,
+                                                          @RequestParam(value="nombreArchivo") String nombreArchivo) throws IOException {
+        String idTarea = urlParam.toString();
+        String nombre = nombreArchivo;
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, /*Id archivo*/ idTarea);
+        System.out.println("fileName: " + "CASO 5 PTY4613 2019.pdf");
+        System.out.println("mediaType: " + mediaType);
+
+        File file = new File(UPLOAD_DIR + "/" + /*Aca va Id de la tarea*/ idTarea);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                // Content-Disposition
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + /*Aca va el nombre del archivo que le entregaremos al usuario*/ nombre)
+                // Content-Type
+                .contentType(mediaType)
+                // Contet-Length
+                .contentLength(file.length()) //
+                .body(resource);
+    }
+    
+    
+        @GetMapping(value = "/apruebarevision")
+    public ModelAndView apruebarevision(@RequestParam(value = "idtarea") Integer urlParam,
+                                        Model model) {
+
+        //Update estado a aceptada
+        return new ModelAndView("redirect:/solicitudes");
+    }
+    
+            @GetMapping(value = "/rechazarevision")
+    public ModelAndView rechazarevision(@RequestParam(value = "idtarea") Integer urlParam,
+            @RequestParam(value = "motivo") String motivo,
+            Model model) {
+
+        //Update estado a aceptada
+        return new ModelAndView("redirect:/solicitudes");
+    }
+    
 }
