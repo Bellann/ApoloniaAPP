@@ -270,6 +270,14 @@ public class Dashboard implements Serializable {
     public void setCarga(Integer carga) {
         this.carga = carga;
     }
+
+    public Integer getAceptada() {
+        return aceptada;
+    }
+
+    public void setAceptada(Integer aceptada) {
+        this.aceptada = aceptada;
+    }
      
     
 }

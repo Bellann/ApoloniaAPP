@@ -1,16 +1,21 @@
 package cl.apolonia.web;
 
+import cl.apolonia.dao.DashboardDao;
 import cl.apolonia.dao.FuncionariosDao;
 import cl.apolonia.dao.ProcesosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.Dashboard;
+import cl.apolonia.service.DashboardService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
 import cl.apolonia.service.ProcesosTipoService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
+import java.util.List;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +57,11 @@ public class ControladosPrueba {
     @Autowired
     private TareasTipoDao tareasTipoDao;
     
+    @Autowired
+    private DashboardDao dashboardDao;
+    
+    @Autowired
+    private DashboardService dashboardService;
     
     @GetMapping("/prueba")
     public String inicio(Model model) {
@@ -71,6 +81,29 @@ public class ControladosPrueba {
         model.addAttribute("tareasRun", tareasRun);
         model.addAttribute("misProcesos", misProcesos);
 
+        
+        
         return "prueba";
+    }
+    
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
+    
+    @GetMapping("/pruebaDashboard")
+    public String dashBoard(Model model) {
+
+        model.addAttribute("chartData", getChartData()); 
+        return "pruebaDashboard";
+    }
+    
+    private List<List<Object>> getChartData() {
+        
+        Dashboard dash = dashboardService.listarFuncionario("88444005k");
+        return List.of(
+                List.of("Programadas", 0),
+                List.of("Aceptadas", dash.getAceptada()),
+                List.of("Desarrollo", dash.getDesarrollo()),
+                List.of("Revision", dash.getRevision())
+                
+        );
     }
 }
