@@ -309,11 +309,13 @@ public class ControladorTareas {
     public String tareaxproceso(Model model) {
         var idsubunidad = funcionariosService.idSubunidad();
         var rechazadas = tareasEjecutadasService.listarXEstadoXIdSubunidad("Rechazada", idsubunidad);
+        var revision = tareasEjecutadasService.listarXEstadoXIdSubunidad("En Revisión", idsubunidad);
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("rechazadas", rechazadas);
+        model.addAttribute("revision", revision);
 
         return "solicitudes";
     }
@@ -353,4 +355,26 @@ public class ControladorTareas {
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
     }
+    
+        @GetMapping(value = "/revision")
+    public ModelAndView revision(@RequestParam(value = "idtarea") Integer urlParam,
+            Model model) {
+                var idsubunidad = funcionariosService.idSubunidad();
+        var funcionarios = funcionariosService.ListarXSubunidad(idsubunidad);
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        var observaciones = observacionesService.ListarXIdtarea(urlParam);
+        //variables para saludo superior
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("observaciones", observaciones);
+        model.addAttribute("funcionarios", funcionarios);
+        //Cambiar estado al estado final
+        
+        return new ModelAndView("redirect:/revision");
+    }
+    
+    
 }
+

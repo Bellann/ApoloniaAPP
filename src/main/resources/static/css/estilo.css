@@ -155,9 +155,6 @@ form-control-inline{
     margin-left: 30px;
 }
 
-.abajo{
-    padding-top: 150px;
-}
 
 .btn-disable {
     background-color: #cdd4df;
@@ -172,4 +169,12 @@ form-control-inline{
     display: inline-block;
     font-size: 16px;
     margin-right: 30px;
+
+.derecha {
+    float: right;
 }
+
+.sangria {
+    margin-left: 25px;
+}
+
