@@ -70,7 +70,7 @@ public class ControladorTareas {
 
     @Autowired
     private ArchivoService archivoService;
-    
+
     @Autowired
     private ObservacionesService observacionesService;
 
@@ -350,31 +350,28 @@ public class ControladorTareas {
 
     @GetMapping(value = "/denegarechazo")
     public ModelAndView denegarechazo(@RequestParam(value = "idtarea") Integer urlParam,
-            Model model) {
+                                      @RequestParam(value = "motivo") String motivo,
+                                        Model model) {
 
         //Update estado a aceptada
         return new ModelAndView("redirect:/solicitudes");
     }
-    
-        @GetMapping(value = "/revision")
-    public ModelAndView revision(@RequestParam(value = "idtarea") Integer urlParam,
+
+    @GetMapping(value = "/revision")
+    public String revision(@RequestParam(value = "idtarea") Integer urlParam,
             Model model) {
-                var idsubunidad = funcionariosService.idSubunidad();
-        var funcionarios = funcionariosService.ListarXSubunidad(idsubunidad);
-        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         var observaciones = observacionesService.ListarXIdtarea(urlParam);
-        //variables para saludo superior
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+        
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("tarea", tarea);
         model.addAttribute("observaciones", observaciones);
-        model.addAttribute("funcionarios", funcionarios);
-        //Cambiar estado al estado final
-        
-        return new ModelAndView("redirect:/revision");
-    }
-    
-    
-}
 
+
+        return "revision";
+    }
+
+}
