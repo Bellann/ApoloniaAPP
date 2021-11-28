@@ -26,15 +26,40 @@
                         </br>
 
                         <h4>Observaciones de la tarea</h4>
-                        <!-- Arreglar!!!!-->
-                        <div th:if="${tarea.observaciones != null OR !tarea.observaciones.empty}" class="contenedor-data">
-                            <span th:each="observacion : ${tarea.observaciones}">
-                                <ul>
-                                    <li><p th:text="${observacion.comentario}+' '+${observacion.fecha}"></p></li>
-                                </ul>
-                            </span>
+                        <!-- Data Table Observaciones de la tarea -->
+                        <span th:if="${observaciones == null or observaciones.empty}"> Esta tarea no tiene registrada las observaciones</span>
+
+
+                        <div th:if="${observaciones != null and !observaciones.empty}" class="contenedor-data">
+                            <table id="tareasRun" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Fecha</th>
+                                        <th>Quien lo realiza</th>
+                                        <th>Comentario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr name="row" th:each="comentario,iterationStatus  : ${observaciones}">
+                                        <td th:text="${iterationStatus.count}">1</td>
+                                        <td th:text="${comentario.fecha}"></td>
+                                        <td th:text="${comentario.nombre}"></td>
+                                        <td th:text="${comentario.comentario}"></td>
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Fecha</th>
+                                        <th>Quien lo realiza</th>
+                                        <th>Comentario</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
-                        <div th:if="${tarea.observaciones == null OR tarea.observaciones.empty}" class="contenedor-data"> Esta tarea no tiene observaciones</div>
                     </div>
                     <div class="col-md-5">
                         <img src="../static/img/tarea2.jpg" th:src="@{img/tarea2.jpg}" width="400px">
@@ -110,11 +135,16 @@
                             </div>
                             <textarea class="form-control" id="exampleFormControlTextarea1" th:name="descripcion" rows="5"></textarea>
                         </div>
+                        <hr>
                         <!-- DATOS PARA UPDATE -->
                         <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea">
                         <input type="hidden" th:value="${tarea.idProcesoEjecutado}" th:name="idProcesoEjecutado">
-                        <input type="submit"/> 
-
+                        <center><input class="btn btn-success" type="submit" value="Gestionar"/> </center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- Controller volver --> 
+                        <form th:action="@{/volverProceso}">
+                            <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/> 
+                            <input type="submit" class="btn btn-warning" value="Cancelar"/> 
+                        </form>
                     </div>
                 </form>
 
