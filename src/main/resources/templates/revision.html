@@ -14,18 +14,56 @@
                     <h2>Tarea: <span th:text="${tarea.tarea}"></span></h2>
                     </br>
                     <h3>Datos de la tarea</h3>
-                    <p>Responsable(s):</p>
-                    <p>Fecha de Inicio esperada:</p>
-                    <p>Fecha de Inicio real</p>
-                    <p>Fecha de de término esperada:</p>
-                    <p>Fecha de término real</p>
-                    <p>Descripcion</p>
-                    <p>Observaciones / Comentarios</p>
+                    <p>Responsable(s):                                        
+                        <span th:each="responsable : ${tarea.responsables}">
+                            <span th:text="${responsable.nombre}" />                                   
+                        </span></p>
+                    <p>Fecha de Inicio esperada:<span th:text="${tarea.fPrevInicio}"></span></p>
+                    <p>Fecha de Inicio real: <span th:text="${tarea.fRealInicio}"></span></p>
+                    <p>Fecha de de término esperada: <span th:text="${tarea.fPrevFin}"></span></p>
+                    <p>Fecha de término real: <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span></p> (*Será marcada como el día de hoy)</p>
+                    <p>Descripcion: <span th:text="${tarea.descTarea}"></span></p>
+                    <p>Observaciones / Comentarios:</p>
+                    <!-- Data Table Observaciones de la tarea -->
+                    <span th:if="${observaciones == null or observaciones.empty}"> Esta tarea no tiene registrada las observaciones</span>
+
+
+                    <div th:if="${observaciones != null and !observaciones.empty}" class="contenedor-data">
+                        <table id="tareasRun" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Fecha</th>
+                                    <th>Quien lo realiza</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr name="row" th:each="comentario,iterationStatus  : ${observaciones}">
+                                    <td th:text="${iterationStatus.count}">1</td>
+                                    <td th:text="${comentario.fecha}"></td>
+                                    <td th:text="${comentario.nombre}"></td>
+                                    <td th:text="${comentario.comentario}"></td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Fecha</th>
+                                    <th>Quien lo realiza</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     Archivos
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-5">
                     <div class="d-flex justify-content-end">
