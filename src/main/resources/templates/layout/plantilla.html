@@ -55,7 +55,7 @@
                                 Cargas de trabajo
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" >Mi carga de trabajo</a>
+                                <a class="dropdown-item" th:href="@{/micarga}">Mi carga de trabajo</a>
                                 <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >Cargas de mi departamento</a>
                                 <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_GERENCIA')" >Cargas de mi empresa</a>
                             </div>

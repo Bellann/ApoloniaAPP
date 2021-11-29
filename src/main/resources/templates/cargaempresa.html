@@ -7,10 +7,22 @@
         <header th:replace="layout/plantilla :: header"></header>
         <div sec:authorize="hasAnyRole('FUNCIONARIO','ROLE_SUPERVISOR')" ><h1>Usted no tiene autotización para ver esta información</h1></div><!--para usuario funcionario-->
         <div sec:authorize="hasRole('ROLE_GERENCIA')" > <!--autorización de contenido-->
-	</div>
-
-
-
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="../static/img/micarga.png" th:src="@{img/micarga.png}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        DATOS
+                    </div>
+                    <div class="col-md-6">
+                        GRAFICO
+                    </div>
+                </div>
+            </div>
+        </div><!-- actualizacion de contenido-->
         <footer th:replace="layout/plantilla :: footer"></footer>
     </body>
 </html>

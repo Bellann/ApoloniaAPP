@@ -5,9 +5,26 @@
     <head th:include="layout/plantilla :: head"></head>
     <body>
         <header th:replace="layout/plantilla :: header"></header>
-        <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" > <!--autorización de contenido-->
-	</div>
-
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="../static/img/micarga.png" th:src="@{img/micarga.png}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Mi carga de trabajo</h2>
+                    <h4>Cantidad de tareas que tengo asignadas :</h4>
+                    <h4>Cantidad de días de trabajo asignados :</h4>
+                    <h4>Cantidad de tareas aceptadas :</h4>
+                    <h4>Cantidad de tareas Iniciadas :</h4>
+                    <h4>Cantidad de tareas Terminadas :</h4>
+                </div>
+                <div class="col-md-6">
+                    GRAFICO
+                </div>
+            </div>
+        </div>
 
 
         <footer th:replace="layout/plantilla :: footer"></footer>
