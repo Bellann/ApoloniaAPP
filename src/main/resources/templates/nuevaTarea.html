@@ -87,7 +87,7 @@
                                                     Este departamento no cuenta con funcionarios
                                                 </div>
                                             </div>
-                                        </div>              
+                                        </div>
 
                                         <hr>
 
@@ -182,12 +182,16 @@
                         </script>
 
                         <script>
-                            $('#btnvalida').prop('disabled', true);
-                            function activar(elemento)
-                            {
+                            desactivar($('#btnvalida'));
+                            function activar(elemento){
                                 elemento.prop('disabled', false);
                                 elemento.removeClass('btn-disable');
                                 elemento.addClass('btn-flujo');
+                            }
+                            function desactivar(elemento){
+                                elemento.prop('disabled', true);
+                                elemento.addClass('btn-disable');
+                                elemento.removeClass('btn-flujo');
                             }
                             function validacion() {
 
@@ -201,9 +205,13 @@
                                     if (responsable)
                                         return false;
                                 });
-                                console.log(responsable)
-                                if (nombre != "" && descripcion != "" && !(fecha === "") && responsable)
+
+                                if (nombre != "" && descripcion != "" && !(fecha === "") && responsable){
                                     activar($('#btnvalida'));
+                                }
+                                else {
+                                    desactivar($('#btnvalida'));
+                                }
                             }
 
                             $('input').change(function () {

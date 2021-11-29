@@ -171,7 +171,7 @@ public class ControladorTareas {
     //Desde gestionar tarea
     @GetMapping("/reportar")
     public ModelAndView reportar(@RequestParam(value = "id") Integer urlParam,
-            @RequestParam(value = "descripcion") String descRechazo,
+            @RequestParam(value = "descripcionProblema") String descRechazo,
             TareasEjecutadas tareaEjecutada,
             Model model) {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);

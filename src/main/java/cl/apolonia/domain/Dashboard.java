@@ -45,6 +45,9 @@ public class Dashboard implements Serializable {
     @Column(name="DURACION_TAREA")
     private Integer duracionTarea;
     
+    @Column(name="ID_ESTADO_TAREA")
+    private Integer idEstadoTarea;
+    
     @Column(name="ESTADO_TAREA")
     private String estadoTarea;
     
@@ -53,6 +56,9 @@ public class Dashboard implements Serializable {
     
     @Column(name="NOMBRE_FUNCIONARIO")
     private String nombreFuncionario;
+    
+    @Column(name="PROGRAMADA")
+    Integer programada;
     
     @Column(name="ACEPTADA")
     Integer aceptada;
@@ -66,13 +72,19 @@ public class Dashboard implements Serializable {
     @Column(name="FINALIZADA")
     Integer finalizada;
     
+    @Column(name="RECHAZADA")
+    Integer rechazada;
+    
+    @Column(name="TOTAL_TAREAS")
+    Integer total;
+    
     @Column(name="CARGA")
     Integer carga;
     
     public Dashboard() {
     }
 
-    public Dashboard(Integer id, String rutUnidad, String nombreUnidad, Integer idSubunidad, String nombreSubunidad, Integer idProceso, String nombreProceso, String estadoProceso, Integer idTarea, String nombreTarea, Integer duracionTarea, String estadoTarea, String runFuncionario, String nombreFuncionario, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada, Integer carga) {
+    public Dashboard(Integer id, String rutUnidad, String nombreUnidad, Integer idSubunidad, String nombreSubunidad, Integer idProceso, String nombreProceso, String estadoProceso, Integer idTarea, String nombreTarea, Integer duracionTarea, Integer idEstadoTarea, String estadoTarea, String runFuncionario, String nombreFuncionario, Integer programada, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada, Integer rechazada, Integer total, Integer carga) {
         this.id = id;
         this.rutUnidad = rutUnidad;
         this.nombreUnidad = nombreUnidad;
@@ -84,45 +96,58 @@ public class Dashboard implements Serializable {
         this.idTarea = idTarea;
         this.nombreTarea = nombreTarea;
         this.duracionTarea = duracionTarea;
+        this.idEstadoTarea = idEstadoTarea;
         this.estadoTarea = estadoTarea;
         this.runFuncionario = runFuncionario;
         this.nombreFuncionario = nombreFuncionario;
+        this.programada = programada;
         this.aceptada = aceptada;
         this.desarrollo = desarrollo;
         this.revision = revision;
         this.finalizada = finalizada;
+        this.rechazada = rechazada;
+        this.total = total;
         this.carga = carga;
     }
     
     
 
-    public Dashboard(String runFuncionario, String nombreFuncionario, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada, Integer carga) {
+    public Dashboard(String runFuncionario, Integer programada, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada, Integer rechazada,Integer total, Integer carga) {
         this.runFuncionario = runFuncionario;
-        this.nombreFuncionario = nombreFuncionario;
+        this.programada = programada;
         this.aceptada = aceptada;
         this.desarrollo = desarrollo;
         this.revision = revision;
         this.finalizada = finalizada;
+        this.rechazada = rechazada;
+        this.total = total;
         this.carga = carga;
     }
 
-    public Dashboard(Integer idSubunidad, String nombreSubunidad, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada, Integer carga) {
+    public Dashboard(Integer idSubunidad, String nombreSubunidad, Integer programada, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada, Integer rechazada, Integer total, Integer carga) {
         this.idSubunidad = idSubunidad;
         this.nombreSubunidad = nombreSubunidad;
+        this.programada = programada;
         this.aceptada = aceptada;
         this.desarrollo = desarrollo;
         this.revision = revision;
         this.finalizada = finalizada;
+        this.rechazada = rechazada;
+        this.total = total;
         this.carga = carga;
     }
 
-    public Dashboard(String rutUnidad, String nombreUnidad, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada) {
+    public Dashboard(String rutUnidad, String nombreUnidad, Integer programada, Integer aceptada, Integer desarrollo, Integer revision, Integer finalizada, Integer rechazada, Integer total, Integer carga) {
         this.rutUnidad = rutUnidad;
         this.nombreUnidad = nombreUnidad;
+        this.programada = programada;
         this.aceptada = aceptada;
         this.desarrollo = desarrollo;
         this.revision = revision;
         this.finalizada = finalizada;
+        this.rechazada = rechazada;
+        this.total = total;
+        this.carga = carga;
     }
 
     
@@ -277,6 +302,38 @@ public class Dashboard implements Serializable {
 
     public void setAceptada(Integer aceptada) {
         this.aceptada = aceptada;
+    }
+
+    public Integer getProgramada() {
+        return programada;
+    }
+
+    public void setProgramada(Integer programada) {
+        this.programada = programada;
+    }
+
+    public Integer getRechazada() {
+        return rechazada;
+    }
+
+    public void setRechazada(Integer rechazada) {
+        this.rechazada = rechazada;
+    }
+
+    public Integer getIdEstadoTarea() {
+        return idEstadoTarea;
+    }
+
+    public void setIdEstadoTarea(Integer idEstadoTarea) {
+        this.idEstadoTarea = idEstadoTarea;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
      
     

@@ -99,10 +99,12 @@ public class ControladosPrueba {
         
         Dashboard dash = dashboardService.listarFuncionario("88444005k");
         return List.of(
-                List.of("Programadas", 0),
-                List.of("Aceptadas", dash.getAceptada()),
-                List.of("Desarrollo", dash.getDesarrollo()),
-                List.of("Revision", dash.getRevision())
+                List.of("Programadas", dash.getProgramada())
+                ,List.of("Aceptadas", dash.getAceptada())
+                ,List.of("Desarrollo", dash.getDesarrollo())
+                ,List.of("Revision", dash.getRevision())
+                ,List.of("Rechazada", dash.getRechazada())
+                ,List.of("Finalizada", dash.getFinalizada())
                 
         );
     }
