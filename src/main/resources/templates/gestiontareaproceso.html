@@ -10,13 +10,13 @@
                         <h1>Tarea a gestionar: <span th:text="${tarea.tarea}"></span></h1>
                         </br>
 
-                        <h4>Fecha de inicio prevista</h4><p th:text="${tarea.fPrevInicio}"></p> 
+                        <h4>Fecha de inicio prevista</h4><p th:text="${tarea.fPrevInicio}"></p>
                         </br>
 
                         <h4>Fecha de finalizacion prevista</h4><p th:text="${tarea.fPrevFin}"></p>
                         </br>
 
-                        <h4>Estado de la tarea</h4><p th:text="${tarea.estado}"></p> 
+                        <h4>Estado de la tarea</h4><p th:text="${tarea.estado}"></p>
                         </br>
 
                         <h4>Nombre del departamento</h4><p th:text="${tarea.subunidad}"></p>
@@ -126,7 +126,7 @@
                                     Este departamento no cuenta con funcionarios
                                 </div>
                             </div>
-                        </div>              
+                        </div>
                         <div class="col-md-6">
                             </br>
                             <h4>Nueva descripcion</h4>
@@ -139,11 +139,11 @@
                         <!-- DATOS PARA UPDATE -->
                         <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea">
                         <input type="hidden" th:value="${tarea.idProcesoEjecutado}" th:name="idProcesoEjecutado">
-                        <center><input class="btn btn-success" type="submit" value="Gestionar"/> </center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <!-- Controller volver --> 
+                        <center><input id="gestionar" class="btn btn-disable" type="submit" value="Gestionar"/> </center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- Controller volver -->
                         <form th:action="@{/volverProceso}">
-                            <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/> 
-                            <input type="submit" class="btn btn-warning" value="Cancelar"/> 
+                            <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/>
+                            <input type="submit" class="btn btn-warning" value="Cancelar"/>
                         </form>
                     </div>
                 </form>
@@ -157,5 +157,44 @@
         <footer th:replace="layout/plantilla :: footer"></footer>
         <script th:src="@{/js/datatables.min.js}"></script>
         <script th:src="@{/js/procesosData.js}"></script>
+        <script type="text/javascript">
+
+          function activar (elemento)
+          {
+            elemento.prop('disabled',false);
+            elemento.removeClass('btn-disable');
+            elemento.addClass('btn-success');
+          }
+          function desactivar (elemento)
+          {
+            elemento.prop('disabled',false);
+            elemento.addClass('btn-disable');
+            elemento.removeClass('btn-success');
+          }
+          $('#gestionar').prop('disabled',true);
+
+          function validar()
+          {
+              var descripcion = $('textarea[name="descripcion"]').val();
+              var check = false;
+              $('input[name="responsable"]').each(function(){
+                check = $(this).prop('checked');
+                if(check)
+                return false;
+              });
+              if(descripcion !="" || check)
+                activar($('#gestionar'));
+              else {
+                desactivar($('#gestionar'));
+              }
+          }
+
+          $('textarea[name="descripcion"]').change(function(){
+            validar();
+          });
+          $('input[name="responsable"]').change(function(){
+            validar();
+          });
+        </script>
     </body>
 </html>
