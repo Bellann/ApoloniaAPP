@@ -1,15 +1,62 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head"></head>
     <body>
-        <div>hacer vista de error archivo</div>
+         <header>
+            <!-- menu -->
+            <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+                <!-- icono Home -->
+                <a class="navbar-brand" th:href="@{/}"><img src="../static/img/home.png" th:src="@{img/home.png}" alt="home" height="90%" width="90%"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <!-- Flujo de trabajo-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Flujo de trabajo
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" th:href="@{/flujotrabajo}">Mi flujo de trabajo</a>
+                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" th:href="@{/flujoempresa}">Mi flujo de empresa</a>
+                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" th:href="@{/solicitudes}">Solicitudes</a>
+                            </div>
+                        </li>
+
+                        <!-- Cargas de trabajo-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Cargas de trabajo
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" >Mi carga de trabajo</a>
+                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >Cargas de trabajo general</a>
+                            </div>
+                        </li>
+
+                        <!-- Dashboard-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dashboard
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" >Mi Dashboard</a>
+                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >Dashboard de la empresa</a>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+            </header>
+   
+	<img src="../static/img/errorarchivo.png" th:src="@{img/errorarchivo.png}">
+            <div class="leyenda"><h2>Por favor revisa el tamaño del archivo y vuelve a intentar</h2></div>
+
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
     </body>
 </html>

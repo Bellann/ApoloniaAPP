@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>TODO write content</div>
+    </body>
+</html>
+  <!-- Data Table Listado por unidad para GERENTE -->
+
+                                <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
+                                    <h1>Procesos de su empresa</h1>
+                                    <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
+                                        <table id="procesosUni" class="table table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>N</th>
+                                                    <th>Proceso</th>
+                                                    <th>Creador</th>
+                                                    <th>SubUnidad</th>
+                                                    <th>Fecha límite</th>
+                                                    <th>Control</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
+                                                    <td th:text="${iter.index}+1"></td>
+                                                    <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
+                                                    <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
+                                                    <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
+                                                    <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                                                    <td name="control"></td>
+                                                    <td th:text="${procesosUni.estado}">Mostrar estado</td>
+                                                </tr>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>N</th>
+                                                    <th>Proceso</th>
+                                                    <th>Creador</th>
+                                                    <th>SubUnidad</th>
+                                                    <th>Fecha límite</th>
+                                                    <th>Control</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                        <div th:if="${procesosUni == null or procesosUni.empty}">
+                                            La lista de procesos está vacía
+                                        </div>
+                                    </div>
+                                </div>
+
+  
+     <!-- Data Table Listado de tareas por Unidad-->
+
+                                    <div class="d-flex mb-3 align-text-bottom">
+                                        <div class="me-auto p-2">
+
+                                            <h1>Tareas de su empresa</h1>
+
+                                        </div>
+                                        <div class="p-2">   
+
+                                        </div>
+                                        <div class="p-2">
+
+
+                                        </div>
+                                    </div>
+
+                                    <span th:if="${tareasUnidad == null or tareasUnidad.empty}"> Su unidad no tiene tareas designadas</span>
+
+
+                                    <div th:if="${tareasUnidad != null and !tareasUnidad.empty}" class="contenedor-data">
+                                        <table id="tareasUnidad" class="table table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Tarea</th>
+                                                    <th>Asignada por</th>
+                                                    <th>Sub unidad</th>
+                                                    <th>Fecha límite</th>
+                                                    <th>Control</th>
+                                                    <th>Estado</th>
+                                                    <th>Ver</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr name="row" th:each="tareasUnidad : ${tareasRun}">
+                                                    <td name='alert' class='d-flex justify-content-center'></td>
+                                                    <td th:text="${tareasUnidad.tarea}">Mostrar Tarea</td>
+                                                    <td th:text="${tareasUnidad.ejecutor}">Mostrar Asignado por</td>
+                                                    <td th:text="${tareasUnidad.subunidad}">Mostrar subunidad</td>
+                                                    <td name="end" th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
+                                                    <td name="control"></td>
+                                                    <td name='estado' th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
+                                                    <td><button class="btn-table">Ver tarea</button></td>
+                                                </tr>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Tarea</th>
+                                                    <th>Asignada por</th>
+                                                    <th>Sub unidad</th>
+                                                    <th>Fecha límite</th>
+                                                    <th>Control</th>
+                                                    <th>Estado</th>
+                                                    <th>Ver</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>

@@ -449,22 +449,22 @@ public class ControladorTareas {
     }
 
     @GetMapping(value = "/vertarea")
-    public ModelAndView vertarea(@RequestParam(value = "i") Integer urlParam,
+    public String vertarea(@RequestParam(value = "idtarea") Integer urlParam,
             Model model) {
         var observaciones = observacionesService.ListarXIdtarea(urlParam);
-        var tareasEjecutadas = tareasEjecutadasService.encontrarTarea(urlParam);
+        var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         var funcionarios = funcionariosService.listarFuncionarios();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
         var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         model.addAttribute("run", urlParam);
-        model.addAttribute("tareasEjecutadas", tareasEjecutadas);
+        model.addAttribute("tarea", tarea);
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("funcionariosList", funcionariosList);
         model.addAttribute("observaciones", observaciones);
-        return new ModelAndView("redirect:/vertarea");
+        return "vertarea";
     }
 
     @PostMapping("/cargar")
