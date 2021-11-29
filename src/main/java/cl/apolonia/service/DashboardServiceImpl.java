@@ -17,35 +17,44 @@ public class DashboardServiceImpl implements DashboardService {
         
         List<Dashboard> lista = dashboardDao.findByRunFuncionario(run);
         
+        var programada = 0;
         var aceptada = 0;
-        Integer desarrollo = 0;
-        Integer revision = 0;
-        Integer finalizada = 0;
-        Integer carga = 0;
+        var desarrollo = 0;
+        var revision = 0;
+        var finalizada = 0;
+        var rechazada = 0;
+        var total = 0;
+        var carga = 0;
         
         for (int i = 0; i < lista.size(); i++) {
             
-                switch (lista.get(i).getEstadoTarea())
-                {
-                    case "Aceptada":
+                switch (lista.get(i).getIdEstadoTarea())
+                {   case 1:
+                        programada ++;
+                        break;
+                    case 2:
                         aceptada ++;
                         break;
-                    case "En Desarrollo":
+                    case 3:
                         desarrollo ++;
                         break;
-                    case "En Revision":
+                    case 4:
                         revision ++;
                         break;
-                    case "Finalizada":
+                    case 5:
+                        rechazada ++;
+                        break;
+                    case 6:
                         finalizada ++;
                         break;
                     default:
                         break;
                 }
+                total ++;
                 carga += lista.get(i).getDuracionTarea();
         }
         
-        Dashboard dash = new Dashboard(run, lista.get(0).getNombreFuncionario(), aceptada, desarrollo, revision, finalizada, carga);
+        Dashboard dash = new Dashboard(run, lista.get(0).getNombreFuncionario(), programada, aceptada, desarrollo, revision, finalizada, rechazada, total,carga);
         return dash;
     }
 
@@ -54,34 +63,43 @@ public class DashboardServiceImpl implements DashboardService {
         
        List<Dashboard> lista = dashboardDao.findByIdSubunidad(id);
         
+        var programada = 0;
         var aceptada = 0;
-        Integer desarrollo = 0;
-        Integer revision = 0;
-        Integer finalizada = 0;
-        Integer carga = 0;
+        var desarrollo = 0;
+        var revision = 0;
+        var finalizada = 0;
+        var rechazada = 0;
+        var total = 0;
+        var carga = 0;
         
         for (int i = 0; i < lista.size(); i++) {
             
-                switch (lista.get(i).getEstadoTarea())
-                {
-                    case "Aceptada":
+                switch (lista.get(i).getIdEstadoTarea())
+                {   case 1:
+                        programada ++;
+                        break;
+                    case 2:
                         aceptada ++;
                         break;
-                    case "En Desarrollo":
+                    case 3:
                         desarrollo ++;
                         break;
-                    case "En Revision":
+                    case 4:
                         revision ++;
                         break;
-                    case "Finalizada":
+                    case 5:
+                        rechazada ++;
+                        break;
+                    case 6:
                         finalizada ++;
                         break;
                     default:
                         break;
                 }
+                total ++;
                 carga += lista.get(i).getDuracionTarea();
         }
-        Dashboard dash = new Dashboard(id, lista.get(0).getNombreSubunidad(), aceptada, desarrollo, revision, finalizada, carga);
+        Dashboard dash = new Dashboard(id, lista.get(0).getNombreSubunidad(),programada, aceptada, desarrollo, revision, finalizada,rechazada,total, carga);
         return dash;
     }
 
@@ -89,34 +107,44 @@ public class DashboardServiceImpl implements DashboardService {
     public Dashboard listarUnidad(String rut) {
         List<Dashboard> lista = dashboardDao.findByRutUnidad(rut);
         
+        var programada = 0;
         var aceptada = 0;
-        Integer desarrollo = 0;
-        Integer revision = 0;
-        Integer finalizada = 0;
+        var desarrollo = 0;
+        var revision = 0;
+        var finalizada = 0;
+        var rechazada = 0;
+        var total = 0;
+        var carga = 0;
 
         
         for (int i = 0; i < lista.size(); i++) {
             
-                switch (lista.get(i).getEstadoTarea())
-                {
-                    case "Aceptada":
+                switch (lista.get(i).getIdEstadoTarea())
+                {   case 1:
+                        programada ++;
+                        break;
+                    case 2:
                         aceptada ++;
                         break;
-                    case "En Desarrollo":
+                    case 3:
                         desarrollo ++;
                         break;
-                    case "En Revision":
+                    case 4:
                         revision ++;
                         break;
-                    case "Finalizada":
+                    case 5:
+                        rechazada ++;
+                        break;
+                    case 6:
                         finalizada ++;
                         break;
                     default:
                         break;
                 }
-
+                total ++;
+                carga += lista.get(i).getDuracionTarea();
         }
-        Dashboard dash = new Dashboard(rut, lista.get(0).getNombreSubunidad(), aceptada, desarrollo, revision, finalizada);
+        Dashboard dash = new Dashboard(rut, lista.get(0).getNombreUnidad(),programada, aceptada, desarrollo, revision, rechazada, total, finalizada, carga);
         return dash;
     }
     

@@ -272,8 +272,8 @@
 
                             <form th:action="@{/reportar}">
                                 <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="id"/>
-                                <textarea class="form-control" id="descripcionRechazo" rows="3" th:name="descripcion"></textarea>
-                                <button class="btn-flujo" type="submit">Reportar problema</button>
+                                <textarea class="form-control" id="descripcionRechazo" rows="3" th:name="descripcionProblema"></textarea>
+                                <button name="enviarProblema" class="btn-flujo" type="submit">Reportar problema</button>
                             </form>
                             <button type="button" class="btn-flujo" data-dismiss="modal">cancelar</button>
                         </div>
@@ -324,7 +324,7 @@
                                 <p>Esta información será enviada a su supervisor para aprobar o rechazar su solicitud</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn-flujo" type="submit">Enviar rechazo</button>
+                            <button name="enviarRechazo" class="btn-flujo" type="submit">Enviar rechazo</button>
                             </form>
                             <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -337,33 +337,52 @@
 </html>
 <script type="text/javascript">
 
-    function activar(elemento)
-    {
+    function activar(elemento){
         elemento.prop('disabled', false);
         elemento.removeClass('btn-disable');
         elemento.addClass('btn-flujo');
     }
-    function desactivar(elemento)
-    {
-        elemento.prop('disabled', false);
-        elemento.removeClass('btn-disable');
-        elemento.addClass('btn-flujo');
+    function desactivar(elemento){
+        elemento.prop('disabled', true);
+        elemento.addClass('btn-disable');
+        elemento.removeClass('btn-flujo');
     }
-    $('[name$="Sub"]').change(function(){
 
+    desactivar($('[name=subCrear]'));
+    desactivar($('[name=enviarRechazo]'));
+    desactivar($('[name=enviarProblema]'));
+
+    $('[name$="Sub"]').change(function(){
+      validarSubordinar();
     });
-    function validarSubordinar()
-    {
+    $('[name="descripcionProblema"]').change(function(){
+      if($(this).val() != ""){
+        activar($('[name=enviarProblema]'));
+      }else {
+        desactivar($('[name=enviarProblema]'));
+      }
+    });
+    $('[name = "descRechazo"]').change(function(){
+      if($(this).val() != ""){
+        activar($('[name=enviarRechazo]'));
+      }else {
+        desactivar($('[name=enviarRechazo]'));
+      }
+    });
+    function validarSubordinar(){
       var nombre = $('[name="nombreSub"]').val();
       var descripcion = $('[name="descripcionSub"]').val();
       var duracion = $('[name="duracionSub"]').val();
       var responsable = false;
+      console.log(descripcion);
+      console.log(nombre);
+      console.log(duracion);
       $('[name="responsableSub"]').each(function(){
         responsable = $(this).prop('checked');
         if(responsable)
         return false;
       });
-
+      console.log(responsable);
       if(nombre!="" && descripcion!="" && duracion!="" && responsable)
         activar($('[name=subCrear]'));
       else {
@@ -374,7 +393,6 @@
     $(document).ready(function () {
         var estado = $('#estadoTarea').html();
         $('button[name="acciones"]').each(function () {
-            console.log('si entra');
             $(this).prop('disabled', true);
         });
         switch (estado) {
