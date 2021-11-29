@@ -468,12 +468,13 @@ public class ControladorTareas {
     }
 
     @PostMapping("/cargar")
-    public String cargar(@RequestParam("file") MultipartFile file, RedirectAttributes attributes,
+    public ModelAndView cargar(@RequestParam("file") MultipartFile file, RedirectAttributes attributes,
                          @RequestParam(value="idtarea") Integer idtarea) {
-
+        var r = funcionariosService.runResponsable();
+        var i = idtarea;
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
-            return "redirect:/";
+            return new ModelAndView("redirect:/errorarchivo");
         }
         var runUser = funcionariosService.runResponsable();
         // normalize the file path
@@ -496,7 +497,7 @@ public class ControladorTareas {
             attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
         }
 
-        return "redirect:/";
+        return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
     }
 
 }
