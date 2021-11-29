@@ -231,14 +231,14 @@
                                     Nombre de la tarea
                                     <input type="text" class="form-control" id="tareaSubordinada" placeholder="ingrese el nombre de la nueva tarea" th:name="nombreSub">
                                     Descripcion
-                                    <textarea class="form-control" id="descripcionSubordinada" rows="3" th:name="descripcionSub"></textarea>
+                                    <textarea name="subDescripcion" class="form-control" id="descripcionSubordinada" rows="3" th:name="descripcionSub"></textarea>
                                     </br>
                                     </br>
                                     <label for="duracion">Duración de la tarea: </label>
-                                    <input type="number" value="1" min="1" max="365" step="1" th:name="duracionSub"/>&nbsp;días
+                                    <input name="subDuracion" type="number" value="1" min="1" max="365" step="1" th:name="duracionSub"/>&nbsp;días
                                     <div class="col-lg-6" th:object="${funcionariosList}">
                                         <div th:each="responsable : ${funcionariosList}" th:object="${responsables}">
-                                            <input type="checkbox" th:value="${responsable.run}" id="checked" th:name="responsableSub">
+                                            <input name="subResponsable" type="checkbox" th:value="${responsable.run}" id="checked" th:name="responsableSub">
                                             <label class="form-check-label" for="defaultCheck1">
                                                 <p th:text="${responsable.nombres}+' '+${responsable.apellidop}"></p>
                                             </label>
@@ -248,7 +248,7 @@
 
                                 </div><!-- cierre del group form-->
                                 <!-- boton enviar-->
-                                <input type="submit" value="crear tarea" class="btn-flujo" id="btnvalida"/>
+                                <input name="subCrear" type="submit" value="crear tarea" class="btn-disable" id="btnvalida"/>
                             </form><!-- cierre del form-->
                             <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                             <div class="modal-footer">
@@ -367,8 +367,34 @@
         elemento.removeClass('btn-disable');
         elemento.addClass('btn-flujo');
     }
+    function desactivar(elemento)
+    {
+        elemento.prop('disabled', false);
+        elemento.removeClass('btn-disable');
+        elemento.addClass('btn-flujo');
+    }
+    $('[name$="Sub"]').change(function(){
 
+    });
+    function validarSubordinar()
+    {
+      var nombre = $('[name="nombreSub"]').val();
+      var descripcion = $('[name="descripcionSub"]').val();
+      var duracion = $('[name="duracionSub"]').val();
+      var responsable = false;
+      $('[name="responsableSub"]').each(function(){
+        responsable = $(this).prop('checked');
+        if(responsable)
+        return false;
+      });
 
+      if(nombre!="" && descripcion!="" && duracion!="" && responsable)
+        activar($('[name=subCrear]'));
+      else {
+        desactivar($('[name=subCrear]'));
+      }
+
+    }
     $(document).ready(function () {
         var estado = $('#estadoTarea').html();
         $('button[name="acciones"]').each(function () {
