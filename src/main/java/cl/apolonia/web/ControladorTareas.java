@@ -231,7 +231,7 @@ public class ControladorTareas {
         //variables
 
         var r = urlParam;
-        var funcionariosList = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
+        var funcionarios = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var tareas = tareasEjecutadasDao.findByIdProcesoEjecutado(r);
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
@@ -241,7 +241,7 @@ public class ControladorTareas {
         model.addAttribute("tareas", tareas);
         model.addAttribute("r", r);
         model.addAttribute("nombreProceso", n);
-        model.addAttribute("funcionariosList", funcionariosList);
+        model.addAttribute("funcionarios", funcionarios);
         return "nuevaTarea";
     }
 
@@ -261,10 +261,12 @@ public class ControladorTareas {
         String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
+        
         if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
-            return new ModelAndView("redirect:/flujotrabajo");
+            var idtarea = tarea.getIdtarea();
+            return new ModelAndView("redirect:/vertarea?idtarea="+idtarea);
         } else {
-            return new ModelAndView("redirect:/nuevaTarea");
+            return new ModelAndView("error");
         }
     }
 
