@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:include="layout/plantilla :: head"></head>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <div class="container-fluid" th:each="tarea  : ${tarea}">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2> Detalles de la tarea </h2>
+                    <p> Asignado por: <span th:text="${tarea.ejecutor}"></span> </p>
+                    <p> Descripción:  <span th:text="${tarea.descTarea}"></span></p>
+                    <p>Fecha de asignación: <span th:text="${tarea.fechaAsignacion}"></span></p>
+                    <p>Fecha de de inicio <span th:text="${tarea.fPrevInicio}">fecha de inicio prevista</span></p>
+                    <p>Fecha de de término prevista <span th:text="${tarea.fPrevFin}">fecha de término prevista</span></p>
+                    <p>Estado <span id="estadoTarea" th:text="${tarea.estado}"></span></p>
+
+                </div>
+                <div class="col-md-6">
+                    <img src="../static/img/tarea3.png" th:src="@{img/tarea3.png}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <a class="dropdown-item" th:href="@{/flujotrabajo}"><button class="btn-flujo"> Volver</button></a>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
+
+
+
+        <footer th:replace="layout/plantilla :: footer"></footer>
+    </body>
+</html>

@@ -31,73 +31,24 @@
                     <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div>
                     <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >
                         <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
-                            
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h1 class="abajo">Procesos activos</h1>
-                                        <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
-                                        <div class="leyenda">
-                                            * El ejecutar un proceso, sirve para poner en marcha los procesos preparados especialmente para usted y su empresa / departamento.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                    </div>
-                                    <div class="col-md-3">
-                                         <img src="../static/img/proceso1.jpg" th:src="@{img/proceso1.jpg}" width="400px">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h1 class="abajo">Procesos activos</h1>
+                                    <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
+                                    <div class="leyenda">
+                                        * El ejecutar un proceso, sirve para poner en marcha los procesos preparados especialmente para usted y su empresa / departamento.
                                     </div>
                                 </div>
+                                <div class="col-md-5">
+                                </div>
+                                <div class="col-md-3">
+                                    <img src="../static/img/tarea3.png" th:src="@{img/tarea3.png}" width="400px">
+                                </div>
+                            </div>
 
-                          
+
                             <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
-
-                                <!-- Data Table Listado por unidad para GERENTE -->
-
-                                <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
-                                    <h1>Procesos de su empresa</h1>
-                                    <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
-                                        <table id="procesosUni" class="table table-striped" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>N</th>
-                                                    <th>Proceso</th>
-                                                    <th>Creador</th>
-                                                    <th>SubUnidad</th>
-                                                    <th>Fecha límite</th>
-                                                    <th>Control</th>
-                                                    <th>Estado</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
-                                                    <td th:text="${iter.index}+1"></td>
-                                                    <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
-                                                    <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
-                                                    <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
-                                                    <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
-                                                    <td name="control"></td>
-                                                    <td th:text="${procesosUni.estado}">Mostrar estado</td>
-                                                </tr>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>N</th>
-                                                    <th>Proceso</th>
-                                                    <th>Creador</th>
-                                                    <th>SubUnidad</th>
-                                                    <th>Fecha límite</th>
-                                                    <th>Control</th>
-                                                    <th>Estado</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-
-                                        <div th:if="${procesosUni == null or procesosUni.empty}">
-                                            La lista de procesos está vacía
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <!-- Data Table para sub Unidad , para supervisores -->
 
@@ -160,160 +111,105 @@
 
                                 <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
                                     </div>
-                                    <!-- Data Table Listado de tareas por Unidad-->
-
-                                    <div class="d-flex mb-3 align-text-bottom">
-                                        <div class="me-auto p-2">
-
-                                            <h1>Tareas de su empresa</h1>
-
-                                        </div>
-                                        <div class="p-2">   
-
-                                        </div>
-                                        <div class="p-2">
 
 
-                                        </div>
-                                    </div>
+                                    <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
 
-                                    <span th:if="${tareasUnidad == null or tareasUnidad.empty}"> Su unidad no tiene tareas designadas</span>
+                                        <!-- Data Table Listado de tareas por Sub Unidad-->
 
+                                        <div class="d-flex mb-3 align-text-bottom">
+                                            <div class="me-auto p-2">
 
-                                    <div th:if="${tareasUnidad != null and !tareasUnidad.empty}" class="contenedor-data">
-                                        <table id="tareasUnidad" class="table table-striped" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Tarea</th>
-                                                    <th>Asignada por</th>
-                                                    <th>Sub unidad</th>
-                                                    <th>Fecha límite</th>
-                                                    <th>Control</th>
-                                                    <th>Estado</th>
-                                                    <th>Ver</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                                <h1>Tareas de su área</h1>
 
-                                                <tr name="row" th:each="tareasUnidad : ${tareasRun}">
-                                                    <td name='alert' class='d-flex justify-content-center'></td>
-                                                    <td th:text="${tareasUnidad.tarea}">Mostrar Tarea</td>
-                                                    <td th:text="${tareasUnidad.ejecutor}">Mostrar Asignado por</td>
-                                                    <td th:text="${tareasUnidad.subunidad}">Mostrar subunidad</td>
-                                                    <td name="end" th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
-                                                    <td name="control"></td>
-                                                    <td name='estado' th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
-                                                    <td><button>Ver</button></td>
-                                                </tr>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Tarea</th>
-                                                    <th>Asignada por</th>
-                                                    <th>Sub unidad</th>
-                                                    <th>Fecha límite</th>
-                                                    <th>Control</th>
-                                                    <th>Estado</th>
-                                                    <th>Ver</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-
-                                        <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
-
-                                            <!-- Data Table Listado de tareas por Sub Unidad-->
-
-                                            <div class="d-flex mb-3 align-text-bottom">
-                                                <div class="me-auto p-2">
-
-                                                    <h1>Tareas de su área</h1>
-
-                                                </div>
-                                                <div class="p-2">   
-
-                                                </div>
-                                                <div class="p-2">
-
-
-                                                </div>
                                             </div>
+                                            <div class="p-2">   
 
-                                            <span th:if="${tareasSubUni == null or tareasSubUni.empty}"> Su área no tiene tareas designadas</span>
+                                            </div>
+                                            <div class="p-2">
 
 
-                                            <div th:if="${tareasSubUni != null and !tareasSubUni.empty}" class="contenedor-data">
-                                                <table id="tareasSubunidad" class="table table-striped" style="width:100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th></th>
-                                                            <th>Tarea</th>
-                                                            <th>Asignada por</th>
-                                                            <th>Fecha límite</th>
-                                                            <th>Control</th>
-                                                            <th>Estado</th>
-                                                            <th>Ver</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                            </div>
+                                        </div>
 
-                                                        <tr name="row" th:each="tareasSubUni : ${tareasRun}">
-                                                            <td name='alert'></td>
-                                                            <td th:text="${tareasSubUni.tarea}">Mostrar Tarea</td>
-                                                            <td th:text="${tareasSubUni.ejecutor}">Mostrar Asignado por</td>
-                                                            <td name="end" th:text="${tareasSubUni.fPrevFin}">Mostrar fecha fin</td>
-                                                            <td name="control"></td>
-                                                            <td name='estado' th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
-                                                            <td><button>Ver</button></td>
-                                                        </tr>
+                                        <span th:if="${tareasSubUni == null or tareasSubUni.empty}"> Su área no tiene tareas designadas</span>
 
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th></th>
-                                                            <th>Tarea</th>
-                                                            <th>Asignada por</th>
-                                                            <th>Fecha límite</th>
-                                                            <th>Control</th>
-                                                            <th>Estado</th>
-                                                            <th>Ver</th>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
 
-                                                <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
-                                            </div>   
+                                        <div th:if="${tareasSubUni != null and !tareasSubUni.empty}" class="contenedor-data">
+                                            <table id="tareasSubunidad" class="table table-striped" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Tarea</th>
+                                                        <th>Asignada por</th>
+                                                        <th>Fecha límite</th>
+                                                        <th>Control</th>
+                                                        <th>Estado</th>
+                                                        <th>Ver</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                            <input type="hidden" th:value="${tareasUnidad}" />
-                                            <input type="hidden" th:value="${tareasSubUni}" />
-                                            <footer th:replace="layout/plantilla :: footer"></footer>
+                                                    <tr name="row" th:each="tareasSubUni : ${tareasRun}">
+                                                        <td name='alert'></td>
+                                                        <td th:text="${tareasSubUni.tarea}">Mostrar Tarea</td>
+                                                        <td th:text="${tareasSubUni.ejecutor}">Mostrar Asignado por</td>
+                                                        <td name="end" th:text="${tareasSubUni.fPrevFin}">Mostrar fecha fin</td>
+                                                        <td name="control"></td>
+                                                        <td name='estado' th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
+                                                        <td>
+                                                            <form th:action="@{/vertarea}">
+                                                                <input type="hidden" th:value="${tareasSubUni.idtarea}" th:name="idtarea"/> 
+                                                                <input type="submit" class="btn btn-table" value="Ver tarea"/> 
+                                                            </form>
+                                                        </td>
+                                                    </tr>
 
-                                            <script th:src="@{/js/datatables.min.js}"></script>
-                                            <script th:src="@{/js/flujodata.js}"></script>
-                                            <script>
-                                                $("tr[name='row']").each(function () {
-                                                    console.log("entra");
-                                                    var date = new Date($(this).children("td[name='end']").html());
-                                                    var today = new Date();
-                                                    var timeLeft = (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
-                                                    console.log(timeLeft);
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Tarea</th>
+                                                        <th>Asignada por</th>
+                                                        <th>Fecha límite</th>
+                                                        <th>Control</th>
+                                                        <th>Estado</th>
+                                                        <th>Ver</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
 
-                                                    if (timeLeft > 7)
-                                                    {
-                                                        $(this).children("td[name='control']").addClass("bg-success");
-                                                    } else if (timeLeft > 0)
-                                                    {
-                                                        $(this).children("td[name='control']").addClass("bg-warning");
-                                                    } else
-                                                    {
-                                                        $(this).children("td[name='control']").addClass("bg-danger");
-                                                    }
-                                                    var estado = $(this).children('td[name="estado"]').html()
-                                                    if(estado == "Rechazada" || estado == "En Revisión" )
-                                                        $(this).children("td[name='alert']").html('<i class="fas fa-circle"></i>');
-                                                });
-                                            </script>
-                                            </body>
-                                            </html>
+                                            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+                                        </div>   
+
+                                        <input type="hidden" th:value="${tareasUnidad}" />
+                                        <input type="hidden" th:value="${tareasSubUni}" />
+                                        <footer th:replace="layout/plantilla :: footer"></footer>
+
+                                        <script th:src="@{/js/datatables.min.js}"></script>
+                                        <script th:src="@{/js/flujodata.js}"></script>
+                                        <script>
+                                            $("tr[name='row']").each(function () {
+                                                console.log("entra");
+                                                var date = new Date($(this).children("td[name='end']").html());
+                                                var today = new Date();
+                                                var timeLeft = (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+                                                console.log(timeLeft);
+
+                                                if (timeLeft > 7)
+                                                {
+                                                    $(this).children("td[name='control']").addClass("bg-success");
+                                                } else if (timeLeft > 0)
+                                                {
+                                                    $(this).children("td[name='control']").addClass("bg-warning");
+                                                } else
+                                                {
+                                                    $(this).children("td[name='control']").addClass("bg-danger");
+                                                }
+                                                var estado = $(this).children('td[name="estado"]').html()
+                                                if (estado == "Rechazada" || estado == "En Revisión")
+                                                    $(this).children("td[name='alert']").html('<i class="fas fa-circle"></i>');
+                                            });
+                                        </script>
+                                        </body>
+                                        </html>
