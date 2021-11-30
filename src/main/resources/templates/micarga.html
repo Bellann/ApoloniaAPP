@@ -25,13 +25,17 @@
         <!-- Always remember to call the above files first before calling the bootstrap.min.js file -->      
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!--printJS-->
+        <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+        <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css"/>
     </head>
     <body>
         <header th:replace="layout/plantilla :: header"></header>
-        <div class="container-fluid">
+        <div class="container-fluid" id="miCarga">
             <div class="row">
                 <div class="col-md-6">
                     <img src="../static/img/micarga.png" th:src="@{img/micarga.png}">
+                    
                 </div>
                 <div class="col-md-6">
                     <div id="chart_pie"></div>
@@ -42,17 +46,19 @@
                 <div class="col-md-6">
                     <h2>Mi carga de trabajo</h2>
                     <h4>Cantidad de tareas que tengo asignadas : <span style="color:orange" th:text="${dash.total}"></span></h4> 
-                    <h4>Cantidad de días de trabajo asignados : <span style="color:orange" th:text="${dash.carga}"></span></h4>
+                    <h4>Cantidad de dí­as de trabajo asignados : <span style="color:orange" th:text="${dash.carga}"></span></h4>
                     <h4>Cantidad de tareas aceptadas : <span style="color:orange" th:text="${dash.aceptada}"></span></h4>
                     <h4>Cantidad de tareas Iniciadas : <span style="color:orange" th:text="${dash.desarrollo}"></span></h4>
                     <h4>Cantidad de tareas Terminadas :<span style="color:orange" th:text="${dash.finalizada}"></span></h4>
-                    
+                    </br>
+                    <button type="button" class="btn-flujo" onClick="printForm()"> Imprimir en PDF</button>
+
                 </div>
                 <div class="col-md-6">
 
                     <h2>Mi carga de trabajo VS mi departamento</h2>
                     <div id="chart_div"></div>
-                    <div class="leyenda">En este gráfico podrá ver su cantidad de días planificados de trabajo, contrastados con el promedio de días programados en de su departamento</div>
+                    <div class="leyenda">En este gráfico podrá ver su cantidad de dí­as planificados de trabajo, contrastados con el promedio de dí­as programados en de su departamento</div>
                 </div>
             </div>
         </div>
@@ -116,6 +122,17 @@
                 var chart = new google.visualization.PieChart(document.getElementById('chart_pie'));
                 chart.draw(data, options);
             }
+        </script>
+        <script th:inline="javascript">
+            function printForm() {
+                printJS({
+                    printable: 'miCarga',
+                    type: 'html',
+                    targetStyles: ['*'],
+                    header: 'Informe de mis cargas de trabajo - Impreso desde Apolonia APP'
+                })
+            }
+
         </script>
         <footer th:replace="layout/plantilla :: footer"></footer>
 

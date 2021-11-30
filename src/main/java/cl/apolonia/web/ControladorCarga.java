@@ -57,11 +57,11 @@ public class ControladorCarga {
         Dashboard dash = dashboardService.listarFuncionario(funcionariosService.runResponsable());
         return List.of(
                 List.of("Programadas", dash.getProgramada()),
-                 List.of("Aceptadas", dash.getAceptada()),
-                 List.of("Desarrollo", dash.getDesarrollo()),
-                 List.of("Revision", dash.getRevision()),
-                 List.of("Rechazada", dash.getRechazada()),
-                 List.of("Finalizada", dash.getFinalizada())
+                List.of("Aceptadas", dash.getAceptada()),
+                List.of("Desarrollo", dash.getDesarrollo()),
+                List.of("Revision", dash.getRevision()),
+                List.of("Rechazada", dash.getRechazada()),
+                List.of("Finalizada", dash.getFinalizada())
         );
 
     }
@@ -78,7 +78,7 @@ public class ControladorCarga {
         //datos para renderizar
         model.addAttribute("depto", depto);
         model.addAttribute("chartData2", graficoPieDepto());
-        model.addAttribute("chartData",graficoBarDepto());
+        model.addAttribute("chartData", graficoBarDepto());
 
         return "cargadepartamento";
     }
@@ -88,20 +88,60 @@ public class ControladorCarga {
         Dashboard dash = dashboardService.listarSubunnidad(funcionariosService.idSubunidad());
         return List.of(
                 List.of("Programadas", dash.getProgramada()),
-                 List.of("Aceptadas", dash.getAceptada()),
-                 List.of("Desarrollo", dash.getDesarrollo()),
-                 List.of("Revision", dash.getRevision()),
-                 List.of("Rechazada", dash.getRechazada()),
-                 List.of("Finalizada", dash.getFinalizada())
+                List.of("Aceptadas", dash.getAceptada()),
+                List.of("Desarrollo", dash.getDesarrollo()),
+                List.of("Revision", dash.getRevision()),
+                List.of("Rechazada", dash.getRechazada()),
+                List.of("Finalizada", dash.getFinalizada())
         );
     }
 
     private Map<String, Integer> graficoBarDepto() {
         Map<String, Integer> mapDeCargas = new HashMap<String, Integer>();
 
-        List<Dashboard> lista = dashboardService.encontrarXSubUnidad(funcionariosService.idSubunidad());            
+        List<Dashboard> lista = dashboardService.encontrarXSubUnidad(funcionariosService.idSubunidad());
         for (Dashboard dashboard : lista) {
-            mapDeCargas.put(dashboard.getNombreFuncionario(),dashboard.getCarga());                 
+            mapDeCargas.put(dashboard.getNombreFuncionario(), dashboard.getCarga());
+        }
+        return mapDeCargas;
+    }
+
+    @GetMapping(value = "/cargaempresa")
+    public String cargaempresa(Model model) {
+        Dashboard empresa = dashboardService.listarUnidad(funcionariosService.rutUnidad());
+        //Para el saludo
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+
+        //datos para renderizar
+        model.addAttribute("empresa", empresa);
+        model.addAttribute("chartData2", graficoPieEmp());
+        model.addAttribute("chartData", graficoBarEmp());
+
+        return "cargaempresa";
+    }
+
+    private List<List<Object>> graficoPieEmp() {
+
+        Dashboard dash = dashboardService.listarUnidad(funcionariosService.rutUnidad());
+        return List.of(
+                List.of("Programadas", dash.getProgramada()),
+                List.of("Aceptadas", dash.getAceptada()),
+                List.of("Desarrollo", dash.getDesarrollo()),
+                List.of("Revision", dash.getRevision()),
+                List.of("Rechazada", dash.getRechazada()),
+                List.of("Finalizada", dash.getFinalizada())
+        );
+    }
+
+    private Map<String, Integer> graficoBarEmp() {
+        Map<String, Integer> mapDeCargas = new HashMap<String, Integer>();
+
+        List<Dashboard> lista = dashboardService.encontrarXUnidad(funcionariosService.rutUnidad());
+        for (Dashboard dashboard : lista) {
+            mapDeCargas.put(dashboard.getNombreSubunidad(), dashboard.getCarga());
         }
         return mapDeCargas;
     }

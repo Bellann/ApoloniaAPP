@@ -85,11 +85,13 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<Dashboard> encontrarXSubUnidad(Integer id) {
-        
-        List<Dashboard> lista = dashboardDao.findByIdSubunidad(id);
-       
-        
-        return lista;
+     
+        return dashboardDao.findByIdSubunidad(id);
+    }
+
+    @Override
+    public List<Dashboard> encontrarXUnidad(String rut) {
+       return dashboardDao.findByRutUnidad(rut);
     }
     
 }

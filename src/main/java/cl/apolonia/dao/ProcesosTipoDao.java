@@ -11,6 +11,8 @@ public interface ProcesosTipoDao extends JpaRepository<ProcesosTipo, Integer> {
     List<ProcesosTipo> findByRutUnidad(String rutUnidad);
     
     ProcesosTipo findByNombre(String nombre);
+    
+    List<ProcesosTipo> findByIdSubunidad(int idSubunidad);
         
 
 }
