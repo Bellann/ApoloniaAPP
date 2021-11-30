@@ -13,4 +13,5 @@ public interface DashboardService {
     
     List<Dashboard> encontrarXSubUnidad (Integer id);
     List<Dashboard> encontrarXUnidad(String rut);
+
 }

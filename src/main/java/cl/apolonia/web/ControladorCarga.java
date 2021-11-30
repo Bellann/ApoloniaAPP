@@ -77,15 +77,16 @@ public class ControladorCarga {
 
         //datos para renderizar
         model.addAttribute("depto", depto);
-        model.addAttribute("chartData2", graficoPieDepto());
-        model.addAttribute("chartData", graficoBarDepto());
+
+        model.addAttribute("chartData2", graficoPieDepto(dashboardService.listarSubunnidad(funcionariosService.idSubunidad())));
+        model.addAttribute("chartData",graficoBarDepto(dashboardService.encontrarXSubUnidad(funcionariosService.idSubunidad())));
+
 
         return "cargadepartamento";
     }
 
-    private List<List<Object>> graficoPieDepto() {
+    private List<List<Object>> graficoPieDepto(Dashboard dash) {
 
-        Dashboard dash = dashboardService.listarSubunnidad(funcionariosService.idSubunidad());
         return List.of(
                 List.of("Programadas", dash.getProgramada()),
                 List.of("Aceptadas", dash.getAceptada()),
@@ -96,10 +97,9 @@ public class ControladorCarga {
         );
     }
 
-    private Map<String, Integer> graficoBarDepto() {
+    private Map<String, Integer> graficoBarDepto(List<Dashboard> lista) {
         Map<String, Integer> mapDeCargas = new HashMap<String, Integer>();
 
-        List<Dashboard> lista = dashboardService.encontrarXSubUnidad(funcionariosService.idSubunidad());
         for (Dashboard dashboard : lista) {
             mapDeCargas.put(dashboard.getNombreFuncionario(), dashboard.getCarga());
         }
@@ -142,6 +142,15 @@ public class ControladorCarga {
         List<Dashboard> lista = dashboardService.encontrarXUnidad(funcionariosService.rutUnidad());
         for (Dashboard dashboard : lista) {
             mapDeCargas.put(dashboard.getNombreSubunidad(), dashboard.getCarga());
+        }
+        return mapDeCargas;
+    }
+    
+    private Map<String, Integer> graficoBarEmp(List<Dashboard> lista) {
+        Map<String, Integer> mapDeCargas = new HashMap<String, Integer>();
+           
+        for (Dashboard dashboard : lista) {
+            mapDeCargas.put(dashboard.getNombreSubunidad(),dashboard.getCarga());                 
         }
         return mapDeCargas;
     }
