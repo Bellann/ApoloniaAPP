@@ -17,7 +17,7 @@ public class FuncionariosServiceImpl implements FuncionariosService {
 
     @Autowired
     private FuncionariosDao funcionariosDao;
-    
+
     @Autowired
     private UsuarioDao usuarioDao;
 
@@ -34,55 +34,55 @@ public class FuncionariosServiceImpl implements FuncionariosService {
 
     }
 
-
     @Override
     public String nombreCompleto() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        
+
         Funcionarios funcionarioEncontrado = new Funcionarios();
         funcionarioEncontrado = funcionariosDao.findById(currentPrincipalName).orElse(null);
-        
+
         String nombre = funcionarioEncontrado.getNombres();
         String apellido = funcionarioEncontrado.getApellidop();
-        String nombreCompleto = nombre+' '+apellido;
-        
+        String nombreCompleto = nombre + ' ' + apellido;
+
         return nombreCompleto;
     }
 
     @Override
     public String rolSaludo() {
         String rolSaludo = "SIN ROL";
-        
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        
+
         Funcionarios funcionarioEncontrado = new Funcionarios();
         funcionarioEncontrado = funcionariosDao.findById(currentPrincipalName).orElse(null);
-        
+
         String run = funcionarioEncontrado.getRun();
-        
+
         Usuario usuarioSaludo = new Usuario();
         usuarioSaludo = usuarioDao.findByUsername(currentPrincipalName);
         int perfil = usuarioSaludo.getNivel();
-        
-        
-        
+
         switch (perfil) {
+            case 0:
+                rolSaludo = " (Gerencia) - área: " + usuarioSaludo.getSubunidad();
+                break;
             case 1:
                 rolSaludo = " (Gerencia) - área: " + usuarioSaludo.getSubunidad();
                 break;
             case 2:
                 rolSaludo = " (Supervisor) - área: " + usuarioSaludo.getSubunidad();
                 break;
-            default:             
-                if (perfil >2){
-                rolSaludo = " (Funcionario) - área: " + usuarioSaludo.getSubunidad();
+            default:
+                if (perfil > 2) {
+                    rolSaludo = " (Funcionario) - área: " + usuarioSaludo.getSubunidad();
                 }
-                
+
                 break;
-        }        
-                
+        }
+
         return rolSaludo;
     }
 
@@ -90,11 +90,10 @@ public class FuncionariosServiceImpl implements FuncionariosService {
     public String rutUnidad() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        
+
         Funcionarios funcionarioEncontrado = new Funcionarios();
         funcionarioEncontrado = funcionariosDao.findById(currentPrincipalName).orElse(null);
-        
-        
+
         Usuario usuarioSaludo = new Usuario();
         usuarioSaludo = usuarioDao.findByUsername(currentPrincipalName);
         String rut = usuarioSaludo.getRutunidad();
@@ -105,11 +104,10 @@ public class FuncionariosServiceImpl implements FuncionariosService {
     public Integer idSubunidad() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        
+
         Funcionarios funcionarioEncontrado = new Funcionarios();
         funcionarioEncontrado = funcionariosDao.findById(currentPrincipalName).orElse(null);
-        
-        
+
         Usuario usuarioSaludo = new Usuario();
         usuarioSaludo = usuarioDao.findByUsername(currentPrincipalName);
         Integer idSubunidad = usuarioSaludo.getIdsubunidad();
@@ -120,7 +118,7 @@ public class FuncionariosServiceImpl implements FuncionariosService {
     public String runResponsable() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        
+
         return currentPrincipalName;
     }
 
@@ -129,7 +127,7 @@ public class FuncionariosServiceImpl implements FuncionariosService {
         Funcionarios funcionario = funcionariosDao.findById(run).orElse(null);
         String nombre = funcionario.getNombres();
         String apellido = funcionario.getApellidop();
-        String nombreResponsable = nombre+apellido;
+        String nombreResponsable = nombre + apellido;
         return nombreResponsable;
     }
 
@@ -137,6 +135,5 @@ public class FuncionariosServiceImpl implements FuncionariosService {
     public List<Funcionarios> ListarXSubunidad(Integer idSubunidad) {
         return funcionariosDao.findByIdSubunidad(idSubunidad);
     }
-
 
 }

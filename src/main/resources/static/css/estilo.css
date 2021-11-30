@@ -48,8 +48,6 @@ body {
 .navbar-custom .navbar-nav .nav-link,
 .navbar-custom .dropdown-menu .dropdown-item{
     color: #FFFFFF;
-    margin-left: 20px;
-    margin-right: 20px;
 }
 /* change the color of active or hovered links */
 .navbar-custom .nav-item.active .nav-link,
@@ -62,6 +60,7 @@ body {
 .navbar-custom .dropdown-menu .dropdown-item{
     color: #FFFFFF;
     background-color: inherit;
+ 
 }
 
 
@@ -85,13 +84,38 @@ body {
 
 h1 {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 48px;
+    font-size: 38px;
     color: #3B82BF;
-    margin-left: 30px;
+    margin-left: 10px;
+    font-weight: 700;
+    flex-grow: 100;
+}
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    color: #4AB0D9;
+    margin-left: 10px;
     font-weight: 700;
     flex-grow: 100;
 }
 
+h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: #3B82BF;
+    margin-left: 10px;
+    font-weight: 700;
+    flex-grow: 100;
+}
+
+h4 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    color: #304F8C;
+    margin-left: 10px;
+    font-weight: 700;
+    flex-grow: 100;
+}
 .btn-flujo{
     background-color: #304F8C;
     color: white;

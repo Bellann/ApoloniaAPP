@@ -349,6 +349,7 @@ public class ControladorTareas {
         //variables para saludo superior
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
+        model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("tarea", tarea);
         model.addAttribute("observaciones", observaciones);
