@@ -5,6 +5,7 @@ import cl.apolonia.domain.Dashboard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -91,7 +92,24 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<Dashboard> encontrarXUnidad(String rut) {
-       return dashboardDao.findByRutUnidad(rut);
+       List<Dashboard> lista = dashboardDao.findByRutUnidad(rut);
+        List<Dashboard> listaNegocio = new ArrayList<>();
+        List<Integer> idSubunidadesD = new ArrayList<>();
+        var id = 0;
+        for(Dashboard dash : lista)
+        {
+            idSubunidadesD.add(dash.getIdSubunidad());
+        }
+
+        List<Integer>idSubunidades = idSubunidadesD.stream().distinct().collect(Collectors.toList());
+        for(Integer idSub : idSubunidades)
+        {
+            listaNegocio.add(listarSubunnidad(idSub));
+        }
+        
+        return listaNegocio;
     }
+
+    
     
 }
