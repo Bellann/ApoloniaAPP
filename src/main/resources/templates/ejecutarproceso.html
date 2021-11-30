@@ -130,7 +130,7 @@
                                                             <td name="fechaTareaInicio"><input class="form-control no-border" type="text"  th:name="fechaInicioTarea" value=""/></td>
                                                             <td name="responsable"> 
                                                                 <p th:text="${tareasProceso.nombres}+' '+${tareasProceso.apellidop}"></p>
-                                                                <input  class="form-control no-border" type="text" th:value="${tareasProceso.runFuncionario}" th:name="responsableTarea"/></td>
+                                                                <input  class="form-control no-border" type="hidden" th:value="${tareasProceso.runFuncionario}" th:name="responsableTarea"/></td>
                                                             <td th:text="${tareasProceso.subunidad}"></td>
                                                         </tr>
                                                     </tbody>

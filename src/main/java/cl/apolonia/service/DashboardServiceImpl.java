@@ -147,5 +147,10 @@ public class DashboardServiceImpl implements DashboardService {
         Dashboard dash = new Dashboard(rut, lista.get(0).getNombreUnidad(),programada, aceptada, desarrollo, revision, rechazada, total, finalizada, carga);
         return dash;
     }
+
+    @Override
+    public List<Dashboard> encontrarXSubUnidad(Integer id) {
+        return dashboardDao.findByIdSubunidad(id);
+    }
     
 }

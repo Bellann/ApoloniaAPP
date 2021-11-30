@@ -56,7 +56,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" th:href="@{/micarga}">Mi carga de trabajo</a>
-                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >Cargas de mi departamento</a>
+                                <a class="dropdown-item" th:href="@{/cargadepartamento}" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >Cargas de mi departamento</a>
                                 <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_GERENCIA')" >Cargas de mi empresa</a>
                             </div>
                         </li>
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #c1e6a1">
-            <hr style="height:10px; width:100%; border-width:0; color:red; background-color: #a1e6c5">
+            <hr style="height:10px; width:100%; border-width:0; color:red; background-color: #ffaa56">
         </header>
 
 
