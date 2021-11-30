@@ -126,10 +126,10 @@ public class ControladorProceso {
                 System.out.println(fechaInicioTarea.get(i));
                 Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicioTarea.get(i));
                 TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso(),descripcionTarea.get(i),runUser);
-                tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));
-                id = t.getIdtarea();
-                if(i == 0)
+                tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));                
+                if(i != 0)
                     tareasEjecutadasService.crearDependencia(id, t.getIdtarea().toString());
+                id = t.getIdtarea();
             }
         }
         
