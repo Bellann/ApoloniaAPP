@@ -22,7 +22,7 @@ public class ProcesosTipoServiceImpl implements ProcesosTipoService {
     private ProcesosTipoDao procesosTipoDao;
 
     @Override
-    public List<ProcesosTipo> listarPorUnidad(String rutUnidad) {
+    public List<ProcesosTipo> listarXUnidad(String rutUnidad) {
         return procesosTipoDao.findByRutUnidad(rutUnidad);
     }
 
@@ -34,6 +34,12 @@ public class ProcesosTipoServiceImpl implements ProcesosTipoService {
         int idProceso = procesoEncontrado.getId();
         return idProceso;
         
+    }
+
+
+    @Override
+    public List<ProcesosTipo> listarXSubUnidad(int idSubunidad) {
+        return procesosTipoDao.findByIdSubunidad(idSubunidad);
     }
 
 

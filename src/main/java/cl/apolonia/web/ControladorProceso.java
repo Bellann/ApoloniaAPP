@@ -63,7 +63,7 @@ public class ControladorProceso {
         var procesos = procesosService.listarProcesos();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
-        var listaProcesos = procesosTipoService.listarPorUnidad(funcionariosService.rutUnidad());
+        var listaProcesos = procesosTipoService.listarXSubUnidad(funcionariosService.idSubunidad());
 
         //var procesotipo = procesosTipoDao.findByNombre("Prueba Proceso");
         //model.addAttribute("procesotipo", procesotipo);
