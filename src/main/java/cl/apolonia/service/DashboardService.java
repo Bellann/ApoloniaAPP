@@ -10,4 +10,6 @@ public interface DashboardService {
     Dashboard listarFuncionario (String run);
     Dashboard listarSubunnidad (int id);
     Dashboard listarUnidad    (String rut);
+    
+    List<Dashboard> encontrarXSubUnidad (Integer id);
 }
