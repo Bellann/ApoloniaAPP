@@ -377,6 +377,27 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return true;
 
     }
+
+    @Override
+    public Integer readDependencia(int tarea) {
+        try
+        {
+        StoredProcedureQuery cmd = entityManager
+                    .createStoredProcedureQuery("dependencia")
+                    .registerStoredProcedureParameter("i_id_tarea", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("o_dep", int.class, ParameterMode.OUT);
+
+            cmd.setParameter("i_id_tarea", tarea);
+
+            cmd.execute();
+            
+            var id = (Integer) cmd.getOutputParameterValue("o_dep");
+            return id;
+        } catch (Exception e) {
+            return 1;
+        }
+
+    }
     
 
 
