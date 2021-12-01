@@ -63,7 +63,7 @@ public class ControladorProceso {
         var procesos = procesosService.listarProcesos();
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
-        var listaProcesos = procesosTipoService.listarPorUnidad(funcionariosService.rutUnidad());
+        var listaProcesos = procesosTipoService.listarXSubUnidad(funcionariosService.idSubunidad());
 
         //var procesotipo = procesosTipoDao.findByNombre("Prueba Proceso");
         //model.addAttribute("procesotipo", procesotipo);
@@ -120,16 +120,16 @@ public class ControladorProceso {
         
         if(procesosService.crearProceso(proc, fechaInicioProceso, runDisenador, duracion))
         {
-            int id = 0;
+            Integer id = 0;
             for(int i = 0; i< nombreTarea.size(); i++)
             {
                 System.out.println(fechaInicioTarea.get(i));
                 Date fecha = new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicioTarea.get(i));
                 TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso(),descripcionTarea.get(i),runUser);
-                tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));
+                tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));                
+                if(i != 0)
+                    tareasEjecutadasService.crearDependencia(t.getIdtarea(), id.toString());
                 id = t.getIdtarea();
-                if(i == 0)
-                    tareasEjecutadasService.crearDependencia(id, t.getIdtarea().toString());
             }
         }
         

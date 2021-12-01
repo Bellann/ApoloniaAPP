@@ -7,7 +7,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <head th:replace="layout/plantilla :: head">
     </head>
     <body>
-        <header th:replace="layout/plantilla :: header"></header>
+        <header th:replace="layout/plantilla :: header">
+
+        </header>
 
         <div class="container-fluid">
             <div class="row">
@@ -117,7 +119,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <div class="col-md-12">
                     <h3>3. Tareas en revisión:</h3>
                     <!-- Data Table tareas en REVISION por SUBUNIDAD -->
-                    <span th:if="${revision == null or revision.empty}"> Su departamento no tiene tareas rechazadas... ¡enhorabuena!</span>
+                    <span th:if="${revision == null or revision.empty}"> Su departamento no tiene tareas en estado para ser revisadas</span>
 
 
 
@@ -186,6 +188,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <footer th:replace="layout/plantilla :: footer"></footer>
         <script th:src="@{/js/datatables.min.js}"></script>
         <script th:src="@{/js/solicitudes.js}"></script>
+        
         <script>
             $("tr[name='row']").each(function () {
 

@@ -3,6 +3,7 @@
 
     <body>
         <header th:replace="layout/plantilla :: header"></header>
+        <input id="depencia" type="hidden" th:name="idtarea" th:value="${dependencia}"/>
         <div class="container-fluid" th:each="tareasEjecutadas  : ${tareasEjecutadas}">
             <!-- iterar datos-->
             <div class="row">
@@ -402,7 +403,8 @@
                 break;
 
             case 'Aceptada':
-                activar($('#iniciar'));
+                if($('#depencia').val() == 0)
+                    activar($('#iniciar'));
                 activar($('#subordinar'));
                 break;
 

@@ -11,9 +11,11 @@ public interface ProcesosTipoService {
      * @param rutUnidad
      * @return Lista de procesos según la unidad
      */
-    public List<ProcesosTipo> listarPorUnidad(String rutUnidad);
+    public List<ProcesosTipo> listarXUnidad(String rutUnidad);
     
     public Integer getId(String nombre);
+    
+    public List<ProcesosTipo> listarXSubUnidad(int idSubunidad);
     
 
 }

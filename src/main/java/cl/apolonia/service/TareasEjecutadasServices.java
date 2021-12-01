@@ -19,6 +19,7 @@ public interface TareasEjecutadasServices {
     boolean eliminarResponsable(int id);
     
     boolean crearDependencia(int tarea, String dependencia);
+    Integer readDependencia(int tarea);
     
     boolean crearEstado(TareasEjecutadas tarea);
     boolean cambiarEstado(TareasEjecutadas tarea, int estado);

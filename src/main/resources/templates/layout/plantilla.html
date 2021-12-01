@@ -57,18 +57,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" th:href="@{/micarga}">Mi carga de trabajo</a>
                                 <a class="dropdown-item" th:href="@{/cargadepartamento}" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >Cargas de mi departamento</a>
-                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_GERENCIA')" >Cargas de mi empresa</a>
-                            </div>
-                        </li>
-
-                        <!-- Dashboard-->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dashboard
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" >Mi Dashboard</a>
-                                <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >Dashboard de la empresa</a>
+                                <a class="dropdown-item" th:href="@{/cargaempresa}" sec:authorize="hasAnyRole('ROLE_GERENCIA')" >Cargas de mi empresa</a>
                             </div>
                         </li>
 
@@ -79,10 +68,10 @@
             <!-- Barra de saludo y LogOut -->
             <div class="container-fluid saludo-usuario">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <img src="../static/img/logo120x.png" th:src="@{img/logo120x.png}" alt="Apolonia_Logo">
                     </div>
-                    <div class="col-md-4 elementos-saludo">
+                    <div class="col-md-7 elementos-saludo" >
                         <span class="saludo-2" th:text="${nusuario}+${rolsaludo}"></span>
                         <img src="../static/img/usuario.png" th:src="@{img/usuario.png}" alt="usuario_ico"  width="40px" height="40px">
                     </div>

@@ -25,10 +25,13 @@
         <!-- Always remember to call the above files first before calling the bootstrap.min.js file -->      
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!--printJS-->
+        <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+        <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css"/>
     </head>
     <body>
         <header th:replace="layout/plantilla :: header"></header>
-        <div class="container-fluid">
+        <div class="container-fluid" id="cargaDepartamento">
             <div class="row">
                 <div class="col-md-6">
                     <img src="../static/img/micarga.png" th:src="@{img/dashboard2.png}">
@@ -46,7 +49,10 @@
                     <h4>Cantidad de tareas aceptadas : <span style="color:orange" th:text="${depto.aceptada}"></span></h4>
                     <h4>Cantidad de tareas Iniciadas : <span style="color:orange" th:text="${depto.desarrollo}"></span></h4>
                     <h4>Cantidad de tareas Terminadas :<span style="color:orange" th:text="${depto.finalizada}"></span></h4>
+                    <h4>Cantidad de tareas Rechazadas :<span style="color:orange" th:text="${depto.rechazada}"></span></h4>
                     
+                    </br> 
+                    <button type="button" class="btn-flujo" onClick="printForm()"> Imprimir en PDF</button>
                 </div>
                 <div class="col-md-6">
 
@@ -56,9 +62,9 @@
                 </div>
             </div>
             <div class="row">
-		<div class="col-md-12">
-		</div>
-	</div>
+                <div class="col-md-12">
+                </div>
+            </div>
         </div>
 
         <script th:inline="javascript">
@@ -114,12 +120,24 @@
                 // Set chart options
                 var options = {'title': 'Mis tareas según estado',
                     'width': 700,
-                    'height':700};
+                    'height': 700};
 
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.PieChart(document.getElementById('chart_pie'));
                 chart.draw(data, options);
             }
+        </script>
+
+        <script th:inline="javascript">
+            function printForm() {
+                printJS({
+                    printable: 'cargaDepartamento',
+                    type: 'html',
+                    targetStyles: ['*'],
+                    header: 'Informe de mis cargas de trabajo'
+                })
+            }
+
         </script>
         <footer th:replace="layout/plantilla :: footer"></footer>
 
