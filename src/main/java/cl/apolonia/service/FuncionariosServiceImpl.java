@@ -136,4 +136,14 @@ public class FuncionariosServiceImpl implements FuncionariosService {
         return funcionariosDao.findByIdSubunidad(idSubunidad);
     }
 
+    @Override
+    public Funcionarios creaFuncionario(String run) {
+        return funcionariosDao.findById(run).orElse(null);
+    }
+
+    @Override
+    public List<Funcionarios> ListarXRun(List<String> run) {
+        return funcionariosDao.findAllById(run);
+    }
+
 }

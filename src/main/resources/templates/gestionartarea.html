@@ -16,6 +16,7 @@
                 <div class="col-md-9"><!-- descripciones-->
                     <p> Asignado por: <span th:text="${tareasEjecutadas.ejecutor}"></span> </p>
                     <p> Descripción:  <span th:text="${tareasEjecutadas.descTarea}"></span></p>
+                    <span th:each="responsable  : ${tareasEjecutadas.responsables}">Responsable (s): <p th:text="${responsable.nombre}"></p></span>
                 </div>
                 <div class="col-md-3"><!-- Fechas y otros datos-->
                     <p>Fecha de asignación: <span th:text="${tareasEjecutadas.fechaAsignacion}"></span></p>

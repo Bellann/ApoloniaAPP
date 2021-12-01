@@ -3,8 +3,10 @@ package cl.apolonia.web;
 import cl.apolonia.dao.FuncionariosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.Funcionarios;
 import cl.apolonia.domain.Procesos;
 import cl.apolonia.domain.TareasEjecutadas;
+import cl.apolonia.service.EmailSenderService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ObservacionesService;
 import cl.apolonia.service.ProcesoEjecutadosService;
@@ -57,6 +59,9 @@ public class ControladorProceso {
     
     @Autowired
     private ObservacionesService observacionesService;
+    
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     @GetMapping("/ejecutarproceso")
     public String ejecutarproceso(Model model) {
@@ -130,13 +135,12 @@ public class ControladorProceso {
                 if(i != 0)
                     tareasEjecutadasService.crearDependencia(t.getIdtarea(), id.toString());
                 id = t.getIdtarea();
+                Funcionarios usuarioEmail = funcionariosService.creaFuncionario(responsableTarea.get(i));
+                emailSenderService.sendEmail("chachesoflo@gmail.com", "Nueva tara asignada "+t.getTarea(), "Se le ha asignado la tarea "+t.getTarea()+", puede revisarla en su flujo de trabajo para gestionarla");
+                
             }
         }
-        
-        //crear Proceso ejecutado
-        //si lo crea, crear tareas ejecutadas
-        //Colocar ID del proceso, resultante del procedimiento esto deberia ser cuando es correcto
-        var idProcesoEjecutado = 12;
+           
 
         return new ModelAndView("redirect:/ejecuta2?idProcesoEjecutado=" + proc.getId_proceso());
     }
