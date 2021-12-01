@@ -120,7 +120,7 @@ public class ControladorProceso {
         
         if(procesosService.crearProceso(proc, fechaInicioProceso, runDisenador, duracion))
         {
-            int id = 0;
+            Integer id = 0;
             for(int i = 0; i< nombreTarea.size(); i++)
             {
                 System.out.println(fechaInicioTarea.get(i));
@@ -128,7 +128,7 @@ public class ControladorProceso {
                 TareasEjecutadas t = new TareasEjecutadas(nombreTarea.get(i), fecha, proc.getId_proceso(),descripcionTarea.get(i),runUser);
                 tareasEjecutadasService.crearTarea(t, duracionTarea.get(i), responsableTarea.get(i));                
                 if(i != 0)
-                    tareasEjecutadasService.crearDependencia(id, t.getIdtarea().toString());
+                    tareasEjecutadasService.crearDependencia(t.getIdtarea(), id.toString());
                 id = t.getIdtarea();
             }
         }

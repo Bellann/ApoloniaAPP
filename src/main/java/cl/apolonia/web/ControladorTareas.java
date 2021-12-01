@@ -99,7 +99,7 @@ public class ControladorTareas {
         model.addAttribute("funcionariosList", funcionariosList);
         model.addAttribute("observaciones", observaciones);
         model.addAttribute("archivo", archivo);
-
+        model.addAttribute("dependencia", tareasEjecutadasService.readDependencia(i));
         return "gestionartarea";
     }
 
