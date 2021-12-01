@@ -91,7 +91,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                         <!-- informacion al controller rechazo--> 
                                         <form th:action="@{/rechazo}">
                                             <input type="hidden" th:value="${rechazadas.idtarea}" th:name="idtarea"/> 
-                                            <input type="submit" class="btn-table"/> 
+                                            <input type="submit" value="Gestionar" class="btn-table"/> 
                                         </form>
                                     </td>
                                 </tr> <!-- fin de iteracion de datos-->
@@ -149,7 +149,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                         <!-- informacion al controller--> 
                                         <form th:action="@{/revision}">
                                             <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/> 
-                                            <input type="submit" class="btn-table"/> 
+                                            <input type="submit" value="Gestionar" class="btn-table"/> 
                                         </form>
 
                                     </td>

@@ -4,8 +4,10 @@ import cl.apolonia.dao.FuncionariosDao;
 import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
+import cl.apolonia.domain.Funcionarios;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.ArchivoService;
+import cl.apolonia.service.EmailSenderService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ObservacionesService;
 import cl.apolonia.service.ProcesosTipoService;
@@ -77,6 +79,9 @@ public class ControladorTareas {
     @Autowired
     private ServletContext servletContext;
 
+    @Autowired
+    private EmailSenderService emailSenderService;
+
     private final String UPLOAD_DIR = "./uploads/";
 
     //desde mi flujo de trabajo
@@ -133,11 +138,13 @@ public class ControladorTareas {
         var r = funcionariosService.runResponsable();
         var i = urlParam;
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
+
         //run usuario logeado, para el historico
         var runUser = funcionariosService.runResponsable();
 
         //Llamar método para cambio de estado, despues de conversar 
         if (tareasEjecutadasService.cambiarEstado(tarea, 3) && tareasEjecutadasService.crearObservacion(tarea, runUser, "Iniciada")) {
+
             return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
         } else {
             return new ModelAndView("error");
@@ -162,6 +169,11 @@ public class ControladorTareas {
         TareasEjecutadas tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         TareasEjecutadas subordinada = new TareasEjecutadas(nombreSub, null, idproceso, descripcionSub, runUser);
         if (tareasEjecutadasService.crearTarea(subordinada, duracion, responsableSub, null, tarea.getIdtarea())) {
+            List<Funcionarios> responsables = funcionariosService.ListarXRun(responsableSub);
+            for (Funcionarios responsableTarea : responsables) {
+                emailSenderService.sendEmail(responsableTarea.getEmail(), "Se te ha asignado una tarea nueva ",
+                        "Se te ha asignado una tarea a partir de la tarea " + tarea.getTarea() + " Descripcion: " + subordinada.getDescTarea() + " Entra a 'tu flujo de trabajo' para visualizarla");
+            }
             return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
         } else {
             return new ModelAndView("error");
@@ -199,7 +211,11 @@ public class ControladorTareas {
         var i = urlParam;
         //Llamar método para cambio de estado, despues de conversar
         if (tareasEjecutadasService.cambiarEstado(tarea, 4)) {
+            var nombre = funcionariosService.nombreCompleto();
+            Funcionarios ejecutor = funcionariosService.creaFuncionario(tarea.getRunEjecutor());
+            emailSenderService.sendEmail(ejecutor.getEmail(), "Tienes una tarea para revisar", "Se ha enviado una tarea para su revisión de nombre: " + tarea.getTarea() + " Enviado por: " + nombre + " .Ve a 'Solicitudes' para gestionar esta tarea");
             return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
+
         } else {
             return new ModelAndView("error");
         }
@@ -217,6 +233,10 @@ public class ControladorTareas {
         var i = urlParam;
         //Llamar método para cambio de estado, despues de conversar
         if (tareasEjecutadasService.cambiarEstado(tarea, 5) && tareasEjecutadasService.crearObservacion(tarea, runUser, descRechazo)) {
+
+            Funcionarios ejecutor = funcionariosService.creaFuncionario(tarea.getRunEjecutor());
+            var nombre = funcionariosService.nombreCompleto();
+            emailSenderService.sendEmail(ejecutor.getEmail(), "Han rechazado una tarea", "Su colaborador " + nombre + " ha rechazado la tarea: " + tarea.getTarea() + ", con el siguiente motivo: " + descRechazo + " Dirijase a 'Solicitudes' para gestionar este rechazo");
             return new ModelAndView("redirect:/gestionartarea?r=" + r + "&i=" + i);
         } else {
             return new ModelAndView("error");
@@ -261,10 +281,10 @@ public class ControladorTareas {
         String runUser = funcionariosService.runResponsable();
         Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
-        
+
         if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
             var idtarea = tarea.getIdtarea();
-            return new ModelAndView("redirect:/vertarea?idtarea="+idtarea);
+            return new ModelAndView("redirect:/vertarea?idtarea=" + idtarea);
         } else {
             return new ModelAndView("error");
         }
@@ -367,7 +387,12 @@ public class ControladorTareas {
         //Update a tarea con el id y los nuevos responsables
         //Update a estado a programada
         tareasEjecutadasService.cambiarEstado(tarea, 1);
-        responsable.stream().forEach(p -> tareasEjecutadasService.crearResponsables(urlParam, p));
+        for (String r : responsable) {
+            tareasEjecutadasService.crearResponsables(urlParam, r);
+            Funcionarios f = funcionariosService.creaFuncionario(r);
+            emailSenderService.sendEmail(f.getEmail(), "Se te ha asignado una tarea nueva ",
+                    "Se te ha asignado una tarea " + tarea.getTarea() + " Descripcion: " + tarea.getDescTarea() + " Entra a 'tu flujo de trabajo' para visualizarla");
+        }
 
         return new ModelAndView("redirect:/solicitudes");
     }
@@ -472,7 +497,7 @@ public class ControladorTareas {
 
     @PostMapping("/cargar")
     public ModelAndView cargar(@RequestParam("file") MultipartFile file, RedirectAttributes attributes,
-                         @RequestParam(value="idtarea") Integer idtarea) {
+            @RequestParam(value = "idtarea") Integer idtarea) {
         var r = funcionariosService.runResponsable();
         var i = idtarea;
         if (file.isEmpty()) {
