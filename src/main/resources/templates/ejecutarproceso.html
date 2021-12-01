@@ -21,7 +21,7 @@
                 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
                 <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-                <!-- Always remember to call the above files first before calling the bootstrap.min.js file -->      
+                <!-- Always remember to call the above files first before calling the bootstrap.min.js file -->
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
                 </head>
 
@@ -48,13 +48,13 @@
                                         <button class="btn-flujo" type="submit" value="Cargar tareas asociadas" id="b1">Listar tareas asociadas</button>
                                     </form>
 
-                                    <!-- final de forms para tabla interactiva-->            
+                                    <!-- final de forms para tabla interactiva-->
                                 </div>
                                 <div class="col-md-6">
                                     <img src="../static/img/proceso1.jpg" th:src="@{img/proceso1.jpg}" width="600px">
                                 </div>
                                 <!-- Aviso de proceso sin tareas -->
-                                <span th:if="${tareasProceso== null OR tareasProceso.empty}"> 
+                                <span th:if="${tareasProceso== null OR tareasProceso.empty}">
                                     </br>
                                     <h4>No existen tareas para este proceso o no ha seleccionado un proceso</h4></span>
                                 </br>
@@ -69,11 +69,11 @@
                                             </br>
                                             <h4>Información del proceso seleccionado</h4>
                                             <hr>
-                                                <div th:each="procesotipo : ${procesotipo}" > 
+                                                <div th:each="procesotipo : ${procesotipo}" >
                                                     </br>
-                                                    <h3>Nombre del Proceso</h3> 
+                                                    <h3>Nombre del Proceso</h3>
                                                     <p th:text="${procesotipo.nombre}"></p>
-                                                    <h3>Descripción:</h3> 
+                                                    <h3>Descripción:</h3>
                                                     <p th:text="${procesotipo.descripcion}"></p>
                                                     <!-- DATOS PARA PROCESO EJECUTADO -->
                                                     <input type="hidden" th:value="${procesotipo.idSubunidad}" th:name="idSubunidad"/>
@@ -116,7 +116,7 @@
                                                             <th>Nombre Tarea</th>
                                                             <th>Descripcion de la tarea</th>
                                                             <th>Duracion / Dias</th>
-                                                            <th>Fecha de inicio</th>  
+                                                            <th>Fecha de inicio</th>
                                                             <th>Responsable por defecto</th>
                                                             <th>área</th>
                                                         </tr>
@@ -128,7 +128,7 @@
                                                             <td name="descripcion"><input input class="form-control no-border" type="text" th:value="${tareasProceso.descripcionTarea}" th:name="descripcionTarea"/> </td>
                                                             <td name="duracion"><input class="form-control no-border" type="text" th:value="${tareasProceso.duracion}" th:name="duracionTarea"/></td>
                                                             <td name="fechaTareaInicio"><input class="form-control no-border" type="text"  th:name="fechaInicioTarea" value=""/></td>
-                                                            <td name="responsable"> 
+                                                            <td name="responsable">
                                                                 <p th:text="${tareasProceso.nombres}+' '+${tareasProceso.apellidop}"></p>
                                                                 <input  class="form-control no-border" type="hidden" th:value="${tareasProceso.runFuncionario}" th:name="responsableTarea"/></td>
                                                             <td th:text="${tareasProceso.subunidad}"></td>
@@ -166,7 +166,8 @@
 
                                         </div>
                                         <div class="col-md-2">
-                                            <input id="btnvalida" class="btn-disable" type="submit" value="Siguiente"/> 
+                                            <!-- <input id="btnvalida" class="btn-disable" value="Siguiente"/> -->
+                                            <button id="btnvalida" class="btn-disable btn">Siguiente</button>
                                         </div>
                                     </div>
                                 </form>
@@ -188,15 +189,22 @@
                         });
                     </script>
                     <script>
-                        
+
                         function activar (elemento)
                         {
                           elemento.prop('disabled',false);
                           elemento.removeClass('btn-disable');
                           elemento.addClass('btn-flujo');
                         }
+                        function desactivar (elemento)
+                        {
+                          elemento.prop('disabled',false);
+                          elemento.addClass('btn-disable');
+                          elemento.removeClass('btn-flujo');
+                          elemento.html("<i class='fa fa-spinner fa-spin fa-2x'></i>")
+                        }
                         $('#btnvalida').prop('disabled',true);
-                        
+
                         const weekday = new Array(7);
                         weekday[0] = "Sunday";
                         weekday[1] = "Monday";
@@ -207,9 +215,9 @@
                         weekday[6] = "Saturday";
 
                         $('#fInicial').change(function () {
-                        
+
                             activar($('#btnvalida'));
-                            
+
                             var fechaS = $(this).val();
                             var parts = fechaS.split("/");
                             var fecha = new Date(+parts[2], parts[1]-1, +parts[0]);
@@ -235,10 +243,14 @@
                                 }
                             });
                         });
+
+                        $('#btnvalida').click(function(){
+                          desactivar($(this));
+                        })
+
                     </script>
                     <script th:src="@{/js/procesosData.js}"></script>
 
                     <script th:src="@{/js/datatables.min.js}"></script>
                 </body>
                 </html>
-
