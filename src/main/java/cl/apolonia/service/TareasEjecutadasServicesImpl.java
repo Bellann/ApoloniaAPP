@@ -345,7 +345,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     @Override
 
     public List<TareasEjecutadas> listarXEstadoXIdSubunidad(String estado, Integer idSubUnidad) {
-        return tareasEjecutadasDao.findByEstadoAndIdSubUnidad(estado, idSubUnidad);
+        
+        List<TareasEjecutadas> registros = tareasEjecutadasDao.findByEstadoAndIdSubUnidad(estado, idSubUnidad);
+        List<TareasEjecutadas> listaNegocio = registros.stream().distinct().collect(Collectors.toList());
+        
+        return listaNegocio;
     }
     public boolean actualizarTarea(TareasEjecutadas tarea) {
         try {

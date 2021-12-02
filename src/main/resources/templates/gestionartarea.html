@@ -179,8 +179,9 @@
                         <div class="modal-footer">
                             <form method="POST" th:action="@{/AceptarTarea(id=${tareasEjecutadas.idtarea})}">
                                 <button class="btn-flujo" type="submit">Si</button>
+                            
+                                <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
                             </form>
-                            <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
                         </div>
                     </div>
                 </div>
@@ -203,8 +204,9 @@
                         <div class="modal-footer">
                             <form method="POST" th:action="@{/iniciarTarea(id=${tareasEjecutadas.idtarea})}">
                                 <button class="btn-flujo" type="submit">Si</button>
+                            
+                                <button type="button" class="btn-flujo"  data-dismiss="modal">No</button>
                             </form>
-                            <button type="button" class="btn-flujo"  data-dismiss="modal">No</button>
                         </div>
                     </div>
                 </div>
@@ -251,8 +253,8 @@
                                 </div><!-- cierre del group form-->
                                 <!-- boton enviar-->
                                 <button name="subCrear" type="submit" class="btn-disable" id="btnvalida">Crear Tarea</button>
+                                <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                             </form><!-- cierre del form-->
-                            <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                             <div class="modal-footer">
                             </div>
                         </div>
@@ -275,9 +277,10 @@
                             <form th:action="@{/reportar}">
                                 <input type="hidden" th:value="${tareasEjecutadas.idtarea}" th:name="id"/>
                                 <textarea class="form-control" id="descripcionRechazo" rows="3" th:name="descripcionProblema"></textarea>
+                                <br>
                                 <button name="enviarProblema" class="btn-flujo" type="submit">Reportar problema</button>
+                                <button type="button" class="btn-flujo" data-dismiss="modal">cancelar</button>
                             </form>
-                            <button type="button" class="btn-flujo" data-dismiss="modal">cancelar</button>
                         </div>
                         <div class="modal-footer">
                         </div>
@@ -290,7 +293,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel5">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel5">Enviar a Revisión</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -301,8 +304,9 @@
                         <div class="modal-footer">
                             <form method="POST" th:action="@{/terminarTarea(id=${tareasEjecutadas.idtarea})}">
                                 <button class="btn-flujo" type="submit">Si</button>
+                            
+                                <button type="button" class="btn-flujo" data-dismiss="modal5">Cancelar</button>
                             </form>
-                            <button type="button" class="btn-flujo" data-dismiss="modal5">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -327,7 +331,6 @@
                         </div>
                         <div class="modal-footer">
                             <button name="enviarRechazo" class="btn-flujo" type="submit">Enviar rechazo</button>
-                            </form>
                             <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
