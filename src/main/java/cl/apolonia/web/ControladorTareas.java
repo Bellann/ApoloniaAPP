@@ -279,7 +279,7 @@ public class ControladorTareas {
         //variables
         var nombre = urlParam;
         String runUser = funcionariosService.runResponsable();
-        Date d = new SimpleDateFormat("yyyy/MM/dd").parse(fechai);
+        Date d = new SimpleDateFormat("dd/MM/yyyy").parse(fechai);
         TareasEjecutadas tarea = new TareasEjecutadas(nombre, d, idproceso, descripcion, runUser);
 
         if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
@@ -386,14 +386,14 @@ public class ControladorTareas {
         var tarea = tareasEjecutadasDao.getById(urlParam);
         //Update a tarea con el id y los nuevos responsables
         //Update a estado a programada
-        tareasEjecutadasService.cambiarEstado(tarea, 1);
+        
         for (String r : responsable) {
             tareasEjecutadasService.crearResponsables(urlParam, r);
             Funcionarios f = funcionariosService.creaFuncionario(r);
             emailSenderService.sendEmail(f.getEmail(), "Se te ha asignado una tarea nueva ",
                     "Se te ha asignado una tarea " + tarea.getTarea() + " Descripcion: " + tarea.getDescTarea() + " Entra a 'tu flujo de trabajo' para visualizarla");
         }
-
+        tareasEjecutadasService.cambiarEstado(tarea, 1);
         return new ModelAndView("redirect:/solicitudes");
     }
 
