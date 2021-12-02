@@ -10,6 +10,7 @@ import java.util.Date;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
@@ -334,7 +335,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public List<TareasEjecutadas> listarXProceso(Integer id_proceso) {
-        return tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
+        
+        List<TareasEjecutadas> registros = tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
+        List<TareasEjecutadas> listaNegocio = registros.stream().distinct().collect(Collectors.toList());
+        
+        return listaNegocio;
     }
 
     @Override
