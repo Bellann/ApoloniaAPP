@@ -83,6 +83,7 @@ public class ControladorProceso {
     @GetMapping(value = {"/enviarid"})
     public String tareasporproceso(@RequestParam(value = "nombre") String urlParam, Model model, TareasEjecutadas tarea) {
         var nombre = urlParam;
+        var listaProcesos = procesosTipoService.listarXSubUnidad(funcionariosService.idSubunidad());
         var procesotipo = procesosTipoDao.findByNombre(nombre);
         var idProceso = procesosTipoService.getId(nombre);
         var tareasProceso = tareasTipoDao.findByIdProcesoTipo(idProceso);
@@ -91,6 +92,7 @@ public class ControladorProceso {
         var funcionarios = funcionariosDao.findByIdSubunidad(funcionariosService.idSubunidad());
         var noimplementado = "no implementado";
 
+        model.addAttribute("listaProcesos", listaProcesos);
         model.addAttribute("procesotipo", procesotipo);
         model.addAttribute("nombre", nombre);
         model.addAttribute("idProceso", idProceso);

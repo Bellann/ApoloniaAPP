@@ -16,6 +16,6 @@ import org.springframework.data.repository.query.Param;
  */
 public interface procParticipoDao extends JpaRepository<procParticipo, Integer> {
     
-    
+    List<procParticipo> findByAsignadoPor(String run);
 
 }
