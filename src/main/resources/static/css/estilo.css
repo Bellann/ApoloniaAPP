@@ -60,7 +60,7 @@ body {
 .navbar-custom .dropdown-menu .dropdown-item{
     color: #FFFFFF;
     background-color: inherit;
- 
+
 }
 
 
@@ -75,6 +75,7 @@ body {
 
 .elementos-saludo{
     padding-top: 50px;
+    padding-left: 300px;
 }
 
 .saludo-2{

@@ -152,4 +152,24 @@ public class ControladorInicio {
         return "tareaxproceso";
     }
 
+        @GetMapping("/flujounidad")
+    public String flujounidad(Model model) {
+
+      
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        var procesosUni = procesosDao.findByRutUnidad(funcionariosService.rutUnidad());  
+        var tareasUnidad = tareasEjecutadasDao.findByRutUnidad(funcionariosService.rutUnidad());
+
+        
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("procesosUni", procesosUni);
+        model.addAttribute("tareasUnidad", tareasUnidad);
+
+        return "flujounidad";
+
+    }
+    
+    
 }
