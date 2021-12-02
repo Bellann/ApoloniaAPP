@@ -5,12 +5,14 @@ import cl.apolonia.dao.ProcesosTipoDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
 import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.Funcionarios;
+import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.ArchivoService;
 import cl.apolonia.service.EmailSenderService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ObservacionesService;
 import cl.apolonia.service.ProcesosTipoService;
+import cl.apolonia.service.ResponsablesService;
 import cl.apolonia.service.TareasEjecutadasServices;
 import cl.apolonia.service.procParticipoService;
 import java.nio.file.Files;
@@ -81,6 +83,9 @@ public class ControladorTareas {
 
     @Autowired
     private EmailSenderService emailSenderService;
+
+    @Autowired
+    private ResponsablesService responsablesService;
 
     private final String UPLOAD_DIR = "./uploads/";
 
@@ -389,9 +394,6 @@ public class ControladorTareas {
         tareasEjecutadasService.cambiarEstado(tarea, 1);
         for (String r : responsable) {
             tareasEjecutadasService.crearResponsables(urlParam, r);
-            Funcionarios f = funcionariosService.creaFuncionario(r);
-            emailSenderService.sendEmail(f.getEmail(), "Se te ha asignado una tarea nueva ",
-                    "Se te ha asignado una tarea " + tarea.getTarea() + " Descripcion: " + tarea.getDescTarea() + " Entra a 'tu flujo de trabajo' para visualizarla");
         }
 
         return new ModelAndView("redirect:/solicitudes");
@@ -405,10 +407,15 @@ public class ControladorTareas {
         var runUser = funcionariosService.runResponsable();
         TareasEjecutadas tarea = tareasEjecutadasDao.getById(urlParam);
         tareasEjecutadasService.cambiarEstado(tarea, 2);
-        tareasEjecutadasService.crearObservacion(tarea, runUser, motivo);
-        //Update estado a aceptada
-        return new ModelAndView("redirect:/solicitudes");
-    }
+
+        if (tareasEjecutadasService.crearObservacion(tarea, runUser, motivo)) {
+            return new ModelAndView("redirect:/solicitudes");
+            }
+            return new ModelAndView("error");
+        }
+
+        
+    
 
     @GetMapping(value = "/revision")
     public String revision(@RequestParam(value = "idtarea") Integer urlParam,

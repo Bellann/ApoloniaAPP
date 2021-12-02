@@ -11,9 +11,9 @@
                     <h2> Detalles de la tarea </h2>
                     <p> Asignado por: <span th:text="${tarea.ejecutor}"></span> </p>
                     <p> Descripción:  <span th:text="${tarea.descTarea}"></span></p>
-                    <p>Fecha de asignación: <span th:text="${tarea.fechaAsignacion}"></span></p>
-                    <p>Fecha de de inicio <span th:text="${tarea.fPrevInicio}">fecha de inicio prevista</span></p>
-                    <p>Fecha de de término prevista <span th:text="${tarea.fPrevFin}">fecha de término prevista</span></p>
+                    <p>Fecha de asignación: <span th:text="${#dates.format(tarea.fechaAsignacion, 'dd-MM-yyyy')}"></span></p>
+                    <p>Fecha de de inicio <span th:text="${#dates.format(tarea.fPrevInicio, 'dd-MMM-yyyy')}">fecha de inicio prevista</span></p>                                                      
+                    <p>Fecha de de término prevista <span th:text="${#dates.format(tarea.fPrevFin, 'dd-MM-yyyy')}">fecha de término prevista</span></p>
                     <p>Estado <span id="estadoTarea" th:text="${tarea.estado}"></span></p>
 
                 </div>
