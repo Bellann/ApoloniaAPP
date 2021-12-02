@@ -289,7 +289,8 @@ public class ControladorTareas {
 
         if (tareasEjecutadasService.crearTarea(tarea, duracion, responsable, dependencia)) {
             var idtarea = tarea.getIdtarea();
-            return new ModelAndView("redirect:/vertarea?idtarea=" + idtarea);
+            
+            return new ModelAndView("redirect:/vertarea?redireccion=%2Fflujotrabajo&idtarea=" + idtarea);
         } else {
             return new ModelAndView("error");
         }
@@ -484,8 +485,9 @@ public class ControladorTareas {
     }
 
     @GetMapping(value = "/vertarea")
-    public String vertarea(@RequestParam(value = "idtarea") Integer urlParam,
-            Model model) {
+    public String vertarea(@RequestParam(value = "idtarea") Integer urlParam
+            ,@RequestParam(value = "redireccion") String redireccion
+            ,Model model) {
         var observaciones = observacionesService.ListarXIdtarea(urlParam);
         var tarea = tareasEjecutadasService.encontrarTarea(urlParam);
         var funcionarios = funcionariosService.listarFuncionarios();
@@ -499,6 +501,7 @@ public class ControladorTareas {
         model.addAttribute("rolsaludo", rolSaludo);
         model.addAttribute("funcionariosList", funcionariosList);
         model.addAttribute("observaciones", observaciones);
+        model.addAttribute("redireccion", redireccion);
         return "vertarea";
     }
 

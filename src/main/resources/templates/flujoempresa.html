@@ -159,6 +159,7 @@
                                                         <td name='estado' th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
                                                         <td>
                                                             <form th:action="@{/vertarea}">
+                                                                <input type="hidden" th:value="@{/flujoempresa}" th:name="redireccion">
                                                                 <input type="hidden" th:value="${tareasSubUni.idtarea}" th:name="idtarea"/> 
                                                                 <input type="submit" class="btn btn-table" value="Ver tarea"/> 
                                                             </form>
