@@ -9,6 +9,7 @@ import cl.apolonia.dao.TareasTipoDao;
 import cl.apolonia.domain.TareasEjecutadas;
 import cl.apolonia.service.DashboardFuncionarioService;
 import cl.apolonia.service.DashboardService;
+import cl.apolonia.service.EmailSenderService;
 import cl.apolonia.service.FuncionariosService;
 import cl.apolonia.service.ProcesoEjecutadosService;
 import cl.apolonia.service.ProcesosSerivce;
@@ -62,6 +63,9 @@ public class ControladorInicio {
     @Autowired
     private DashboardService dashboard;
     
+    @Autowired
+    private EmailSenderService emailSenderService;
+    
     @GetMapping("/")
     public String inicio(Model model) {
 
@@ -71,6 +75,9 @@ public class ControladorInicio {
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
+        
+        //emailSenderService.sendEmail("monserrat@cloudlatam.cl", "Holi desde home", "Cuerpo del holi desde apolonia home");
+        
 
         return "index";
     }

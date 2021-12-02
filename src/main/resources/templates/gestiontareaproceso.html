@@ -139,7 +139,9 @@
                         <!-- DATOS PARA UPDATE -->
                         <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea">
                         <input type="hidden" th:value="${tarea.idProcesoEjecutado}" th:name="idProcesoEjecutado">
-                        <center><input id="gestionar" class="btn btn-disable" type="submit" value="Gestionar"/> </center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <center>
+                          <button id="gestionar" class="btn btn-disable" type="submit"> Gestionar</button>
+                        </center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <!-- Controller volver -->
                         <form th:action="@{/volverProceso}">
                             <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/>
@@ -194,6 +196,10 @@
           });
           $('input[name="responsable"]').change(function(){
             validar();
+          });
+          $('button[type="submit"]').click(function(){
+            desactivar($(this));
+            $(this).html("<i class='fa fa-spinner fa-spin fa-3x'></i>");
           });
         </script>
     </body>

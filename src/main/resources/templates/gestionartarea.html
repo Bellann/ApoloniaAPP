@@ -16,6 +16,7 @@
                 <div class="col-md-9"><!-- descripciones-->
                     <p> Asignado por: <span th:text="${tareasEjecutadas.ejecutor}"></span> </p>
                     <p> Descripción:  <span th:text="${tareasEjecutadas.descTarea}"></span></p>
+                    <span th:each="responsable  : ${tareasEjecutadas.responsables}">Responsable (s): <p th:text="${responsable.nombre}"></p></span>
                 </div>
                 <div class="col-md-3"><!-- Fechas y otros datos-->
                     <p>Fecha de asignación: <span th:text="${tareasEjecutadas.fechaAsignacion}"></span></p>
@@ -249,7 +250,7 @@
 
                                 </div><!-- cierre del group form-->
                                 <!-- boton enviar-->
-                                <input name="subCrear" type="submit" value="crear tarea" class="btn-disable" id="btnvalida"/>
+                                <button name="subCrear" type="submit" class="btn-disable" id="btnvalida">Crear Tarea</button>
                             </form><!-- cierre del form-->
                             <button type="button" class="btn-flujo" data-dismiss="modal">Cancelar</button>
                             <div class="modal-footer">
@@ -348,6 +349,13 @@
         elemento.addClass('btn-disable');
         elemento.removeClass('btn-flujo');
     }
+    function desactivarB(elemento)
+    {
+      elemento.prop('disabled',false);
+      elemento.addClass('btn-disable');
+      elemento.removeClass('btn-flujo');
+      elemento.html("<i class='fa fa-spinner fa-spin fa-2x'></i>")
+    }
 
     desactivar($('[name=subCrear]'));
     desactivar($('[name=enviarRechazo]'));
@@ -375,9 +383,7 @@
       var descripcion = $('[name="descripcionSub"]').val();
       var duracion = $('[name="duracionSub"]').val();
       var responsable = false;
-      console.log(descripcion);
-      console.log(nombre);
-      console.log(duracion);
+
       $('[name="responsableSub"]').each(function(){
         responsable = $(this).prop('checked');
         if(responsable)
@@ -415,4 +421,8 @@
                 break;
         }
     });
+
+    $('button[type="submit"]').click(function(){
+      desactivarB($(this));
+    })
 </script>

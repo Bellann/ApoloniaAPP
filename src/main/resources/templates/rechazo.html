@@ -69,7 +69,7 @@
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal1">
                             Rechazar solicitud
                         </button>
-                        <input class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal" value="Aceptar solicitud"> 
+                        <input class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal" value="Aceptar solicitud">
                     </center>
                 </div>
                 <div class="col-md-4">
@@ -148,8 +148,8 @@
                                     <div th:if="${funcionarios == null or funcionarios.empty}">
                                         Este departamento no cuenta con funcionarios
                                     </div>
-                                    <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/> 
-                                    <input type="submit" class="btn btn-success" value="Acepta el rechazo"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="hidden" th:value="${tarea.idtarea}" th:name="idtarea"/>
+                                    <button id="aceptar" type="submit" class="btn btn-diable">Acepta el rechazo</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="button" class="btn btn-danger" data-dismiss="modal" value="Atrás"/>
                             </form>
                         </div>
@@ -164,5 +164,24 @@
         <footer th:replace="layout/plantilla :: footer"></footer>
         <script th:src="@{/js/datatables.min.js}"></script>
         <script th:src="@{/js/solicitudes.js}"></script>
+        <script type="text/javascript">
+        function activar (elemento)
+        {
+          elemento.prop('disabled',false);
+          elemento.removeClass('btn-disable');
+          elemento.addClass('btn-success');
+        }
+        function desactivar (elemento)
+        {
+          elemento.prop('disabled',false);
+          elemento.addClass('btn-disable');
+          elemento.removeClass('btn-success');
+        }
+        desactivar($('#aceptar'));
+        $('#aceptar').click(function(){
+          desactivar($(this));
+          $(this).html("<i class='fa fa-spinner fa-spin fa-3x'></i>");
+        });
+        </script>
     </body>
 </html>

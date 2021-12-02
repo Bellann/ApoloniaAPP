@@ -23,4 +23,8 @@ public interface FuncionariosService {
     
     public List<Funcionarios> ListarXSubunidad(Integer idSubunidad);
     
+    public Funcionarios creaFuncionario(String run);
+    
+    public List<Funcionarios> ListarXRun(List<String> run);
+    
 }
