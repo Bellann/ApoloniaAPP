@@ -67,12 +67,13 @@ public class ControladorInicio {
     @GetMapping("/")
     public String inicio(Model model) {
 
-        var funcionarios = funcionariosService.listarFuncionarios();
+        
         var nombreCompleto = funcionariosService.nombreCompleto();
         var rolSaludo = funcionariosService.rolSaludo();
-        model.addAttribute("funcionarios", funcionarios);
+        
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
+        
 
         //emailSenderService.sendEmail("monserrat@cloudlatam.cl", "Holi desde home", "Cuerpo del holi desde apolonia home");
         return "index";
