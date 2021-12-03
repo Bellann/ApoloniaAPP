@@ -33,6 +33,8 @@ public interface TareasEjecutadasServices {
    List<TareasEjecutadas> listarXEstadoXIdSubunidad(String estado, Integer idSubUnidad);
    List<TareasEjecutadas> listarXRutunidad (String rutUnidad);
    List<TareasEjecutadas> listarXIdSubunidad (Integer idSubunidad);
+   Integer promedioCarga(Integer idSubunidad);
+   
    
    
     

@@ -1,6 +1,9 @@
 package cl.apolonia.service;
 
+import cl.apolonia.dao.DashboardDao;
 import cl.apolonia.dao.TareasEjecutadasDao;
+import cl.apolonia.domain.Dashboard;
+import cl.apolonia.domain.Funcionarios;
 import cl.apolonia.domain.Responsables;
 import cl.apolonia.domain.TareasEjecutadas;
 import java.text.DateFormat;
@@ -23,6 +26,12 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Autowired
     private TareasEjecutadasDao tareasEjecutadasDao;
+
+    @Autowired
+    private FuncionariosService funcionariosService;
+
+    @Autowired
+    private DashboardDao dashboardDao;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -419,6 +428,25 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         List<TareasEjecutadas> registros = tareasEjecutadasDao.findByIdSubUnidad(idSubunidad);
         List<TareasEjecutadas> listaNegocio = registros.stream().distinct().collect(Collectors.toList());
         return listaNegocio;
+    }
+
+    @Override
+    public Integer promedioCarga(Integer idSubunidad) {
+        List<Dashboard> lista = dashboardDao.findByIdSubunidad(funcionariosService.idSubunidad());
+        List<Funcionarios> listaFuncionarios = funcionariosService.ListarXSubunidad(idSubunidad);
+        Integer promedio = 0;
+        
+        for (Dashboard dashboard : lista) {
+            promedio += dashboard.getCarga();
+        }
+ 
+        Integer contador = 0;
+        
+        for (Funcionarios funcionarios : listaFuncionarios) {
+            contador += 1;
+        }
+
+        return promedio / contador;
     }
 
 }

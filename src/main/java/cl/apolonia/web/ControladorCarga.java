@@ -3,6 +3,7 @@ package cl.apolonia.web;
 import cl.apolonia.domain.Dashboard;
 import cl.apolonia.service.DashboardService;
 import cl.apolonia.service.FuncionariosService;
+import cl.apolonia.service.TareasEjecutadasServices;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,9 @@ public class ControladorCarga {
 
     @Autowired
     private FuncionariosService funcionariosService;
+    
+    @Autowired
+    TareasEjecutadasServices tareasEjecutadasService;
 
     @Autowired
     private DashboardService dashboardService;
@@ -36,9 +40,9 @@ public class ControladorCarga {
         //grafico de barra
         Dashboard dash = dashboardService.listarFuncionario(funcionariosService.runResponsable());
         var miCarga = dash.getCarga();
-        Dashboard depto = dashboardService.listarSubunnidad(funcionariosService.idSubunidad());
-        var cargaDepto = depto.getCarga();
-
+        //Dashboard depto = dashboardService.listarSubunnidad(funcionariosService.idSubunidad());
+        //var cargaDepto = depto.getCarga();
+        var cargaDepto = tareasEjecutadasService.promedioCarga(funcionariosService.idSubunidad());
         //grafico de barras
         Map<String, Integer> graphData = new TreeMap<>();
         graphData.put("Mi carga", miCarga);
