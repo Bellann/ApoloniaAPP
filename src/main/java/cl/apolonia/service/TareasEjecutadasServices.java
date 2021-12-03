@@ -32,6 +32,7 @@ public interface TareasEjecutadasServices {
    List<TareasEjecutadas> listarXProceso(Integer id_proceso);
    List<TareasEjecutadas> listarXEstadoXIdSubunidad(String estado, Integer idSubUnidad);
    List<TareasEjecutadas> listarXRutunidad (String rutUnidad);
+   List<TareasEjecutadas> listarXIdSubunidad (Integer idSubunidad);
    
    
     

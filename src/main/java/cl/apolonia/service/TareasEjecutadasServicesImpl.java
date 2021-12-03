@@ -29,9 +29,9 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias, int idTarea) {
-            
+
         String fechaini = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        LocalDate fechaSumar = sumaDiasDeDuracion(new Date(System.currentTimeMillis()),duracion);
+        LocalDate fechaSumar = sumaDiasDeDuracion(new Date(System.currentTimeMillis()), duracion);
         String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
@@ -56,25 +56,26 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             creaTarea.execute();
             var id = (Integer) creaTarea.getOutputParameterValue("o_id_tarea");
             tarea.setIdtarea(id);
-            
+
             crearDesagregada(id, idTarea);
-            if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(id, p) );
+            if (responsables != null) {
+                responsables.stream().forEach((p) -> crearResponsables(id, p));
+            }
 
         } catch (Exception e) {
             return false;
         }
         return true;
     }
-    
+
     @Override
     public boolean crearTarea(TareasEjecutadas tarea, int duracion, List<String> responsables, List<String> dependencias) {
-        
-        //Dar fomato a las fechas Date 
 
+        //Dar fomato a las fechas Date 
         String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
         LocalDate fechaSumar = sumaDiasDeDuracion(tarea.getfPrevInicio(), duracion);
         String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        
+
         try {
             StoredProcedureQuery creaTarea = entityManager
                     .createStoredProcedureQuery("c_tarea_ejecutada_prueba")
@@ -97,22 +98,26 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             creaTarea.execute();
             var id = (Integer) creaTarea.getOutputParameterValue("o_id_tarea");
             tarea.setIdtarea(id);
-            
-            if(responsables != null)responsables.stream().forEach((p)-> crearResponsables(id, p) );
-            if(dependencias != null)dependencias.stream().forEach((p)-> crearDependencia(id, p));
+
+            if (responsables != null) {
+                responsables.stream().forEach((p) -> crearResponsables(id, p));
+            }
+            if (dependencias != null) {
+                dependencias.stream().forEach((p) -> crearDependencia(id, p));
+            }
         } catch (Exception e) {
             return false;
         }
         return true;
     }
-   
+
     @Override
     public boolean crearTarea(TareasEjecutadas tarea, int duracion, String responsables) {
 
         String fechaini = new SimpleDateFormat("dd/MM/yyyy").format(tarea.getfPrevInicio());
         LocalDate fechaSumar = sumaDiasDeDuracion(tarea.getfPrevInicio(), duracion);
         String fechaTerm = fechaSumar.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        
+
         try {
             StoredProcedureQuery creaTarea = entityManager
                     .createStoredProcedureQuery("c_tarea_ejecutada_prueba")
@@ -135,13 +140,14 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             creaTarea.execute();
             var id = (Integer) creaTarea.getOutputParameterValue("o_id_tarea");
             tarea.setIdtarea(id);
-            
-            crearResponsables(id,responsables);
+
+            crearResponsables(id, responsables);
         } catch (Exception e) {
             return false;
         }
         return true;
     }
+
     @Override
     public LocalDate sumaDiasDeDuracion(Date fechaInicial, int days) {
 
@@ -166,8 +172,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     @Override
     public boolean crearResponsables(int tarea, String responsable) {
         try {
-            
-            
+
             StoredProcedureQuery crearResponsable = entityManager
                     .createStoredProcedureQuery("c_resp_tarea_ejec")
                     .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
@@ -176,7 +181,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             crearResponsable.setParameter("i_run_funcionario", responsable);
 
             crearResponsable.execute();
-
 
         } catch (Exception e) {
             return false;
@@ -198,7 +202,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
             crearResponsable.execute();
 
-
         } catch (Exception e) {
             return false;
         }
@@ -208,26 +211,25 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     @Override
     public boolean crearEstado(TareasEjecutadas tarea) {
         try {
-            
+
             //Estado inicial siempre sera 1, para avanzar en los estados sera el update
-            int estado=1;
+            int estado = 1;
             //Fecha del dia de ejecucion LocalDate + paso a String para mandar a oracle
-            
-            String fecha =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+            String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
             StoredProcedureQuery creaEstado = entityManager
                     .createStoredProcedureQuery("c_tarea_eject_estados")
                     .registerStoredProcedureParameter("i_id_tarea_ejecutada", int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_fecha_estado", int.class, ParameterMode.IN)
-            .registerStoredProcedureParameter("i_run_funcionario", int.class, ParameterMode.IN)
-            .registerStoredProcedureParameter("i_id_estado_tarea", int.class, ParameterMode.IN);
+                    .registerStoredProcedureParameter("i_run_funcionario", int.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter("i_id_estado_tarea", int.class, ParameterMode.IN);
             creaEstado.setParameter("i_id_tarea_ejecutada", tarea.getIdtarea());
             creaEstado.setParameter("i_fecha_estado", fecha);
             creaEstado.setParameter("i_run_funcionario", tarea.getResponsables());
             creaEstado.setParameter("i_id_estado_tarea", estado);
 
             creaEstado.execute();
-
 
         } catch (Exception e) {
             return false;
@@ -237,7 +239,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public TareasEjecutadas encontrarTarea(Integer id) {
-        
+
         return tareasEjecutadasDao.findFirstByIdtarea(id).orElse(null);
     }
 
@@ -246,10 +248,10 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
         String fechaInicio = "";
         String fechaTermino = "";
-        String comentario ="";
+        String comentario = "";
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        
-        switch(estado) {
+
+        switch (estado) {
             case 2:
                 comentario = "Aceptada";
                 break;
@@ -265,7 +267,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
                 fechaTermino = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 break;
         }
-        
+
         try {
             StoredProcedureQuery cmd = entityManager
                     .createStoredProcedureQuery("u_tarea_ejec")
@@ -279,7 +281,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             cmd.setParameter("i_id_estado", estado);
 
             cmd.execute();
-            
+
         } catch (Exception e) {
             return false;
         }
@@ -305,13 +307,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         return true;
     }
 
-    
-
     @Override
     public boolean crearObservacion(TareasEjecutadas tarea, String run, String comentario) {
-        
+
         String fechaini = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        
+
         try {
             StoredProcedureQuery cmd = entityManager
                     .createStoredProcedureQuery("c_observaciones")
@@ -325,7 +325,6 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             cmd.setParameter("i_run", run);
             cmd.setParameter("i_comentario", comentario);
 
-
             cmd.execute();
         } catch (Exception e) {
             return false;
@@ -335,33 +334,34 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public List<TareasEjecutadas> listarXProceso(Integer id_proceso) {
-        
+
         List<TareasEjecutadas> registros = tareasEjecutadasDao.findByIdProcesoEjecutado(id_proceso);
         List<TareasEjecutadas> listaNegocio = registros.stream().distinct().collect(Collectors.toList());
-        
+
         return listaNegocio;
     }
 
     @Override
 
     public List<TareasEjecutadas> listarXEstadoXIdSubunidad(String estado, Integer idSubUnidad) {
-        
+
         List<TareasEjecutadas> registros = tareasEjecutadasDao.findByEstadoAndIdSubUnidad(estado, idSubUnidad);
         List<TareasEjecutadas> listaNegocio = registros.stream().distinct().collect(Collectors.toList());
-        
+
         return listaNegocio;
     }
+
     public boolean actualizarTarea(TareasEjecutadas tarea) {
         try {
-            
-        StoredProcedureQuery cmd = entityManager
+
+            StoredProcedureQuery cmd = entityManager
                     .createStoredProcedureQuery("u_tarea_ejec_gestion")
                     .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("i_descripcion", String.class, ParameterMode.IN);
 
             cmd.setParameter("i_id_tarea_ejec", tarea.getIdtarea());
             cmd.setParameter("i_descripcion", tarea.getDescTarea());
-            
+
             cmd.execute();
         } catch (Exception e) {
             return false;
@@ -372,8 +372,8 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
     @Override
     public boolean eliminarResponsable(int id) {
         try {
-            
-        StoredProcedureQuery cmd = entityManager
+
+            StoredProcedureQuery cmd = entityManager
                     .createStoredProcedureQuery("d_responsable_te_by_id")
                     .registerStoredProcedureParameter("i_id_tarea_ejec", int.class, ParameterMode.IN);
 
@@ -389,9 +389,8 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public Integer readDependencia(int tarea) {
-        try
-        {
-        StoredProcedureQuery cmd = entityManager
+        try {
+            StoredProcedureQuery cmd = entityManager
                     .createStoredProcedureQuery("dependencia")
                     .registerStoredProcedureParameter("i_id_tarea", int.class, ParameterMode.IN)
                     .registerStoredProcedureParameter("o_dep", int.class, ParameterMode.OUT);
@@ -399,7 +398,7 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
             cmd.setParameter("i_id_tarea", tarea);
 
             cmd.execute();
-            
+
             var id = (Integer) cmd.getOutputParameterValue("o_dep");
             return id;
         } catch (Exception e) {
@@ -410,14 +409,16 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
 
     @Override
     public List<TareasEjecutadas> listarXRutunidad(String rutUnidad) {
-        return tareasEjecutadasDao.findByRutUnidad(rutUnidad);
+        List<TareasEjecutadas> registros = tareasEjecutadasDao.findByRutUnidad(rutUnidad);
+        List<TareasEjecutadas> listaNegocio = registros.stream().distinct().collect(Collectors.toList());
+        return listaNegocio;
     }
-    
 
-
-
-
-
-
+    @Override
+    public List<TareasEjecutadas> listarXIdSubunidad(Integer idSubunidad) {
+        List<TareasEjecutadas> registros = tareasEjecutadasDao.findByIdSubUnidad(idSubunidad);
+        List<TareasEjecutadas> listaNegocio = registros.stream().distinct().collect(Collectors.toList());
+        return listaNegocio;
+    }
 
 }
