@@ -28,162 +28,173 @@
                 <body>
 
                     <header th:replace="layout/plantilla :: header"></header>
-                    <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="leyenda">
-                                    <p>En las tablas de procesos y tareas de su empresa podrá ver un <span style="font-weight:bold">semáforo</span> que indica el estado de las tareas, siendo éstas:</p>
-                                    <p><span style="color: red; font-weight:bold"> ATRASADA</span>, corresponde a un proceso o tarea que ya debió ser finalizada en la fecha actual</p>
-                                    <p><span style="color: #ffcc00; font-weight:bold"> PRÓXIMA</span>, corresponde a un proceso o tarea que tiene menos de 7 días para ser finalizada</p>
-                                    <p><span style="color: green; font-weight:bold"> A TIEMPO </span>, corresponde a un proceso o tarea que tiene más de 7 días para ser finalizada</p>
+                    <div sec:authorize="hasAnyRole('FUNCIONARIO','SUPERVISOR' )" ><h1>Usted no tiene autotización para ver esta información</h1></div>
+                    <div sec:authorize="hasRole('GERENCIA' )" >
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="leyenda">
+                                        </br>
+                                        <p>En las tablas de procesos y tareas de su empresa, podrá ver un <span style="font-weight:bold">semáforo</span> que indica el estado de las tareas, siendo éstas:</p>
+                                        <p><span style="color: red; font-weight:bold"> ATRASADA</span>, corresponde a un proceso o tarea que ya debió ser finalizada en la fecha actual</p>
+                                        <p><span style="color: #ffcc00; font-weight:bold"> PRÓXIMA</span>, corresponde a un proceso o tarea que tiene menos de 7 días para ser finalizada</p>
+                                        <p><span style="color: green; font-weight:bold"> A TIEMPO </span>, corresponde a un proceso o tarea que tiene más de 7 días para ser finalizada</p>
+                                        <p><span class="dot" style="color: red; font-weight:bold"> </span>, corresponde a las tareas que necesitan su atención, por encontrarse rechazadas, podrá gestionarlas en el menú "Solicitudes"</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <center><img th:src="@{img/flujoempresa.png}" src="../static/img/flujoempresa.png" alt=""/></center>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <center><img th:src="@{img/flujoempresa.png}" src="../static/img/flujoempresa.png" alt=""/></center>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Data Table Listado por unidad para GERENTE -->
-
-                    <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
-                        <h1>Procesos de su empresa</h1>
-                        <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
-                            <table id="procesosUni" class="table table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>N</th>
-                                        <th>Proceso</th>
-                                        <th>Creador</th>
-                                        <th>SubUnidad</th>
-                                        <th>Fecha límite</th>
-                                        <th>Control</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
-                                        <td th:text="${iter.index}+1"></td>
-                                        <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
-                                        <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
-                                        <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
-                                        <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
-                                        <td name="control"></td>
-                                        <td th:text="${procesosUni.estado}">Mostrar estado</td>
-                                    </tr>
-
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>N</th>
-                                        <th>Proceso</th>
-                                        <th>Creador</th>
-                                        <th>SubUnidad</th>
-                                        <th>Fecha límite</th>
-                                        <th>Control</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-
-                            <div th:if="${procesosUni == null or procesosUni.empty}">
-                                La lista de procesos está vacía
-                            </div>
                         </div>
 
+                        <!-- Data Table Listado por unidad para GERENTE -->
+
+                        <div sec:authorize="hasAnyRole('ROLE_GERENCIA')">
+                            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #e1e5e9">
+                                <h1>Procesos de su empresa</h1>
+                                <div th:if="${procesosUni != null and !procesosUni.empty}" class="contenedor-data">
+                                    <table id="procesosUni" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>N</th>
+                                                <th>Proceso</th>
+                                                <th>Creador</th>
+                                                <th>SubUnidad</th>
+                                                <th>Fecha límite</th>
+                                                <th>Control</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
+                                                <td th:text="${iter.index}+1"></td>
+                                                <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
+                                                <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
+                                                <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
+                                                <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                                                <td name="control"></td>
+                                                <td th:text="${procesosUni.estado}">Mostrar estado</td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>N</th>
+                                                <th>Proceso</th>
+                                                <th>Creador</th>
+                                                <th>SubUnidad</th>
+                                                <th>Fecha límite</th>
+                                                <th>Control</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                    <div th:if="${procesosUni == null or procesosUni.empty}">
+                                        La lista de procesos está vacía
+                                    </div>
+                                </div>
+
+                                <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #e1e5e9">
+
+                                    <!-- Data Table Listado de tareas por Unidad-->
+
+                                    <div class="d-flex mb-3 align-text-bottom">
+                                        <div class="me-auto p-2">
+
+                                            <h1>Tareas de su empresa</h1>
+
+                                        </div>
+                                        <div class="p-2">   
+
+                                        </div>
+                                        <div class="p-2">
 
 
-                        <!-- Data Table Listado de tareas por Unidad-->
+                                        </div>
+                                    </div>
 
-                        <div class="d-flex mb-3 align-text-bottom">
-                            <div class="me-auto p-2">
-
-                                <h1>Tareas de su empresa</h1>
-
-                            </div>
-                            <div class="p-2">   
-
-                            </div>
-                            <div class="p-2">
+                                    <span th:if="${tareasUnidad == null or tareasUnidad.empty}"> Su unidad no tiene tareas designadas</span>
 
 
-                            </div>
-                        </div>
+                                    <div th:if="${tareasUnidad != null and !tareasUnidad.empty}" class="contenedor-data">
+                                        <table id="tareasUnidad" class="table table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Tarea</th>
+                                                    <th>Asignada por</th>
+                                                    <th>Sub unidad</th>
+                                                    <th>Fecha límite</th>
+                                                    <th>Control</th>
+                                                    <th>Estado</th>
+                                                    <th>Ver</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                        <span th:if="${tareasUnidad == null or tareasUnidad.empty}"> Su unidad no tiene tareas designadas</span>
+                                                <tr name="row" th:each="tareasUnidad : ${tareasUnidad}">
+                                                    <td name='alert' class='d-flex justify-content-center'></td>
+                                                    <td th:text="${tareasUnidad.tarea}">Mostrar Tarea</td>
+                                                    <td th:text="${tareasUnidad.ejecutor}">Mostrar Asignado por</td>
+                                                    <td th:text="${tareasUnidad.subunidad}">Mostrar subunidad</td>
+                                                    <td name="end" th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
+                                                    <td name="control"></td>
+                                                    <td name='estado' th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
+                                                    <td>
+                                                        <form th:action="@{/vertarea}">
+                                                            <input type="hidden" th:value="@{/flujoempresa}" th:name="redireccion">
+                                                                <input type="hidden" th:value="${tareasUnidad.idtarea}" th:name="idtarea"/> 
+                                                                <input type="submit" class="btn btn-table" value="Ver tarea"/> 
+                                                        </form>
+                                                    </td>
+                                                </tr>
 
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Tarea</th>
+                                                    <th>Asignada por</th>
+                                                    <th>Sub unidad</th>
+                                                    <th>Fecha límite</th>
+                                                    <th>Control</th>
+                                                    <th>Estado</th>
+                                                    <th>Ver</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
 
-                        <div th:if="${tareasUnidad != null and !tareasUnidad.empty}" class="contenedor-data">
-                            <table id="tareasUnidad" class="table table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Tarea</th>
-                                        <th>Asignada por</th>
-                                        <th>Sub unidad</th>
-                                        <th>Fecha límite</th>
-                                        <th>Control</th>
-                                        <th>Estado</th>
-                                        <th>Ver</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                    </div>
+                                    <footer th:replace="layout/plantilla :: footer"></footer>
+                                    </div>
+                                    </div>
+                                    <script th:src="@{/js/datatables.min.js}"></script>
+                                    <script th:src="@{/js/flujodata.js}"></script>
+                                    <script>
+                                        $("tr[name='row']").each(function () {
+                                            console.log("entra");
+                                            var date = new Date($(this).children("td[name='end']").html());
+                                            var today = new Date();
+                                            var timeLeft = (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+                                            console.log(timeLeft);
 
-                                    <tr name="row" th:each="tareasUnidad : ${tareasUnidad}">
-                                        <td name='alert' class='d-flex justify-content-center'></td>
-                                        <td th:text="${tareasUnidad.tarea}">Mostrar Tarea</td>
-                                        <td th:text="${tareasUnidad.ejecutor}">Mostrar Asignado por</td>
-                                        <td th:text="${tareasUnidad.subunidad}">Mostrar subunidad</td>
-                                        <td name="end" th:text="${tareasUnidad.fPrevFin}">Mostrar fecha fin</td>
-                                        <td name="control"></td>
-                                        <td name='estado' th:text="${tareasUnidad.estado}">Mostrar fecha fin</td>
-                                        <td><button class="btn-table">Ver tarea</button></td>
-                                    </tr>
-
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th>Tarea</th>
-                                        <th>Asignada por</th>
-                                        <th>Sub unidad</th>
-                                        <th>Fecha límite</th>
-                                        <th>Control</th>
-                                        <th>Estado</th>
-                                        <th>Ver</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-
-                        </div>
-                        <footer th:replace="layout/plantilla :: footer"></footer>
-                    </div>
-                    <script th:src="@{/js/datatables.min.js}"></script>
-                    <script th:src="@{/js/flujodata.js}"></script>
-                    <script>
-                        $("tr[name='row']").each(function () {
-                            console.log("entra");
-                            var date = new Date($(this).children("td[name='end']").html());
-                            var today = new Date();
-                            var timeLeft = (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
-                            console.log(timeLeft);
-
-                            if (timeLeft > 7)
-                            {
-                                $(this).children("td[name='control']").addClass("bg-success");
-                            } else if (timeLeft > 0)
-                            {
-                                $(this).children("td[name='control']").addClass("bg-warning");
-                            } else
-                            {
-                                $(this).children("td[name='control']").addClass("bg-danger");
-                            }
-                            var estado = $(this).children('td[name="estado"]').html()
-                            if (estado == "Rechazada" || estado == "En Revisión")
-                                $(this).children("td[name='alert']").html('<i class="fas fa-circle"></i>');
-                        });
-                    </script>
-                </body>
-                </html>
+                                            if (timeLeft > 7)
+                                            {
+                                                $(this).children("td[name='control']").addClass("bg-success");
+                                            } else if (timeLeft > 0)
+                                            {
+                                                $(this).children("td[name='control']").addClass("bg-warning");
+                                            } else
+                                            {
+                                                $(this).children("td[name='control']").addClass("bg-danger");
+                                            }
+                                            var estado = $(this).children('td[name="estado"]').html()
+                                            if (estado == "Rechazada" || estado == "En Revisión")
+                                                $(this).children("td[name='alert']").html('<i class="fas fa-circle"></i>');
+                                        });
+                                    </script>
+                                    </body>
+                                    </html>

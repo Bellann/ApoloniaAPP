@@ -28,28 +28,26 @@
 
                     <header th:replace="layout/plantilla :: header"></header>
                     <!-- Procesos en los que participo -->    
-                    <div class="d-flex mb-3 align-text-bottom">
-                        <div class="me-auto p-2">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="leyenda">
+                                    </br>
+                                    <p>En las tablas de procesos y tareas en los cuales participa, podrá ver un <span style="font-weight:bold">semáforo</span> que indica el estado de las tareas, siendo éstas:</p>
+                                    <p><span style="color: red; font-weight:bold"> ATRASADA</span>, corresponde a un proceso o tarea que ya debió ser finalizada en la fecha actual</p>
+                                    <p><span style="color: #ffcc00; font-weight:bold"> PRÓXIMA</span>, corresponde a un proceso o tarea que tiene menos de 7 días para ser finalizada</p>
+                                    <p><span style="color: green; font-weight:bold"> A TIEMPO </span>, corresponde a un proceso o tarea que tiene más de 7 días para ser finalizada</p>
 
-                            <h1>Procesos en los que participo</h1>
-
-                            <div class="leyenda"> 
-                                En esta tabla podrá ver todos los procesos en donde tiene una tarea asignada, con la lupa podrá ver las tareas que contiene y además podrá generar nuevas tareas si su negocio así lo requiere
+                                </div>
                             </div>
-
-                        </div>
-                        <div class="p-2">   
-                            <img src="../static/img/proceso.jpg" th:src="@{img/proceso.jpg}" width="400px">
-
-                        </div>
-                        <div class="p-2">
-
-
+                            <div class="col-md-6">
+                                <center><img th:src="@{img/flujotrabajo.png}" src="../static/img/flujotrabajo.png" alt=""/></center>
+                            </div>
                         </div>
                     </div>
                     <!-- Data table procesos en los que participo -->
                     <span th:if="${misProcesos == null or misProcesos.empty}"> Usted no tiene tareas asignadas</span>
-
+                    <h1>Procesos en los que participo</h1>
 
                     <div th:if="${misProcesos != null and !misProcesos.empty}" class="contenedor-data">
                         <table id="procesos1" class="table table-striped" style="width:100%">
@@ -73,7 +71,7 @@
                                         <!-- formulario para ver tareas de un proceso -->
                                         <form th:action="@{/tareaxproceso}">
                                             <input type="hidden" th:value="${misProcesos.idProceso}" th:name="idproceso">
-                                            <input type="image" src="../static/img/ver.png" th:src="@{img/ver.png}" alt="Submit Form" />
+                                                <input type="image" src="../static/img/ver.png" th:src="@{img/ver.png}" alt="Submit Form" />
 
                                         </form>  
                                     </td>                      
@@ -104,7 +102,8 @@
                     </div>
 
 
-                    <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+
+                    <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #e1e5e9">
 
                         <div class="d-flex mb-3 align-text-bottom">
                             <div class="me-auto p-2">
@@ -164,39 +163,31 @@
                             </table>
                         </div>
 
+                        <footer th:replace="layout/plantilla :: footer"></footer>
 
-                        <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+                        <script th:src="@{/js/datatables.min.js}"></script>
+                        <script th:src="@{/js/main.js}"></script>
+                        <script>
+                            $("tr[name='row']").each(function () {
 
+                                var date = new Date($(this).children("td[name='end']").html());
+                                var today = new Date();
+                                var timeLeft = (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+                                console.log(timeLeft);
 
-
-
-
-
-                            <footer th:replace="layout/plantilla :: footer"></footer>
-
-                            <script th:src="@{/js/datatables.min.js}"></script>
-                            <script th:src="@{/js/main.js}"></script>
-                            <script>
-                                $("tr[name='row']").each(function () {
-
-                                    var date = new Date($(this).children("td[name='end']").html());
-                                    var today = new Date();
-                                    var timeLeft = (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
-                                    console.log(timeLeft);
-
-                                    if (timeLeft > 7)
-                                    {
-                                        $(this).children("td[name='control']").addClass("bg-success");
-                                    } else if (timeLeft > 0)
-                                    {
-                                        $(this).children("td[name='control']").addClass("bg-warning");
-                                    } else
-                                    {
-                                        $(this).children("td[name='control']").addClass("bg-danger");
-                                    }
-                                });
-                            </script>
+                                if (timeLeft > 7)
+                                {
+                                    $(this).children("td[name='control']").addClass("bg-success");
+                                } else if (timeLeft > 0)
+                                {
+                                    $(this).children("td[name='control']").addClass("bg-warning");
+                                } else
+                                {
+                                    $(this).children("td[name='control']").addClass("bg-danger");
+                                }
+                            });
+                        </script>
 
 
-                            </body>
-                            </html>
+                </body>
+                </html>

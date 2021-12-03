@@ -60,7 +60,7 @@ body {
 .navbar-custom .dropdown-menu .dropdown-item{
     color: #FFFFFF;
     background-color: inherit;
- 
+
 }
 
 
@@ -176,10 +176,13 @@ form-control-inline{
 }
 
 .leyenda{
-    background-color: #d9edf7;
+    background-color: #eaf3f9;
     color: #002a80;
     margin-left: 30px;
     text-indent: 20px;
+    border-color: #3B82BF;
+    border-width: 2px;
+    border-style: solid;
 }
 
 
@@ -202,5 +205,13 @@ form-control-inline{
 
 .fa-circle  {
     color: red;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
 }
 

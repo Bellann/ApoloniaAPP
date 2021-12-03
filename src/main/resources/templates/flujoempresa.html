@@ -31,89 +31,111 @@
                     <div sec:authorize="hasAnyRole('FUNCIONARIO')" ><h1>Usted no tiene autotización para ver esta información</h1></div>
                     <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')" >
                         <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h1 class="abajo">Procesos activos</h1>
-                                    <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
-                                    <div class="leyenda">
-                                        * El ejecutar un proceso, sirve para poner en marcha los procesos preparados especialmente para usted y su empresa / departamento.
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="leyenda">
+                                            </br>
+                                            <p>En las tablas de procesos y tareas de su empresa, podrá ver un <span style="font-weight:bold">semáforo</span> que indica el estado de las tareas, siendo éstas:</p>
+                                            <p><span style="color: red; font-weight:bold"> ATRASADA</span>, corresponde a un proceso o tarea que ya debió ser finalizada en la fecha actual</p>
+                                            <p><span style="color: #ffcc00; font-weight:bold"> PRÓXIMA</span>, corresponde a un proceso o tarea que tiene menos de 7 días para ser finalizada</p>
+                                            <p><span style="color: green; font-weight:bold"> A TIEMPO </span>, corresponde a un proceso o tarea que tiene más de 7 días para ser finalizada</p>
+                                            <p><span class="dot" style="color: red; font-weight:bold"> </span>, corresponde a las tareas que necesitan su atención, por encontrarse rechazadas, podrá gestionarlas en el menú "Solicitudes"</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-5">
-                                </div>
-                                <div class="col-md-3">
-                                    <img src="../static/img/tarea3.png" th:src="@{img/tarea3.png}" width="400px">
+                                    <div class="col-md-6">
+                                        <center><img th:src="@{img/flujoempresa.png}" src="../static/img/flujoempresa.png" alt=""/></center>
+                                    </div>
                                 </div>
                             </div>
 
-
-                            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
-
-                                <!-- Data Table para sub Unidad , para supervisores -->
-
-                                <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
-                                    <h1>Procesos de su departamento</h1>
-                                    <div th:if="${procesosSub != null and !procesosSub.empty}" class="contenedor-data">
-                                        <table id="procesosSub" class="table table-striped" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>N</th>
-                                                    <th>Proceso</th>
-                                                    <th>Creador</th>
-                                                    <th>SubUnidad</th>
-                                                    <th>Fecha límite</th>
-                                                    <th>Control</th>
-                                                    <th>Estado</th>
-                                                    <th>Gestionar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
-                                                    <td th:text="${iter.index}+1"></td>
-                                                    <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
-                                                    <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
-                                                    <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
-                                                    <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
-                                                    <td name="control"></td>
-                                                    <td th:text="${procesosUni.estado}">Mostrar estado</td>
-                                                    <td>
-                                                        <form th:action="@{/ejecuta2}">
-                                                            <input type="hidden" th:value="${procesosUni.id_proceso}" th:name="idProcesoEjecutado">
-                                                                <input class="btn-table" type="submit" value="Gestionar"/> 
-                                                        </form>
-
-                                                    </td>
-                                                </tr>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>N</th>
-                                                    <th>Proceso</th>
-                                                    <th>Creador</th>
-                                                    <th>SubUnidad</th>
-                                                    <th>Fecha límite</th>
-                                                    <th>Control</th>
-                                                    <th>Estado</th>
-                                                    <th>Gestionar</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-
-                                        <div th:if="${procesosSub == null or procesosSub.empty}">
-                                            La lista de procesos está vacía
+                            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #e1e5e9">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h1 class="abajo">Activar procesos</h1>
+                                        <a class="dropdown-item" th:href="@{/ejecutarproceso}"><button class="btn-flujo">Ejecutar proceso</button></a>
+                                        </br>
+                                        <div class="leyenda">
+                                            * El ejecutar un proceso, sirve para poner en marcha los procesos preparados especialmente para usted y su empresa / departamento.
                                         </div>
                                     </div>
-
+                                    <div class="col-md-5">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="../static/img/tarea3.png" th:src="@{img/tarea3.png}" width="400px">
+                                    </div>
                                 </div>
 
-                                <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+
+
+                                <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #e1e5e9">
+
+                                    <!-- Data Table para sub Unidad , para supervisores -->
+
+                                    <div sec:authorize="hasAnyRole('ROLE_SUPERVISOR','ROLE_GERENCIA')">
+
+                                        <h1>Procesos de su departamento</h1>
+                                        <div th:if="${procesosSub != null and !procesosSub.empty}" class="contenedor-data">
+                                            <table id="procesosSub" class="table table-striped" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>N</th>
+                                                        <th>Proceso</th>
+                                                        <th>Creador</th>
+                                                        <th>SubUnidad</th>
+                                                        <th>Fecha límite</th>
+                                                        <th>Control</th>
+                                                        <th>Estado</th>
+                                                        <th>Gestionar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr name="row" th:each="procesosUni, iter : ${procesosUni}">
+                                                        <td th:text="${iter.index}+1"></td>
+                                                        <td th:text="${procesosUni.proceso}">Mostrar Nombre</td>
+                                                        <td th:text="${procesosUni.ejecutor}">Mostrar creador</td>
+                                                        <td th:text="${procesosUni.subunidad}">Mostrar subunidad</td>
+                                                        <td name="end" th:text="${procesosUni.fechaLimite}">Mostrar fecha limite</td>
+                                                        <td name="control"></td>
+                                                        <td th:text="${procesosUni.estado}">Mostrar estado</td>
+                                                        <td>
+                                                            <form th:action="@{/ejecuta2}">
+                                                                <input type="hidden" th:value="${procesosUni.id_proceso}" th:name="idProcesoEjecutado">
+                                                                    <input class="btn-table" type="submit" value="Gestionar"/> 
+                                                            </form>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>N</th>
+                                                        <th>Proceso</th>
+                                                        <th>Creador</th>
+                                                        <th>SubUnidad</th>
+                                                        <th>Fecha límite</th>
+                                                        <th>Control</th>
+                                                        <th>Estado</th>
+                                                        <th>Gestionar</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                            <div th:if="${procesosSub == null or procesosSub.empty}">
+                                                La lista de procesos está vacía
+                                            </div>
+                                        </div>
+
                                     </div>
 
 
-                                    <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+                                    </div>
+
+
+
+                                    <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #e1e5e9">
 
                                         <!-- Data Table Listado de tareas por Sub Unidad-->
 
@@ -142,6 +164,7 @@
                                                         <th></th>
                                                         <th>Tarea</th>
                                                         <th>Asignada por</th>
+                                                        <th>Responsable</th>
                                                         <th>Fecha límite</th>
                                                         <th>Control</th>
                                                         <th>Estado</th>
@@ -154,14 +177,19 @@
                                                         <td name='alert'></td>
                                                         <td th:text="${tareasSubUni.tarea}">Mostrar Tarea</td>
                                                         <td th:text="${tareasSubUni.ejecutor}">Mostrar Asignado por</td>
+                                                        <td>                   
+                                                            <p th:each="responsable : ${tareasSubUni.responsables}">
+                                                                <span th:text="${responsable.nombre}">Nombre</span>                                                                               
+                                                            </p>
+                                                        </td>
                                                         <td name="end" th:text="${tareasSubUni.fPrevFin}">Mostrar fecha fin</td>
                                                         <td name="control"></td>
                                                         <td name='estado' th:text="${tareasSubUni.estado}">Mostrar fecha fin</td>
                                                         <td>
                                                             <form th:action="@{/vertarea}">
                                                                 <input type="hidden" th:value="@{/flujoempresa}" th:name="redireccion">
-                                                                <input type="hidden" th:value="${tareasSubUni.idtarea}" th:name="idtarea"/> 
-                                                                <input type="submit" class="btn btn-table" value="Ver tarea"/> 
+                                                                    <input type="hidden" th:value="${tareasSubUni.idtarea}" th:name="idtarea"/> 
+                                                                    <input type="submit" class="btn btn-table" value="Ver tarea"/> 
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -172,6 +200,7 @@
                                                         <th></th>
                                                         <th>Tarea</th>
                                                         <th>Asignada por</th>
+                                                        <th>Responsable</th>
                                                         <th>Fecha límite</th>
                                                         <th>Control</th>
                                                         <th>Estado</th>
@@ -180,7 +209,7 @@
                                                 </tfoot>
                                             </table>
 
-                                            <hr style="height:20px; width:100%; border-width:0; color:red; background-color: #cdd4df">
+
                                         </div>   
 
                                         <input type="hidden" th:value="${tareasUnidad}" />
