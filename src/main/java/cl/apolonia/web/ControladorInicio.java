@@ -1,4 +1,3 @@
-
 package cl.apolonia.web;
 
 import cl.apolonia.dao.FuncionariosDao;
@@ -59,13 +58,12 @@ public class ControladorInicio {
     @Autowired
     private TareasTipoDao tareasTipoDao;
 
-
     @Autowired
     private DashboardService dashboard;
-    
+
     @Autowired
     private EmailSenderService emailSenderService;
-    
+
     @GetMapping("/")
     public String inicio(Model model) {
 
@@ -75,10 +73,8 @@ public class ControladorInicio {
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("nusuario", nombreCompleto);
         model.addAttribute("rolsaludo", rolSaludo);
-        
-        //emailSenderService.sendEmail("monserrat@cloudlatam.cl", "Holi desde home", "Cuerpo del holi desde apolonia home");
-        
 
+        //emailSenderService.sendEmail("monserrat@cloudlatam.cl", "Holi desde home", "Cuerpo del holi desde apolonia home");
         return "index";
     }
 
@@ -107,12 +103,10 @@ public class ControladorInicio {
         model.addAttribute("tareasRun", tareasRun);
         model.addAttribute("misProcesos", misProcesos);
 
-        
         return "flujotrabajo";
 
     }
 
-   
     @GetMapping("/flujoempresa")
     public String flujoempresa(Model model) {
 
@@ -137,7 +131,6 @@ public class ControladorInicio {
 
     }
 
-
     @GetMapping(value = "/tareaxproceso")
     public String tareaxproceso(@RequestParam(value = "idproceso") Integer urlParam,
             Model model) {
@@ -152,4 +145,21 @@ public class ControladorInicio {
         return "tareaxproceso";
     }
 
+    @GetMapping("/flujoempresaGerente")
+    public String flujoempresaGerente(Model model) {
+
+        var nombreCompleto = funcionariosService.nombreCompleto();
+        var rolSaludo = funcionariosService.rolSaludo();
+        var procesosUni = procesosDao.findByRutUnidad(funcionariosService.rutUnidad());
+        var tareasUnidad = tareasEjecutadasService.listarXRutunidad("968888889");
+
+        model.addAttribute("nusuario", nombreCompleto);
+        model.addAttribute("rolsaludo", rolSaludo);
+        model.addAttribute("procesosUni", procesosUni);
+
+        model.addAttribute("tareasUnidad", tareasUnidad);
+
+        return "flujoempresaGerente";
+
+    }
 }

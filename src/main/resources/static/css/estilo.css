@@ -87,6 +87,8 @@ h1 {
     font-size: 38px;
     color: #3B82BF;
     margin-left: 10px;
+    margin-bottom: 30px;
+    margin-top: 30px;
     font-weight: 700;
     flex-grow: 100;
 }
@@ -177,6 +179,7 @@ form-control-inline{
     background-color: #d9edf7;
     color: #002a80;
     margin-left: 30px;
+    text-indent: 20px;
 }
 
 

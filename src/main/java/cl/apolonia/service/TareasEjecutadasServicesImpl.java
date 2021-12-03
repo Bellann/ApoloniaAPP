@@ -407,6 +407,11 @@ public class TareasEjecutadasServicesImpl implements TareasEjecutadasServices {
         }
 
     }
+
+    @Override
+    public List<TareasEjecutadas> listarXRutunidad(String rutUnidad) {
+        return tareasEjecutadasDao.findByRutUnidad(rutUnidad);
+    }
     
 
 
