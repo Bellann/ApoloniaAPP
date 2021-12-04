@@ -48,8 +48,8 @@
                     <h4>Cantidad de tareas que tengo asignadas : <span style="color:orange" th:text="${dash.total}"></span></h4> 
                     <h4>Cantidad de dí­as de trabajo asignados : <span style="color:orange" th:text="${dash.carga}"></span></h4>
                     <h4>Cantidad de tareas aceptadas : <span style="color:orange" th:text="${dash.aceptada}"></span></h4>
-                    <h4>Cantidad de tareas Iniciadas : <span style="color:orange" th:text="${dash.desarrollo}"></span></h4>
-                    <h4>Cantidad de tareas Terminadas :<span style="color:orange" th:text="${dash.finalizada}"></span></h4>
+                    <h4>Cantidad de tareas iniciadas : <span style="color:orange" th:text="${dash.desarrollo}"></span></h4>
+                    <h4>Cantidad de tareas terminadas :<span style="color:orange" th:text="${dash.finalizada}"></span></h4>
                     </br>
                     <button type="button" class="btn-flujo" onClick="printForm()"> Imprimir en PDF</button>
 
@@ -85,7 +85,7 @@
                         title: '',
                     },
                     vAxis: {
-                        title: 'cantidad de dias'
+                        title: 'Cantidad de dias'
                     }
                 };
                 var chart = new google.visualization.ColumnChart(document

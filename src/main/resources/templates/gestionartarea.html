@@ -32,18 +32,20 @@
             <div class="row">
                 <div class="col-md-6"><!-- documentos-->
                     <h3>Subir un documento a esta tarea</h3>
-                    <div class="row" th:if="${tareasEjecutadas.estado != 'En Revisión'}">
-                        <div class="col-md-12"><!-- subir archivos-->
-                            <p>Adjunte archivo <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
-                            <form method="post" th:action="@{/cargar}" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <input type="file" name="file" class="form-control-file">
-                                    <input type="hidden" th:name="idtarea" th:value="${tareasEjecutadas.idtarea}"/>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Subir Archivo</button>
-                            </form>
+                    <div class="row" th:if="${tareasEjecutadas.estado != 'Rechazada'}">
+                        <div class="row" th:if="${tareasEjecutadas.estado != 'En Revisión'}">
+                            <div class="col-md-12"><!-- subir archivos-->
+                                <p>Adjunte archivo <img src="../static/img/upload.png" th:src="@{img/upload.png}" alt="upload ico"> </p>
+                                <form method="post" th:action="@{/cargar}" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <input type="file" name="file" class="form-control-file">
+                                        <input type="hidden" th:name="idtarea" th:value="${tareasEjecutadas.idtarea}"/>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                                </form>
 
-                            <div class="leyenda"> Los archivos a subir deben tener un peso máximo de 1MB</div>
+                                <div class="leyenda"> Los archivos a subir deben tener un peso máximo de 1MB</div>
+                            </div>
                         </div>
                     </div>
                     <!-- ARCHIVOS -->
@@ -179,7 +181,7 @@
                         <div class="modal-footer">
                             <form method="POST" th:action="@{/AceptarTarea(id=${tareasEjecutadas.idtarea})}">
                                 <button class="btn-flujo" type="submit">Si</button>
-                            
+
                                 <button type="button" class="btn-flujo" data-dismiss="modal">No</button>
                             </form>
                         </div>
@@ -204,7 +206,7 @@
                         <div class="modal-footer">
                             <form method="POST" th:action="@{/iniciarTarea(id=${tareasEjecutadas.idtarea})}">
                                 <button class="btn-flujo" type="submit">Si</button>
-                            
+
                                 <button type="button" class="btn-flujo"  data-dismiss="modal">No</button>
                             </form>
                         </div>
@@ -304,7 +306,7 @@
                         <div class="modal-footer">
                             <form method="POST" th:action="@{/terminarTarea(id=${tareasEjecutadas.idtarea})}">
                                 <button class="btn-flujo" type="submit">Si</button>
-                            
+
                                 <button type="button" class="btn-flujo" data-dismiss="modal5">Cancelar</button>
                             </form>
                         </div>
@@ -342,62 +344,62 @@
 </html>
 <script type="text/javascript">
 
-    function activar(elemento){
+    function activar(elemento) {
         elemento.prop('disabled', false);
         elemento.removeClass('btn-disable');
         elemento.addClass('btn-flujo');
     }
-    function desactivar(elemento){
+    function desactivar(elemento) {
         elemento.prop('disabled', true);
         elemento.addClass('btn-disable');
         elemento.removeClass('btn-flujo');
     }
     function desactivarB(elemento)
     {
-      elemento.prop('disabled',false);
-      elemento.addClass('btn-disable');
-      elemento.removeClass('btn-flujo');
-      elemento.html("<i class='fa fa-spinner fa-spin fa-2x'></i>")
+        elemento.prop('disabled', false);
+        elemento.addClass('btn-disable');
+        elemento.removeClass('btn-flujo');
+        elemento.html("<i class='fa fa-spinner fa-spin fa-2x'></i>")
     }
 
     desactivar($('[name=subCrear]'));
     desactivar($('[name=enviarRechazo]'));
     desactivar($('[name=enviarProblema]'));
 
-    $('[name$="Sub"]').change(function(){
-      validarSubordinar();
+    $('[name$="Sub"]').change(function () {
+        validarSubordinar();
     });
-    $('[name="descripcionProblema"]').change(function(){
-      if($(this).val() != ""){
-        activar($('[name=enviarProblema]'));
-      }else {
-        desactivar($('[name=enviarProblema]'));
-      }
+    $('[name="descripcionProblema"]').change(function () {
+        if ($(this).val() != "") {
+            activar($('[name=enviarProblema]'));
+        } else {
+            desactivar($('[name=enviarProblema]'));
+        }
     });
-    $('[name = "descRechazo"]').change(function(){
-      if($(this).val() != ""){
-        activar($('[name=enviarRechazo]'));
-      }else {
-        desactivar($('[name=enviarRechazo]'));
-      }
+    $('[name = "descRechazo"]').change(function () {
+        if ($(this).val() != "") {
+            activar($('[name=enviarRechazo]'));
+        } else {
+            desactivar($('[name=enviarRechazo]'));
+        }
     });
-    function validarSubordinar(){
-      var nombre = $('[name="nombreSub"]').val();
-      var descripcion = $('[name="descripcionSub"]').val();
-      var duracion = $('[name="duracionSub"]').val();
-      var responsable = false;
+    function validarSubordinar() {
+        var nombre = $('[name="nombreSub"]').val();
+        var descripcion = $('[name="descripcionSub"]').val();
+        var duracion = $('[name="duracionSub"]').val();
+        var responsable = false;
 
-      $('[name="responsableSub"]').each(function(){
-        responsable = $(this).prop('checked');
-        if(responsable)
-        return false;
-      });
-      console.log(responsable);
-      if(nombre!="" && descripcion!="" && duracion!="" && responsable)
-        activar($('[name=subCrear]'));
-      else {
-        desactivar($('[name=subCrear]'));
-      }
+        $('[name="responsableSub"]').each(function () {
+            responsable = $(this).prop('checked');
+            if (responsable)
+                return false;
+        });
+        console.log(responsable);
+        if (nombre != "" && descripcion != "" && duracion != "" && responsable)
+            activar($('[name=subCrear]'));
+        else {
+            desactivar($('[name=subCrear]'));
+        }
 
     }
     $(document).ready(function () {
@@ -412,7 +414,7 @@
                 break;
 
             case 'Aceptada':
-                if($('#depencia').val() == 0)
+                if ($('#depencia').val() == 0)
                     activar($('#iniciar'));
                 activar($('#subordinar'));
                 break;
@@ -425,7 +427,7 @@
         }
     });
 
-    $('button[type="submit"]').click(function(){
-      desactivarB($(this));
+    $('button[type="submit"]').click(function () {
+        desactivarB($(this));
     })
 </script>

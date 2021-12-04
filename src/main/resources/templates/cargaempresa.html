@@ -47,17 +47,17 @@
                     <h4>Cantidad de tareas asignadas : <span style="color:orange" th:text="${empresa.total}"></span></h4> 
                     <h4>Cantidad de días de trabajo asignados : <span style="color:orange" th:text="${empresa.carga}"></span></h4>
                     <h4>Cantidad de tareas aceptadas : <span style="color:orange" th:text="${empresa.aceptada}"></span></h4>
-                    <h4>Cantidad de tareas Iniciadas : <span style="color:orange" th:text="${empresa.desarrollo}"></span></h4>
-                    <h4>Cantidad de tareas Terminadas :<span style="color:orange" th:text="${empresa.finalizada}"></span></h4>
-                    <h4>Cantidad de tareas Rechazadas :<span style="color:orange" th:text="${empresa.rechazada}"></span></h4>
+                    <h4>Cantidad de tareas iniciadas : <span style="color:orange" th:text="${empresa.desarrollo}"></span></h4>
+                    <h4>Cantidad de tareas terminadas :<span style="color:orange" th:text="${empresa.finalizada}"></span></h4>
+                    <h4>Cantidad de tareas rechazadas :<span style="color:orange" th:text="${empresa.rechazada}"></span></h4>
                     </br> 
                     <button type="button" class="btn-flujo" onClick="printForm()"> Imprimir en PDF</button>
                 </div>
                 <div class="col-md-6">
 
-                    <h2>Cargas de trabajo por departamentos de su empresa</h2>
+                    <h2>Cargas de trabajo por departamentos en su empresa</h2>
                     <div id="chart_div"></div>
-                    <div class="leyenda">En este gráfico podrá visualizar los días de trabajo total, asignados a cada miembro de su departamento</div>
+                    <div class="leyenda"> Este gráfico le muestra el total de días de trabajo por cada uno de los departamentos de su empresa</div>
                 </div>
             </div>
             <div class="row">
@@ -88,7 +88,7 @@
                         title: '',
                     },
                     vAxis: {
-                        title: 'cantidad de dias'
+                        title: 'Cantidad de dias'
                     }
                 };
                 var chart = new google.visualization.ColumnChart(document
