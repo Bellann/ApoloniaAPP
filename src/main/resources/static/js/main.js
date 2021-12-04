@@ -1,7 +1,7 @@
    $(document).ready(function() {
     $('#tareasRun').DataTable({
         "language":{
-            "LengthMenu": "Mostrar _MENU_ registros",
+            "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "infofiltered": "(Filtrando un total de _MAX_ registros)",
@@ -24,7 +24,7 @@
     $(document).ready(function() {
     $('#procesos1').DataTable({
         "language":{
-            "LengthMenu": "Mostrar _MENU_ registros",
+            "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "infofiltered": "(Filtrando un total de _MAX_ registros)",
@@ -47,7 +47,7 @@
    $(document).ready(function() {
     $('#modaltarea').DataTable({
         "language":{
-            "LengthMenu": "Mostrar _MENU_ registros",
+            "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "infofiltered": "(Filtrando un total de _MAX_ registros)",

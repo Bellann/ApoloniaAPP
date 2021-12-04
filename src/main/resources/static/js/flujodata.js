@@ -2,7 +2,7 @@
   $(document).ready(function() {
     $('#procesosUni').DataTable({
         "language":{
-            "LengthMenu": "Mostrar _MENU_ registros",
+            "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "infofiltered": "(Filtrando un total de _MAX_ registros)",
@@ -25,7 +25,7 @@
   $(document).ready(function() {
     $('#procesosSub').DataTable({
         "language":{
-            "LengthMenu": "Mostrar _MENU_ registros",
+            "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "infofiltered": "(Filtrando un total de _MAX_ registros)",
@@ -49,7 +49,7 @@
   $(document).ready(function() {
     $('#tareasUnidad').DataTable({
         "language":{
-            "LengthMenu": "Mostrar _MENU_ registros",
+            "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "infofiltered": "(Filtrando un total de _MAX_ registros)",
@@ -73,7 +73,7 @@
   $(document).ready(function() {
     $('#tareasSubunidad').DataTable({
         "language":{
-            "LengthMenu": "Mostrar _MENU_ registros",
+            "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "infofiltered": "(Filtrando un total de _MAX_ registros)",
